@@ -10,7 +10,7 @@ const interviewSchema = new mongoose.Schema(
 
     resume: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "resume",
+      ref: "Resume",
       required: true,
     },
 
@@ -38,7 +38,7 @@ const interviewSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "completed", "cancelled"],
+      enum: ["pending", "in_progress", "completed", "cancelled"],
       default: "pending",
     },
 
@@ -50,6 +50,15 @@ const interviewSchema = new mongoose.Schema(
     feedback: {
       type: String,
       default: "",
+    },
+    startedAt: {
+      type: Date,
+      default: null,
+    },
+
+    completedAt: {
+      type: Date,
+      default: null,
     },
   },
   {

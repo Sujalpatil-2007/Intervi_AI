@@ -15,7 +15,14 @@ const questionSchema = new mongoose.Schema(
 
     type: {
       type: String,
-      enum: ["Technical", "Behavioral", "Project", "HR"],
+      enum: [
+        "Technical",
+        "Behavioral",
+        "Project-Based",
+        "Problem Solving",
+        "System Design",
+        "HR",
+      ],
       default: "Technical",
     },
 

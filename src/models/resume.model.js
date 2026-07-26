@@ -69,4 +69,5 @@ const resumeSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Resume", resumeSchema);
+const resumeModel = mongoose.model("Resume", resumeSchema);
+module.exports = resumeModel;

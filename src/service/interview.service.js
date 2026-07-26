@@ -66,7 +66,7 @@ const generateInterview = async ({
     difficulty,
     duration,
     totalQuestions: questions.length,
-    status: "generated",
+    status: "pending",
   });
 
   // Create Question Documents

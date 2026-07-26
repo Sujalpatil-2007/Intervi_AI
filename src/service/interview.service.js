@@ -148,8 +148,51 @@ const getUserInterviews = async ({
   };
 };
 
+const startInterview = async ({
+  interviewId,
+  userId,
+}) => {
+  // Find interview belonging to current user
+  const interview = await Interview.findOne({
+    _id: interviewId,
+    user: userId,
+  });
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Interview can only be started once
+  if (interview.status !== "pending") {
+    const error = new Error(
+      `Interview cannot be started. Current status is '${interview.status}'.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Update interview status
+  interview.status = "in_progress";
+  interview.startedAt = new Date();
+
+  await interview.save();
+
+  // Fetch interview questions
+  const questions = await Question.find({
+    interview: interview._id,
+  }).sort({ order: 1 });
+
+  return {
+    interview,
+    questions,
+  };
+};
+
 module.exports = {
   generateInterview,
   getInterviewById,
   getUserInterviews,
+  startInterview,
 };

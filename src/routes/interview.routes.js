@@ -9,14 +9,17 @@ const {
   getInterviewController,
   getMyInterviewsController,
   startInterviewController,
+  saveAnswerController,
 } = require("../controllers/interview.controller");
 
 router.post("/generate", protect, generateInterviewController);
 
-router.get("/:id", protect, getInterviewController);
-
 router.get("/", protect, getMyInterviewsController);
 
 router.post("/:id/start", protect, startInterviewController);
+
+router.post("/:id/answer", protect, saveAnswerController);
+
+router.get("/:id", protect, getInterviewController);
 
 module.exports = router;

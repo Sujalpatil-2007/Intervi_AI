@@ -11,6 +11,7 @@ const {
   startInterviewController,
   saveAnswerController,
   finishInterviewController,
+  evaluateInterviewController,
 } = require("../controllers/interview.controller");
 
 router.post("/generate", protect, generateInterviewController);
@@ -22,6 +23,8 @@ router.post("/:id/start", protect, startInterviewController);
 router.post("/:id/answer", protect, saveAnswerController);
 
 router.post("/:id/finish", protect, finishInterviewController);
+
+router.post("/:id/evaluate", protect, evaluateInterviewController);
 
 router.get("/:id", protect, getInterviewController);
 

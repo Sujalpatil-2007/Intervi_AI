@@ -1,4 +1,4 @@
-const { evaluateInterview } = require("../service/interview.service");
+const { evaluateInterview, getInterviewEvaluation } = require("../service/interview.service");
 const {
   generateInterview,
   getInterviewById,
@@ -132,6 +132,23 @@ async function evaluateInterviewController(req,res,next) {
   }
 }
 
+async function getInterviewEvaluationController(req,res,next) {
+  try {
+    const result = await getInterviewEvaluation({
+      interviewId: req.params.id,
+      userId: req.user._id,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Interview evaluation fetched successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getMyInterviewsController,
   getInterviewController,
@@ -140,4 +157,5 @@ module.exports = {
   saveAnswerController,
   finishInterviewController,
   evaluateInterviewController,
+  getInterviewEvaluationController,
 };

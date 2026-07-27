@@ -10,6 +10,7 @@ const {
   getMyInterviewsController,
   startInterviewController,
   saveAnswerController,
+  finishInterviewController,
 } = require("../controllers/interview.controller");
 
 router.post("/generate", protect, generateInterviewController);
@@ -19,6 +20,8 @@ router.get("/", protect, getMyInterviewsController);
 router.post("/:id/start", protect, startInterviewController);
 
 router.post("/:id/answer", protect, saveAnswerController);
+
+router.post("/:id/finish", protect, finishInterviewController);
 
 router.get("/:id", protect, getInterviewController);
 

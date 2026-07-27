@@ -4,6 +4,7 @@ const {
   getUserInterviews,
   startInterview,
   saveAnswer,
+  finishInterview,
 } = require("../service/interview.service");
 
 async function generateInterviewController(req, res, next) {
@@ -96,10 +97,29 @@ async function saveAnswerController(req, res, next) {
   }
 }
 
+async function finishInterviewController(req,res,next) {
+  try {
+    const result = await finishInterview({
+      interviewId: req.params.id,
+      userId: req.user._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Interview completed successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 module.exports = {
   getMyInterviewsController,
   getInterviewController,
   generateInterviewController,
   startInterviewController,
   saveAnswerController,
+  finishInterviewController,
 };

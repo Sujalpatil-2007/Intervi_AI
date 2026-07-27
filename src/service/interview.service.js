@@ -258,10 +258,61 @@ const saveAnswer = async ({
   };
 };
 
+//finish the interview
+const finishInterview = async ({
+  interviewId,
+  userId,
+}) => {
+  // Find interview
+  const interview = await Interview.findOne({
+    _id: interviewId,
+    user: userId,
+  });
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Interview must be in progress
+  if (interview.status !== "in_progress") {
+    const error = new Error(
+      "Only interviews in progress can be completed."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Count questions
+  const totalQuestions = await Question.countDocuments({
+    interview: interviewId,
+  });
+
+  // Count answers
+  const answeredQuestions = await Answer.countDocuments({
+    interview: interviewId,
+  });
+
+  // Mark interview completed
+  interview.status = "completed";
+  interview.completedAt = new Date();
+
+  await interview.save();
+
+  return {
+    interviewId: interview._id,
+    status: interview.status,
+    totalQuestions,
+    answeredQuestions,
+  };
+};
+
 module.exports = {
   generateInterview,
   getInterviewById,
   getUserInterviews,
   startInterview,
   saveAnswer,
+  finishInterview,
 };

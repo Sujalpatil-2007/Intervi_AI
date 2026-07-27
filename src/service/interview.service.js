@@ -12,6 +12,7 @@ const {
 const { buildInterviewPrompt } = require("../utils/promptBuilder");
 
 const { generateInterviewQuestions } = require("./geminiInterview.service");
+const InterviewEvaluation = require("../models/interviewEvaluation.model");
 
 // Generate Interview
 const generateInterview = async ({
@@ -338,20 +339,92 @@ const evaluateInterview = async ({
 
   // Build Gemini prompt
   const prompt = buildEvaluationPrompt({
-  interview,
-  questions,
-  answers,
-});
+    interview,
+    questions,
+    answers,
+  });
 
-const evaluation = await evaluateWithGemini(prompt);
+  // Evaluate with Gemini
+  const evaluation = await evaluateWithGemini(prompt);
 
-  // Save summary on interview
+  // Check if evaluation already exists
+  let interviewEvaluation = await InterviewEvaluation.findOne({
+    interview: interview._id,
+  });
+
+  if (!interviewEvaluation) {
+    interviewEvaluation = await InterviewEvaluation.create({
+      interview: interview._id,
+      overallScore: evaluation.overallScore,
+      overallFeedback: evaluation.overallFeedback,
+      strengths: evaluation.strengths || [],
+      weaknesses: evaluation.weaknesses || [],
+      questionEvaluations:
+        evaluation.questionEvaluations || [],
+    });
+  } else {
+    interviewEvaluation.overallScore =
+      evaluation.overallScore;
+
+    interviewEvaluation.overallFeedback =
+      evaluation.overallFeedback;
+
+    interviewEvaluation.strengths =
+      evaluation.strengths || [];
+
+    interviewEvaluation.weaknesses =
+      evaluation.weaknesses || [];
+
+    interviewEvaluation.questionEvaluations =
+      evaluation.questionEvaluations || [];
+
+    await interviewEvaluation.save();
+  }
+
+  // Update interview summary
   interview.score = evaluation.overallScore;
   interview.feedback = evaluation.overallFeedback;
 
   await interview.save();
 
-  return evaluation;
+  return {
+    interview,
+    evaluation: interviewEvaluation,
+  };
+};
+
+// Get Interview Evaluation
+const getInterviewEvaluation = async ({
+  interviewId,
+  userId,
+}) => {
+  // Verify interview belongs to current user
+  const interview = await Interview.findOne({
+    _id: interviewId,
+    user: userId,
+  });
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Find evaluation
+  const evaluation = await InterviewEvaluation.findOne({
+    interview: interview._id,
+  });
+
+  if (!evaluation) {
+    const error = new Error("Interview evaluation not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return {
+    interview,
+    evaluation,
+  };
 };
 
 module.exports = {
@@ -362,4 +435,5 @@ module.exports = {
   saveAnswer,
   finishInterview,
   evaluateInterview,
+  getInterviewEvaluation,
 };

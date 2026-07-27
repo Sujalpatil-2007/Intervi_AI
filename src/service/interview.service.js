@@ -3,11 +3,15 @@ const Question = require("../models/question.model");
 const Resume = require("../models/resume.model");
 const Answer = require("../models/answer.model");
 
-const { buildInterviewPrompt } = require("../utils/promptBuilder");
+const { buildEvaluationPrompt } = require("../utils/evaluationPromptBuilder");
 
 const {
-  generateInterviewQuestions,
-} = require("./geminiInterview.service");
+  evaluateInterview: evaluateWithGemini,
+} = require("./geminiEvaluation.service");
+
+const { buildInterviewPrompt } = require("../utils/promptBuilder");
+
+const { generateInterviewQuestions } = require("./geminiInterview.service");
 
 // Generate Interview
 const generateInterview = async ({
@@ -35,7 +39,7 @@ const generateInterview = async ({
     !resume.parsedExperience?.length
   ) {
     const error = new Error(
-      "Resume analysis is incomplete. Please upload a valid resume."
+      "Resume analysis is incomplete. Please upload a valid resume.",
     );
 
     error.statusCode = 400;
@@ -92,10 +96,7 @@ const generateInterview = async ({
 };
 
 // Get Interview By ID
-const getInterviewById = async ({
-  interviewId,
-  userId,
-}) => {
+const getInterviewById = async ({ interviewId, userId }) => {
   const interview = await Interview.findOne({
     _id: interviewId,
     user: userId,
@@ -118,12 +119,7 @@ const getInterviewById = async ({
 };
 
 // Get User Interviews
-const getUserInterviews = async ({
-  userId,
-  page = 1,
-  limit = 10,
-  status,
-}) => {
+const getUserInterviews = async ({ userId, page = 1, limit = 10, status }) => {
   const query = {
     user: userId,
   };
@@ -150,10 +146,7 @@ const getUserInterviews = async ({
 };
 
 //start the interview
-const startInterview = async ({
-  interviewId,
-  userId,
-}) => {
+const startInterview = async ({ interviewId, userId }) => {
   // Find interview belonging to current user
   const interview = await Interview.findOne({
     _id: interviewId,
@@ -169,7 +162,7 @@ const startInterview = async ({
   // Interview can only be started once
   if (interview.status !== "pending") {
     const error = new Error(
-      `Interview cannot be started. Current status is '${interview.status}'.`
+      `Interview cannot be started. Current status is '${interview.status}'.`,
     );
     error.statusCode = 400;
     throw error;
@@ -192,7 +185,7 @@ const startInterview = async ({
   };
 };
 
-//save answers 
+//save answers
 const saveAnswer = async ({
   interviewId,
   userId,
@@ -214,9 +207,7 @@ const saveAnswer = async ({
 
   // Interview must be in progress
   if (interview.status !== "in_progress") {
-    const error = new Error(
-      "Interview is not currently in progress."
-    );
+    const error = new Error("Interview is not currently in progress.");
     error.statusCode = 400;
     throw error;
   }
@@ -248,7 +239,7 @@ const saveAnswer = async ({
       upsert: true,
       runValidators: true,
       setDefaultsOnInsert: true,
-    }
+    },
   );
 
   return {
@@ -259,10 +250,7 @@ const saveAnswer = async ({
 };
 
 //finish the interview
-const finishInterview = async ({
-  interviewId,
-  userId,
-}) => {
+const finishInterview = async ({ interviewId, userId }) => {
   // Find interview
   const interview = await Interview.findOne({
     _id: interviewId,
@@ -277,9 +265,7 @@ const finishInterview = async ({
 
   // Interview must be in progress
   if (interview.status !== "in_progress") {
-    const error = new Error(
-      "Only interviews in progress can be completed."
-    );
+    const error = new Error("Only interviews in progress can be completed.");
     error.statusCode = 400;
     throw error;
   }
@@ -308,6 +294,66 @@ const finishInterview = async ({
   };
 };
 
+//Overall data of interview
+const evaluateInterview = async ({
+  interviewId,
+  userId,
+}) => {
+  // Find interview
+  const interview = await Interview.findOne({
+    _id: interviewId,
+    user: userId,
+  });
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Interview must be completed
+  if (interview.status !== "completed") {
+    const error = new Error(
+      "Complete the interview before evaluation."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Load questions
+  const questions = await Question.find({
+    interview: interviewId,
+  }).sort({ order: 1 });
+
+  // Load answers
+  const answers = await Answer.find({
+    interview: interviewId,
+  });
+
+  if (!answers.length) {
+    const error = new Error("No answers found.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Build Gemini prompt
+  const prompt = buildEvaluationPrompt({
+  interview,
+  questions,
+  answers,
+});
+
+const evaluation = await evaluateWithGemini(prompt);
+
+  // Save summary on interview
+  interview.score = evaluation.overallScore;
+  interview.feedback = evaluation.overallFeedback;
+
+  await interview.save();
+
+  return evaluation;
+};
+
 module.exports = {
   generateInterview,
   getInterviewById,
@@ -315,4 +361,5 @@ module.exports = {
   startInterview,
   saveAnswer,
   finishInterview,
+  evaluateInterview,
 };

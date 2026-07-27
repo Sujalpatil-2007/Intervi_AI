@@ -2,6 +2,8 @@ const {
   generateInterview,
   getInterviewById,
   getUserInterviews,
+  startInterview,
+  saveAnswer,
 } = require("../service/interview.service");
 
 async function generateInterviewController(req, res, next) {
@@ -21,7 +23,7 @@ async function generateInterviewController(req, res, next) {
   }
 }
 
-async function getMyInterviewsController(req,res,next) {
+async function getMyInterviewsController(req, res, next) {
   try {
     const result = await getUserInterviews({
       userId: req.user._id,
@@ -39,7 +41,7 @@ async function getMyInterviewsController(req,res,next) {
   }
 }
 
-async function getInterviewController(req,res,next) {
+async function getInterviewController(req, res, next) {
   try {
     const result = await getInterviewById({
       interviewId: req.params.id,
@@ -55,8 +57,49 @@ async function getInterviewController(req,res,next) {
   }
 }
 
+async function startInterviewController(req, res, next) {
+  try {
+    const result = await startInterview({
+      interviewId: req.params.id,
+      userId: req.user._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Interview started successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function saveAnswerController(req, res, next) {
+  try {
+    const { questionId, answer, timeTaken } = req.body;
+
+    const result = await saveAnswer({
+      interviewId: req.params.id,
+      userId: req.user._id,
+      questionId,
+      answer,
+      timeTaken,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Answer saved successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getMyInterviewsController,
   getInterviewController,
   generateInterviewController,
-}
+  startInterviewController,
+  saveAnswerController,
+};

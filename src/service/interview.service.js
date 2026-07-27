@@ -1,6 +1,7 @@
 const Interview = require("../models/interview.model");
 const Question = require("../models/question.model");
 const Resume = require("../models/resume.model");
+const Answer = require("../models/answer.model");
 
 const { buildInterviewPrompt } = require("../utils/promptBuilder");
 
@@ -148,6 +149,7 @@ const getUserInterviews = async ({
   };
 };
 
+//start the interview
 const startInterview = async ({
   interviewId,
   userId,
@@ -190,9 +192,76 @@ const startInterview = async ({
   };
 };
 
+//save answers 
+const saveAnswer = async ({
+  interviewId,
+  userId,
+  questionId,
+  answer,
+  timeTaken,
+}) => {
+  // Check interview ownership
+  const interview = await Interview.findOne({
+    _id: interviewId,
+    user: userId,
+  });
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Interview must be in progress
+  if (interview.status !== "in_progress") {
+    const error = new Error(
+      "Interview is not currently in progress."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Verify the question belongs to this interview
+  const question = await Question.findOne({
+    _id: questionId,
+    interview: interviewId,
+  });
+
+  if (!question) {
+    const error = new Error("Question not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Create or update answer
+  const savedAnswer = await Answer.findOneAndUpdate(
+    {
+      interview: interviewId,
+      question: questionId,
+    },
+    {
+      answer,
+      timeTaken,
+    },
+    {
+      new: true,
+      upsert: true,
+      runValidators: true,
+      setDefaultsOnInsert: true,
+    }
+  );
+
+  return {
+    answerId: savedAnswer._id,
+    questionId,
+    saved: true,
+  };
+};
+
 module.exports = {
   generateInterview,
   getInterviewById,
   getUserInterviews,
   startInterview,
+  saveAnswer,
 };

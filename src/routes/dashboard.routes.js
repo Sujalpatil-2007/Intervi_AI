@@ -11,10 +11,6 @@ const {
 
 router.get("/summary", protect, getDashboardSummaryController);
 
-router.get(
-  "/recent",
-  protect,
-  getRecentInterviewsController
-);
+router.get("/recent", protect, getRecentInterviewsController);
 
 module.exports = router;

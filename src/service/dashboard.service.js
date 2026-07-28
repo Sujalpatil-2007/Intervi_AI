@@ -77,6 +77,23 @@ const getDashboardSummary = async ({ userId }) => {
   };
 };
 
+const getRecentInterviews = async ({
+  userId,
+  limit = 5,
+}) => {
+  const interviews = await Interview.find({
+    user: userId,
+  })
+    .select(
+      "targetRole difficulty status score createdAt completedAt"
+    )
+    .sort({ createdAt: -1 })
+    .limit(limit);
+
+  return interviews;
+};
+
 module.exports = {
   getDashboardSummary,
+  getRecentInterviews,
 };

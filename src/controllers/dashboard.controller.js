@@ -1,5 +1,6 @@
 const {
   getDashboardSummary,
+  getRecentInterviews,
 } = require("../service/dashboard.service");
 
 const getDashboardSummaryController = async (
@@ -22,6 +23,28 @@ const getDashboardSummaryController = async (
   }
 };
 
+const getRecentInterviewsController = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const result = await getRecentInterviews({
+      userId: req.user._id,
+      limit: Number(req.query.limit || 5),
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Recent interviews fetched successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDashboardSummaryController,
+  getRecentInterviewsController,
 };

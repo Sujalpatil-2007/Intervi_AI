@@ -1,13 +1,10 @@
 const {
   getDashboardSummary,
   getRecentInterviews,
+  getScoreTrend,
 } = require("../service/dashboard.service");
 
-const getDashboardSummaryController = async (
-  req,
-  res,
-  next
-) => {
+const getDashboardSummaryController = async (req, res, next) => {
   try {
     const result = await getDashboardSummary({
       userId: req.user._id,
@@ -23,11 +20,7 @@ const getDashboardSummaryController = async (
   }
 };
 
-const getRecentInterviewsController = async (
-  req,
-  res,
-  next
-) => {
+const getRecentInterviewsController = async (req, res, next) => {
   try {
     const result = await getRecentInterviews({
       userId: req.user._id,
@@ -44,7 +37,24 @@ const getRecentInterviewsController = async (
   }
 };
 
+const getScoreTrendController = async (req, res, next) => {
+  try {
+    const result = await getScoreTrend({
+      userId: req.user._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Score trend fetched successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDashboardSummaryController,
   getRecentInterviewsController,
+  getScoreTrendController,
 };

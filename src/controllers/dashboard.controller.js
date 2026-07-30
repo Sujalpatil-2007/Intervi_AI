@@ -2,6 +2,7 @@ const {
   getDashboardSummary,
   getRecentInterviews,
   getScoreTrend,
+  getSkillPerformance,
 } = require("../service/dashboard.service");
 
 const getDashboardSummaryController = async (req, res, next) => {
@@ -53,8 +54,25 @@ const getScoreTrendController = async (req, res, next) => {
   }
 };
 
+const getSkillPerformanceController = async (req, res, next) => {
+  try {
+    const result = await getSkillPerformance({
+      userId: req.user._id,
+    });
+
+    res.json({
+      success: true,
+      message: "Skill performance fetched successfully.",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDashboardSummaryController,
   getRecentInterviewsController,
   getScoreTrendController,
+  getSkillPerformanceController,
 };

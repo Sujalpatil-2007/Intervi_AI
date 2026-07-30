@@ -1,7 +1,7 @@
 const buildEvaluationPrompt = ({ interview, questions, answers }) => {
   const formattedQuestions = questions.map((question) => {
     const answer = answers.find(
-      (item) => item.question.toString() === question._id.toString()
+      (item) => item.question.toString() === question._id.toString(),
     );
 
     return {
@@ -39,6 +39,7 @@ Format:
   "questionEvaluations": [
     {
       "question": "",
+      "category":"",
       "score": 0,
       "feedback": "",
       "improvement": ""

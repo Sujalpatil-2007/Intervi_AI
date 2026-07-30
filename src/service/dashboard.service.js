@@ -93,7 +93,24 @@ const getRecentInterviews = async ({
   return interviews;
 };
 
+const getScoreTrend = async ({ userId }) => {
+  const interviews = await Interview.find({
+    user: userId,
+    status: "completed",
+  })
+    .select("score completedAt createdAt targetRole")
+    .sort({ completedAt: 1, createdAt: 1 });
+
+  return interviews.map((interview, index) => ({
+    interview: index + 1,
+    targetRole: interview.targetRole,
+    score: interview.score,
+    date: interview.completedAt || interview.createdAt,
+  }));
+};
+
 module.exports = {
   getDashboardSummary,
   getRecentInterviews,
+  getScoreTrend,
 };

@@ -8,6 +8,11 @@ const questionEvaluationSchema = new mongoose.Schema(
       trim: true,
     },
 
+    category: {
+      type: String,
+      default: "General",
+    },
+
     score: {
       type: Number,
       required: true,
@@ -29,7 +34,7 @@ const questionEvaluationSchema = new mongoose.Schema(
   },
   {
     _id: false,
-  }
+  },
 );
 
 const interviewEvaluationSchema = new mongoose.Schema(
@@ -72,12 +77,12 @@ const interviewEvaluationSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const InterviewEvaluation = mongoose.model(
   "InterviewEvaluation",
-  interviewEvaluationSchema
+  interviewEvaluationSchema,
 );
 
 module.exports = InterviewEvaluation;

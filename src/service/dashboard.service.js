@@ -1,4 +1,5 @@
 const Interview = require("../models/interview.model");
+const InterviewEvaluation = require("../models/interviewEvaluation.model");
 
 const getDashboardSummary = async ({ userId }) => {
   const [
@@ -57,14 +58,9 @@ const getDashboardSummary = async ({ userId }) => {
   ]);
 
   const averageScore =
-    scoreStats.length > 0
-      ? Number(scoreStats[0].averageScore.toFixed(2))
-      : 0;
+    scoreStats.length > 0 ? Number(scoreStats[0].averageScore.toFixed(2)) : 0;
 
-  const bestScore =
-    scoreStats.length > 0
-      ? scoreStats[0].bestScore
-      : 0;
+  const bestScore = scoreStats.length > 0 ? scoreStats[0].bestScore : 0;
 
   return {
     totalInterviews,
@@ -77,16 +73,11 @@ const getDashboardSummary = async ({ userId }) => {
   };
 };
 
-const getRecentInterviews = async ({
-  userId,
-  limit = 5,
-}) => {
+const getRecentInterviews = async ({ userId, limit = 5 }) => {
   const interviews = await Interview.find({
     user: userId,
   })
-    .select(
-      "targetRole difficulty status score createdAt completedAt"
-    )
+    .select("targetRole difficulty status score createdAt completedAt")
     .sort({ createdAt: -1 })
     .limit(limit);
 
@@ -109,8 +100,48 @@ const getScoreTrend = async ({ userId }) => {
   }));
 };
 
+const getSkillPerformance = async ({ userId }) => {
+  const evaluations = await InterviewEvaluation.find().populate({
+    path: "interview",
+    match: {
+      user: userId,
+    },
+  });
+
+  const skillMap = {};
+
+  evaluations.forEach((evaluation) => {
+    if (!evaluation.interview) return;
+
+    evaluation.questionEvaluations.forEach((item) => {
+      const category = item.category || "General";
+
+      if (!skillMap[category]) {
+        skillMap[category] = {
+          total: 0,
+          count: 0,
+        };
+      }
+
+      skillMap[category].total += item.score;
+
+      skillMap[category].count++;
+    });
+  });
+
+  const result = Object.entries(skillMap).map(([category, value]) => ({
+    category,
+    averageScore: Number((value.total / value.count).toFixed(2)),
+  }));
+
+  result.sort((a, b) => b.averageScore - a.averageScore);
+
+  return result;
+};
+
 module.exports = {
   getDashboardSummary,
   getRecentInterviews,
   getScoreTrend,
+  getSkillPerformance,
 };

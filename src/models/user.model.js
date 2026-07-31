@@ -10,50 +10,67 @@ const userSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 50,
     },
+
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: [true,"Email already exists."],
+      unique: [true, "Email already exists."],
       lowercase: true,
       trim: true,
-      match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,"Invalid Email address"],
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Invalid email address",
+      ],
     },
+
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: 6,
-      maxlength: 12,
+      minlength: 8,
+      maxlength: 100,
       select: false,
     },
+
     avatar: {
       type: String,
       default: "",
     },
+
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
     },
+
     targetRole: {
       type: String,
       trim: true,
       default: "",
     },
+
     experienceLevel: {
       type: String,
       enum: ["Fresher", "Junior", "Mid", "Senior"],
       default: "Fresher",
     },
+
     skills: [
       {
         type: String,
         trim: true,
       },
     ],
+
     isVerified: {
       type: Boolean,
       default: false,
     },
+
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+
     refreshToken: {
       type: String,
       default: "",
@@ -62,24 +79,34 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
+// Hash password before saving
 userSchema.pre("save", async function () {
-  if (!this.isModified("password")) {
-    return ;
-  }
+  if (!this.isModified("password")) return;
 
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash; 
+  this.password = await bcrypt.hash(this.password, 10);
+});
 
-  return 
-
-})
-
+// Compare password
 userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
-}
+  return bcrypt.compare(password, this.password);
+};
 
-const userModel = mongoose.model("user", userSchema);
-module.exports = userModel;
+// Indexes
+userSchema.index({ fullName: 1 });
+
+userSchema.index({ role: 1 });
+
+userSchema.index({ createdAt: -1 });
+
+// Optimized for admin user listing
+userSchema.index({
+  role: 1,
+  createdAt: -1,
+});
+
+const User = mongoose.model("user", userSchema);
+
+module.exports = User;

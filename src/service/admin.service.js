@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const Resume = require("../models/resume.model");
 const Interview = require("../models/interview.model");
 const InterviewEvaluation = require("../models/interviewEvaluation.model");
+const mongoose = require("mongoose");
 
 const getDashboard = async () => {
   const last30Days = new Date();
@@ -32,14 +33,15 @@ const getDashboard = async () => {
     InterviewEvaluation.countDocuments(),
 
     InterviewEvaluation.aggregate([
-  {
-    $group: {
-      _id: null,
-      averageScore: {
-        $avg: "$overallScore",
+      {
+        $group: {
+          _id: null,
+          averageScore: {
+            $avg: "$overallScore",
+          },
+        },
       },
-    }}
-  ]),
+    ]),
 
     User.countDocuments({
       createdAt: { $gte: last30Days },
@@ -89,13 +91,7 @@ const getDashboard = async () => {
 };
 
 const getUsers = async (query) => {
-  let {
-    page = 1,
-    limit = 10,
-    search = "",
-    role,
-    sort = "-createdAt",
-  } = query;
+  let { page = 1, limit = 10, search = "", role, sort = "-createdAt" } = query;
 
   // Convert to numbers
   page = Number(page);
@@ -190,7 +186,217 @@ const getUsers = async (query) => {
   };
 };
 
+const getUserById = async (userId) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error("Invalid user ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const user = await User.findById(userId)
+    .select("-password -refreshToken -__v")
+    .lean();
+
+  if (!user) {
+    const error = new Error("User not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const [
+    resumeCount,
+    interviewCount,
+    completedInterviews,
+    pendingInterviews,
+    inProgressInterviews,
+    evaluationCount,
+    averageScoreResult,
+  ] = await Promise.all([
+    Resume.countDocuments({ user: userId }),
+
+    Interview.countDocuments({ user: userId }),
+
+    Interview.countDocuments({
+      user: userId,
+      status: "completed",
+    }),
+
+    Interview.countDocuments({
+      user: userId,
+      status: "pending",
+    }),
+
+    Interview.countDocuments({
+      user: userId,
+      status: "in_progress",
+    }),
+
+    InterviewEvaluation.countDocuments({
+      user: userId,
+    }),
+
+    InterviewEvaluation.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          averageScore: {
+            $avg: "$overallScore",
+          },
+        },
+      },
+    ]),
+  ]);
+
+  return {
+    user,
+
+    stats: {
+      resumeCount,
+      interviewCount,
+      completedInterviews,
+      pendingInterviews,
+      inProgressInterviews,
+      evaluationCount,
+      averageScore:
+        averageScoreResult.length > 0
+          ? Number(averageScoreResult[0].averageScore.toFixed(2))
+          : 0,
+    },
+  };
+};
+
+const updateUserRole = async (userId, body, currentAdmin) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error("Invalid user ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const role = body?.role;
+
+  if (!role) {
+    const error = new Error("Role is required.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const allowedRoles = ["user", "admin"];
+
+  if (!allowedRoles.includes(role)) {
+    const error = new Error("Invalid role.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Prevent admin from changing their own role
+  if (currentAdmin._id.toString() === userId) {
+    const error = new Error("You cannot change your own role.");
+    error.statusCode = 403;
+    throw error;
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user.role === role) {
+    const error = new Error(`User is already ${role}.`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  user.role = role;
+
+  await user.save();
+
+  return {
+    _id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role,
+    updatedAt: user.updatedAt,
+  };
+};
+
+const updateUserBlockStatus = async (userId, body = {}, currentAdmin) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error("Invalid user ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const { isBlocked } = body;
+
+  if (typeof isBlocked !== "boolean") {
+    const error = new Error("isBlocked must be a boolean.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Prevent admin from blocking themselves
+  if (currentAdmin._id.toString() === userId) {
+    const error = new Error("You cannot block your own account.");
+    error.statusCode = 403;
+    throw error;
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user.isBlocked === isBlocked) {
+    const error = new Error(
+      `User is already ${isBlocked ? "blocked" : "unblocked"}.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Prevent blocking the last admin
+  if (user.role === "admin" && isBlocked) {
+    const adminCount = await User.countDocuments({
+      role: "admin",
+      isBlocked: false,
+    });
+
+    if (adminCount <= 1) {
+      const error = new Error("Cannot block the last active admin.");
+      error.statusCode = 400;
+      throw error;
+    }
+  }
+
+  user.isBlocked = isBlocked;
+
+  await user.save();
+
+  return {
+    _id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role,
+    isBlocked: user.isBlocked,
+    updatedAt: user.updatedAt,
+  };
+};
+
 module.exports = {
   getDashboard,
   getUsers,
+  getUserById,
+  updateUserRole,
+  updateUserBlockStatus,
 };

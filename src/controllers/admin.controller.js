@@ -11,6 +11,11 @@ const {
   getInterviews,
   getInterviewById,
   deleteInterview,
+  getAdminLogs,
+  exportUsers,
+  exportResumes,
+  exportInterviews,
+  exportAdminLogs,
 } = require("../service/admin.service");
 
 const getDashboardController = async (req, res, next) => {
@@ -21,6 +26,20 @@ const getDashboardController = async (req, res, next) => {
       success: true,
       message: "Dashboard fetched successfully.",
       data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAdminLogsController = async (req, res, next) => {
+  try {
+    const data = await getAdminLogs(req.query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Admin logs fetched successfully.",
+      data,
     });
   } catch (error) {
     next(error);
@@ -181,8 +200,62 @@ const deleteInterviewController = async (req, res, next) => {
   }
 };
 
+const exportUsersController = async (req, res, next) => {
+  try {
+    const csv = await exportUsers();
+
+    res.header("Content-Type", "text/csv");
+
+    res.attachment("users.csv");
+
+    return res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const exportResumesController = async (req, res, next) => {
+  try {
+    const csv = await exportResumes();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("resumes.csv");
+
+    return res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const exportInterviewsController = async (req, res, next) => {
+  try {
+    const csv = await exportInterviews();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("interviews.csv");
+
+    return res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const exportAdminLogsController = async (req, res, next) => {
+  try {
+    const csv = await exportAdminLogs();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("admin-logs.csv");
+
+    return res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getDashboardController,
+  getAdminLogsController,
   getUsersController,
   getUserByIdController,
   updateUserRoleController,
@@ -194,4 +267,8 @@ module.exports = {
   getInterviewsController,
   getInterviewByIdController,
   deleteInterviewController,
+  exportUsersController,
+  exportResumesController,
+  exportInterviewsController,
+  exportAdminLogsController,
 };

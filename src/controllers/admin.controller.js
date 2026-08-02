@@ -1,4 +1,4 @@
-const { getDashboard, getUsers, getUserById, updateUserRole, updateUserBlockStatus, deleteUser, getResumes} = require("../service/admin.service");
+const { getDashboard, getUsers, getUserById, updateUserRole, updateUserBlockStatus, deleteUser, getResumes, getResumeById} = require("../service/admin.service");
 
 const getDashboardController = async (req, res, next) => {
   try {
@@ -109,6 +109,20 @@ const getResumesController = async (req, res, next) => {
   }
 };
 
+const getResumeByIdController = async (req, res, next) => {
+  try {
+    const data = await getResumeById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Resume fetched successfully.",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 module.exports = {
   getDashboardController,
@@ -118,4 +132,5 @@ module.exports = {
   updateUserBlockStatusController,
   deleteUserController,
   getResumesController,
+  getResumeByIdController,
 };

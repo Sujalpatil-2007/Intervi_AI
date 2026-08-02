@@ -6,6 +6,7 @@ const interviewRoutes = require("./routes/interview.routes");
 const dashboardRoutes = require("./routes/dashboard.routes");
 const leaderboardRoutes = require("./routes/leaderboard.routes");
 const adminRoutes = require("./routes/admin.routes");
+const analyticsRoutes = require("./routes/analytics.routes");
 const cors = require("cors")
 
 const app = express();
@@ -25,5 +26,6 @@ app.use("/api/interviews", interviewRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/admin", analyticsRoutes);
 
 module.exports = app;

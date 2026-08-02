@@ -1,4 +1,17 @@
-const { getDashboard, getUsers, getUserById, updateUserRole, updateUserBlockStatus, deleteUser, getResumes, getResumeById} = require("../service/admin.service");
+const {
+  getDashboard,
+  getUsers,
+  getUserById,
+  updateUserRole,
+  updateUserBlockStatus,
+  deleteUser,
+  getResumes,
+  getResumeById,
+  deleteResume,
+  getInterviews,
+  getInterviewById,
+  deleteInterview,
+} = require("../service/admin.service");
 
 const getDashboardController = async (req, res, next) => {
   try {
@@ -43,12 +56,8 @@ const getUserByIdController = async (req, res, next) => {
 };
 
 const updateUserRoleController = async (req, res, next) => {
-   try {
-    const data = await updateUserRole(
-      req.params.id,
-      req.body,
-      req.user
-    );
+  try {
+    const data = await updateUserRole(req.params.id, req.body, req.user);
 
     res.status(200).json({
       success: true,
@@ -62,11 +71,7 @@ const updateUserRoleController = async (req, res, next) => {
 
 const updateUserBlockStatusController = async (req, res, next) => {
   try {
-    const data = await updateUserBlockStatus(
-      req.params.id,
-      req.body,
-      req.user
-    );
+    const data = await updateUserBlockStatus(req.params.id, req.body, req.user);
 
     res.status(200).json({
       success: true,
@@ -80,10 +85,7 @@ const updateUserBlockStatusController = async (req, res, next) => {
 
 const deleteUserController = async (req, res, next) => {
   try {
-    const data = await deleteUser(
-      req.params.id,
-      req.user
-    );
+    const data = await deleteUser(req.params.id, req.user);
 
     res.status(200).json({
       success: true,
@@ -123,6 +125,61 @@ const getResumeByIdController = async (req, res, next) => {
   }
 };
 
+const deleteResumeController = async (req, res, next) => {
+  try {
+    const data = await deleteResume(req.params.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Resume deleted successfully.",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getInterviewsController = async (req, res, next) => {
+  try {
+    const data = await getInterviews(req.query);
+
+    return res.status(200).json({
+      success: true,
+      message: "Interviews fetched successfully.",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getInterviewByIdController = async (req, res, next) => {
+  try {
+    const data = await getInterviewById(req.params.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Interview fetched successfully.",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteInterviewController = async (req, res, next) => {
+  try {
+    const data = await deleteInterview(req.params.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Interview deleted successfully.",
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getDashboardController,
@@ -133,4 +190,8 @@ module.exports = {
   deleteUserController,
   getResumesController,
   getResumeByIdController,
+  deleteResumeController,
+  getInterviewsController,
+  getInterviewByIdController,
+  deleteInterviewController,
 };

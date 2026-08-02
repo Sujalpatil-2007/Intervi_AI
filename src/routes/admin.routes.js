@@ -25,15 +25,15 @@ router.get("/dashboard", protect, admin, getDashboardController);
 router.get("/users", protect, admin, getUsersController);
 router.get("/users/:id", protect, admin, getUserByIdController);
 router.patch("/users/:id/role", protect, admin, updateUserRoleController);
-router.patch("/users/:id/block",protect,admin,updateUserBlockStatusController,);
-router.delete("/users/:id",protect,admin,deleteUserController);
+router.patch("/users/:id/block",protect,admin,updateUserBlockStatusController);
+router.delete("/users/:id", protect, admin, deleteUserController);
 // resumes management routes
-router.get("/resumes",protect,admin,getResumesController);
-router.get("/resumes/:id",protect,admin,getResumeByIdController);
-router.delete("/resumes/:id",protect,admin,deleteResumeController);
+router.get("/resumes", protect, admin, getResumesController);
+router.get("/resumes/:id", protect, admin, getResumeByIdController);
+router.delete("/resumes/:id", protect, admin, deleteResumeController);
 // interviews management routes
-router.get("/interviews",protect,admin,getInterviewsController);
-router.get("/interviews/:id",protect,admin,getInterviewByIdController);
-router.delete("/interviews/:id",protect,admin,deleteInterviewController);
+router.get("/interviews", protect, admin, getInterviewsController);
+router.get("/interviews/:id", protect, admin, getInterviewByIdController);
+router.delete("/interviews/:id", protect, admin, deleteInterviewController);
 
 module.exports = router;

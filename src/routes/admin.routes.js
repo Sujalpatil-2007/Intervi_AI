@@ -18,9 +18,15 @@ const {
   getInterviewsController,
   getInterviewByIdController,
   deleteInterviewController,
+  getAdminLogsController,
+  exportUsersController,
+  exportResumesController,
+  exportInterviewsController,
+  exportAdminLogsController,
 } = require("../controllers/admin.controller");
 
 router.get("/dashboard", protect, admin, getDashboardController);
+router.get("/logs", protect, admin, getAdminLogsController);
 // user management routes
 router.get("/users", protect, admin, getUsersController);
 router.get("/users/:id", protect, admin, getUserByIdController);
@@ -35,5 +41,10 @@ router.delete("/resumes/:id", protect, admin, deleteResumeController);
 router.get("/interviews", protect, admin, getInterviewsController);
 router.get("/interviews/:id", protect, admin, getInterviewByIdController);
 router.delete("/interviews/:id", protect, admin, deleteInterviewController);
+// export routes
+router.get("/export/users",protect,admin,exportUsersController);
+router.get("/export/resumes",protect,admin,exportResumesController);
+router.get("/export/interviews",protect,admin,exportInterviewsController);
+router.get("/export/logs",protect,admin,exportAdminLogsController);
 
 module.exports = router;

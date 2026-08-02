@@ -6,6 +6,9 @@ const Interview = require("../models/interview.model");
 const InterviewEvaluation = require("../models/interviewEvaluation.model");
 const cloudinary = require("cloudinary").v2;
 const mongoose = require("mongoose");
+const AdminLog = require("../models/adminLog.model");
+const { Parser } = require("json2csv");
+const { createAdminLog } = require("../utils/adminLog");
 
 const getDashboard = async () => {
   const last30Days = new Date();
@@ -89,6 +92,66 @@ const getDashboard = async () => {
       users: recentUsers,
       resumes: recentResumes,
       interviews: recentInterviews,
+    },
+  };
+};
+
+const getAdminLogs = async (query) => {
+  let {
+    page = 1,
+    limit = 10,
+    search = "",
+    action,
+    targetType,
+    sort = "-createdAt",
+  } = query;
+
+  page = Number(page);
+  limit = Number(limit);
+
+  if (page < 1) page = 1;
+  if (limit < 1) limit = 10;
+  if (limit > 100) limit = 100;
+
+  const filter = {};
+
+  if (search.trim()) {
+    filter.description = {
+      $regex: search.trim(),
+      $options: "i",
+    };
+  }
+
+  if (action) {
+    filter.action = action;
+  }
+
+  if (targetType) {
+    filter.targetType = targetType;
+  }
+
+  const skip = (page - 1) * limit;
+
+  const [logs, totalLogs] = await Promise.all([
+    AdminLog.find(filter)
+      .populate("admin", "fullName email")
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+
+    AdminLog.countDocuments(filter),
+  ]);
+
+  return {
+    logs,
+    pagination: {
+      page,
+      limit,
+      totalLogs,
+      totalPages: Math.ceil(totalLogs / limit),
+      hasNextPage: page * limit < totalLogs,
+      hasPreviousPage: page > 1,
     },
   };
 };
@@ -321,6 +384,18 @@ const updateUserRole = async (userId, body, currentAdmin) => {
 
   await user.save();
 
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "UPDATE_USER_ROLE",
+    targetType: "User",
+    targetId: user._id,
+    description: `Changed role from ${oldRole} to ${role}`,
+    metadata: {
+      oldRole,
+      newRole: role,
+    },
+  });
+
   return {
     _id: user._id,
     fullName: user.fullName,
@@ -386,6 +461,24 @@ const updateUserBlockStatus = async (userId, body = {}, currentAdmin) => {
 
   await user.save();
 
+  if (user.isBlocked === isBlocked) {
+    await createAdminLog({
+      admin: currentAdmin._id,
+      action: "BLOCK_USER",
+      targetType: "User",
+      targetId: user._id,
+      description: `Blocked user ${user.email}`,
+    });
+  } else {
+    await createAdminLog({
+      admin: currentAdmin._id,
+      action: "UNBLOCK_USER",
+      targetType: "User",
+      targetId: user._id,
+      description: `UNBlocked user ${user.email}`,
+    });
+  }
+
   return {
     _id: user._id,
     fullName: user.fullName,
@@ -440,6 +533,14 @@ const deleteUser = async (userId, currentAdmin) => {
     // Only if Answer model exists
     Answer.deleteMany({ user: userId }),
   ]);
+
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "DELETE_USER",
+    targetType: "User",
+    targetId: user._id,
+    description: `Deleted user ${user.email}`,
+  });
 
   await User.findByIdAndDelete(userId);
 
@@ -591,6 +692,14 @@ const deleteResume = async (resumeId) => {
 
   await resume.deleteOne();
 
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "DELETE_RESUME",
+    targetType: "Resume",
+    targetId: resume._id,
+    description: `Deleted resume ${resume.originalFileName}`,
+  });
+
   return {
     _id: resume._id,
     title: resume.title,
@@ -685,6 +794,14 @@ const getInterviews = async (query) => {
 
   const totalInterviews = await Interview.countDocuments(filter);
 
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "DELETE_INTERVIEW",
+    targetType: "Interview",
+    targetId: interview._id,
+    description: `Deleted interview for ${interview.targetRole}`,
+  });
+
   return {
     interviews,
 
@@ -760,15 +877,23 @@ const deleteInterview = async (interviewId) => {
     interview: interviewId,
   });
 
-    await Question.deleteMany({
-      interview: interviewId,
-    });
+  await Question.deleteMany({
+    interview: interviewId,
+  });
 
-    await Answer.deleteMany({
-      interview: interviewId,
-    });
-  
+  await Answer.deleteMany({
+    interview: interviewId,
+  });
+
   await interview.deleteOne();
+
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "DELETE_INTERVIEW",
+    targetType: "Interview",
+    targetId: interview._id,
+    description: `Deleted interview for ${interview.targetRole}`,
+  });
 
   return {
     _id: interview._id,
@@ -779,8 +904,152 @@ const deleteInterview = async (interviewId) => {
   };
 };
 
+const exportUsers = async () => {
+  const users = await User.find()
+    .select(
+      "fullName email role isVerified isBlocked targetRole experienceLevel createdAt"
+    )
+    .lean();
+
+  const data = users.map((user) => ({
+    "Full Name": user.fullName,
+    Email: user.email,
+    Role: user.role,
+    Verified: user.isVerified ? "Yes" : "No",
+    Blocked: user.isBlocked ? "Yes" : "No",
+    "Target Role": user.targetRole || "-",
+    "Experience Level": user.experienceLevel,
+    "Created At": user.createdAt.toISOString(),
+  }));
+
+  const parser = new Parser();
+
+  return parser.parse(data);
+};
+
+const exportResumes = async () => {
+  const resumes = await Resume.find()
+    .populate("user", "fullName email")
+    .select(
+      "user title originalFileName status parsedSkills suggestedRoles createdAt"
+    )
+    .lean();
+
+  const data = resumes.map((resume) => ({
+    "Resume ID": resume._id.toString(),
+    "User Name": resume.user?.fullName || "-",
+    "User Email": resume.user?.email || "-",
+    Title: resume.title || "-",
+    "Original File": resume.originalFileName || "-",
+    Status: resume.status,
+    Skills: resume.parsedSkills?.join(", ") || "-",
+    "Suggested Roles": resume.suggestedRoles?.join(", ") || "-",
+    "Created At": resume.createdAt.toISOString(),
+  }));
+
+  const parser = new Parser();
+
+  return parser.parse(data);
+};
+
+const exportInterviews = async () => {
+  const interviews = await Interview.find()
+    .populate("user", "fullName email")
+    .populate("resume", "title originalFileName")
+    .select(
+      `
+      user
+      resume
+      targetRole
+      difficulty
+      duration
+      totalQuestions
+      status
+      score
+      startedAt
+      completedAt
+      createdAt
+    `
+    )
+    .lean();
+
+  const data = interviews.map((interview) => ({
+    "Interview ID": interview._id.toString(),
+
+    "User Name": interview.user?.fullName || "-",
+
+    "User Email": interview.user?.email || "-",
+
+    "Resume Title":
+      interview.resume?.title ||
+      interview.resume?.originalFileName ||
+      "-",
+
+    "Target Role": interview.targetRole,
+
+    Difficulty: interview.difficulty,
+
+    Duration: `${interview.duration} min`,
+
+    "Total Questions": interview.totalQuestions,
+
+    Status: interview.status,
+
+    Score: interview.score,
+
+    "Started At": interview.startedAt
+      ? interview.startedAt.toISOString()
+      : "-",
+
+    "Completed At": interview.completedAt
+      ? interview.completedAt.toISOString()
+      : "-",
+
+    "Created At": interview.createdAt.toISOString(),
+  }));
+
+  const parser = new Parser();
+
+  return parser.parse(data);
+};
+
+const exportAdminLogs = async () => {
+  const logs = await AdminLog.find()
+    .populate("admin", "fullName email")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const data = logs.map((log) => ({
+    "Log ID": log._id.toString(),
+
+    "Admin Name": log.admin?.fullName || "-",
+
+    "Admin Email": log.admin?.email || "-",
+
+    Action: log.action,
+
+    "Target Type": log.targetType,
+
+    "Target ID": log.targetId.toString(),
+
+    Description: log.description,
+
+    Metadata:
+      log.metadata && Object.keys(log.metadata).length > 0
+        ? JSON.stringify(log.metadata)
+        : "-",
+
+    "Created At": log.createdAt.toISOString(),
+  }));
+
+  const parser = new Parser();
+
+  return parser.parse(data);
+};
+
 module.exports = {
   getDashboard,
+  getAdminLogs,
   getUsers,
   getUserById,
   updateUserRole,
@@ -792,4 +1061,8 @@ module.exports = {
   getInterviews,
   getInterviewById,
   deleteInterview,
+  exportUsers,
+  exportResumes,
+  exportInterviews,
+  exportAdminLogs,
 };

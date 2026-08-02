@@ -449,6 +449,98 @@ const deleteUser = async (userId, currentAdmin) => {
   };
 };
 
+const getResumes = async (query) => {
+  let {
+    page = 1,
+    limit = 10,
+    search = "",
+    skill,
+    targetRole,
+    sort = "-createdAt",
+  } = query;
+
+  page = Number(page);
+  limit = Number(limit);
+
+  if (Number.isNaN(page) || page < 1) page = 1;
+  if (Number.isNaN(limit) || limit < 1) limit = 10;
+  if (limit > 100) limit = 100;
+
+  const allowedSortFields = [
+    "createdAt",
+    "-createdAt",
+    "updatedAt",
+    "-updatedAt",
+  ];
+
+  if (!allowedSortFields.includes(sort)) {
+    sort = "-createdAt";
+  }
+
+  const filter = {};
+
+  if (skill) {
+    filter.parsedSkills = {
+      $regex: skill.trim(),
+      $options: "i",
+    };
+  }
+
+  if (targetRole) {
+    filter.suggestedRoles = {
+      $regex: targetRole.trim(),
+      $options: "i",
+    };
+  }
+
+  const skip = (page - 1) * limit;
+
+  let resumes = await Resume.find(filter)
+    .populate({
+      path: "user",
+      select: "fullName email",
+      match: search
+        ? {
+            $or: [
+              {
+                fullName: {
+                  $regex: search.trim(),
+                  $options: "i",
+                },
+              },
+              {
+                email: {
+                  $regex: search.trim(),
+                  $options: "i",
+                },
+              },
+            ],
+          }
+        : {},
+    })
+    .sort(sort)
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  // Remove resumes whose populated user didn't match search
+  resumes = resumes.filter((resume) => resume.user);
+
+  const totalResumes = await Resume.countDocuments(filter);
+
+  return {
+    resumes,
+    pagination: {
+      page,
+      limit,
+      totalResumes,
+      totalPages: Math.ceil(totalResumes / limit),
+      hasNextPage: page * limit < totalResumes,
+      hasPreviousPage: page > 1,
+    },
+  };
+};
+
 module.exports = {
   getDashboard,
   getUsers,
@@ -456,4 +548,5 @@ module.exports = {
   updateUserRole,
   updateUserBlockStatus,
   deleteUser,
+  getResumes,
 };

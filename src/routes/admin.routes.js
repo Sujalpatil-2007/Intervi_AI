@@ -13,6 +13,7 @@ const {
   updateUserBlockStatusController,
   deleteUserController,
   getResumesController,
+  getResumeByIdController,
 } = require("../controllers/admin.controller");
 
 router.get("/dashboard", protect, admin, getDashboardController);
@@ -22,5 +23,6 @@ router.patch("/users/:id/role", protect, admin, updateUserRoleController);
 router.patch("/users/:id/block",protect,admin,updateUserBlockStatusController,);
 router.delete("/users/:id",protect,admin,deleteUserController);
 router.get("/resumes",protect,admin,getResumesController);
+router.get("/resumes/:id",protect,admin,getResumeByIdController);
 
 module.exports = router;

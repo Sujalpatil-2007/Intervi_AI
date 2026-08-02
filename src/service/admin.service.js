@@ -1,8 +1,10 @@
 const User = require("../models/user.model");
 const Resume = require("../models/resume.model");
 const Answer = require("../models/answer.model");
+const Question = require("../models/question.model");
 const Interview = require("../models/interview.model");
 const InterviewEvaluation = require("../models/interviewEvaluation.model");
+const cloudinary = require("cloudinary").v2;
 const mongoose = require("mongoose");
 
 const getDashboard = async () => {
@@ -360,7 +362,7 @@ const updateUserBlockStatus = async (userId, body = {}, currentAdmin) => {
 
   if (user.isBlocked === isBlocked) {
     const error = new Error(
-      `User is already ${isBlocked ? "blocked" : "unblocked"}.`
+      `User is already ${isBlocked ? "blocked" : "unblocked"}.`,
     );
     error.statusCode = 400;
     throw error;
@@ -565,6 +567,218 @@ const getResumeById = async (resumeId) => {
   return resume;
 };
 
+const deleteResume = async (resumeId) => {
+  if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+    const error = new Error("Invalid resume ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const resume = await Resume.findById(resumeId);
+
+  if (!resume) {
+    const error = new Error("Resume not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Delete PDF from Cloudinary
+  if (resume.publicId) {
+    await cloudinary.uploader.destroy(resume.publicId, {
+      resource_type: "raw",
+    });
+  }
+
+  await resume.deleteOne();
+
+  return {
+    _id: resume._id,
+    title: resume.title,
+    originalFileName: resume.originalFileName,
+  };
+};
+
+const getInterviews = async (query) => {
+  let {
+    page = 1,
+    limit = 10,
+    search = "",
+    status,
+    difficulty,
+    sort = "-createdAt",
+  } = query;
+
+  page = Number(page);
+  limit = Number(limit);
+
+  if (Number.isNaN(page) || page < 1) page = 1;
+  if (Number.isNaN(limit) || limit < 1) limit = 10;
+  if (limit > 100) limit = 100;
+
+  const filter = {};
+
+  if (status) {
+    const allowedStatus = ["pending", "in_progress", "completed"];
+
+    if (!allowedStatus.includes(status)) {
+      const error = new Error("Invalid interview status.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    filter.status = status;
+  }
+
+  if (difficulty) {
+    const allowedDifficulty = ["Easy", "Medium", "Hard"];
+
+    if (!allowedDifficulty.includes(difficulty)) {
+      const error = new Error("Invalid difficulty.");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    filter.difficulty = difficulty;
+  }
+
+  const allowedSort = ["createdAt", "-createdAt", "score", "-score"];
+
+  if (!allowedSort.includes(sort)) {
+    sort = "-createdAt";
+  }
+
+  const skip = (page - 1) * limit;
+
+  let interviews = await Interview.find(filter)
+    .populate({
+      path: "user",
+      select: "fullName email",
+      match: search
+        ? {
+            $or: [
+              {
+                fullName: {
+                  $regex: search,
+                  $options: "i",
+                },
+              },
+              {
+                email: {
+                  $regex: search,
+                  $options: "i",
+                },
+              },
+            ],
+          }
+        : {},
+    })
+    .populate({
+      path: "resume",
+      select: "title",
+    })
+    .sort(sort)
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  interviews = interviews.filter((item) => item.user);
+
+  const totalInterviews = await Interview.countDocuments(filter);
+
+  return {
+    interviews,
+
+    pagination: {
+      page,
+
+      limit,
+
+      totalInterviews,
+
+      totalPages: Math.ceil(totalInterviews / limit),
+
+      hasNextPage: page * limit < totalInterviews,
+
+      hasPreviousPage: page > 1,
+    },
+  };
+};
+
+const getInterviewById = async (interviewId) => {
+  if (!mongoose.Types.ObjectId.isValid(interviewId)) {
+    const error = new Error("Invalid interview ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const interview = await Interview.findById(interviewId)
+    .populate({
+      path: "user",
+      select:
+        "fullName email avatar role targetRole experienceLevel isVerified",
+    })
+    .populate({
+      path: "resume",
+      select:
+        "title originalFileName parsedSkills parsedProjects parsedExperience parsedEducation suggestedRoles",
+    })
+    .lean();
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const evaluation = await InterviewEvaluation.findOne({
+    interview: interviewId,
+  }).lean();
+
+  return {
+    interview,
+    evaluation,
+  };
+};
+
+const deleteInterview = async (interviewId) => {
+  if (!mongoose.Types.ObjectId.isValid(interviewId)) {
+    const error = new Error("Invalid interview ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const interview = await Interview.findById(interviewId);
+
+  if (!interview) {
+    const error = new Error("Interview not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Delete evaluation
+  await InterviewEvaluation.deleteOne({
+    interview: interviewId,
+  });
+
+    await Question.deleteMany({
+      interview: interviewId,
+    });
+
+    await Answer.deleteMany({
+      interview: interviewId,
+    });
+  
+  await interview.deleteOne();
+
+  return {
+    _id: interview._id,
+    targetRole: interview.targetRole,
+    difficulty: interview.difficulty,
+    status: interview.status,
+    score: interview.score,
+  };
+};
+
 module.exports = {
   getDashboard,
   getUsers,
@@ -574,4 +788,8 @@ module.exports = {
   deleteUser,
   getResumes,
   getResumeById,
+  deleteResume,
+  getInterviews,
+  getInterviewById,
+  deleteInterview,
 };

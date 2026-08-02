@@ -541,6 +541,30 @@ const getResumes = async (query) => {
   };
 };
 
+const getResumeById = async (resumeId) => {
+  if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+    const error = new Error("Invalid resume ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const resume = await Resume.findById(resumeId)
+    .populate({
+      path: "user",
+      select:
+        "fullName email avatar role targetRole experienceLevel isVerified isBlocked",
+    })
+    .lean();
+
+  if (!resume) {
+    const error = new Error("Resume not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return resume;
+};
+
 module.exports = {
   getDashboard,
   getUsers,
@@ -549,4 +573,5 @@ module.exports = {
   updateUserBlockStatus,
   deleteUser,
   getResumes,
+  getResumeById,
 };

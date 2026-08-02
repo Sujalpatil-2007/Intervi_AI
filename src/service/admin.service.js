@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const Resume = require("../models/resume.model");
+const Answer = require("../models/answer.model");
 const Interview = require("../models/interview.model");
 const InterviewEvaluation = require("../models/interviewEvaluation.model");
 const mongoose = require("mongoose");
@@ -393,10 +394,66 @@ const updateUserBlockStatus = async (userId, body = {}, currentAdmin) => {
   };
 };
 
+const deleteUser = async (userId, currentAdmin) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error("Invalid user ID.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (currentAdmin._id.toString() === userId) {
+    const error = new Error("You cannot delete your own account.");
+    error.statusCode = 403;
+    throw error;
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    const error = new Error("User not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Prevent deleting the last active admin
+  if (user.role === "admin") {
+    const activeAdmins = await User.countDocuments({
+      role: "admin",
+      isBlocked: false,
+    });
+
+    if (activeAdmins <= 1) {
+      const error = new Error("Cannot delete the last active admin.");
+      error.statusCode = 400;
+      throw error;
+    }
+  }
+
+  // Delete related data
+  await Promise.all([
+    Resume.deleteMany({ user: userId }),
+    Interview.deleteMany({ user: userId }),
+    InterviewEvaluation.deleteMany({ user: userId }),
+
+    // Only if Answer model exists
+    Answer.deleteMany({ user: userId }),
+  ]);
+
+  await User.findByIdAndDelete(userId);
+
+  return {
+    _id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role,
+  };
+};
+
 module.exports = {
   getDashboard,
   getUsers,
   getUserById,
   updateUserRole,
   updateUserBlockStatus,
+  deleteUser,
 };

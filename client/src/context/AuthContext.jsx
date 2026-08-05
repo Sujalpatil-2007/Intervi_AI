@@ -1,61 +1,61 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-import { getCurrentUser, loginUser, logoutUser } from "../api/auth.api";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { getCurrentUser } from "../api/auth.api";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isInitializing, setIsInitializing] = useState(true);
 
-  const fetchCurrentUser = async () => {
+  const refreshUser = async () => {
     try {
       const response = await getCurrentUser();
 
-      setUser( response.user || null);
+      setUser(response.user || response.data || null);
+
+      return response.user || response.data || null;
     } catch (error) {
       setUser(null);
-    } finally {
-      setLoading(false);
+      return null;
     }
   };
 
   useEffect(() => {
-    fetchCurrentUser();
+    async function initialize() {
+      await refreshUser();
+      setIsInitializing(false);
+    }
+
+    initialize();
   }, []);
 
-  const login = async (credentials) => {
-    await loginUser(credentials);
-
-    await fetchCurrentUser();
+  const clearUser = () => {
+    setUser(null);
   };
 
-  const logout = async () => {
-    try {
-      await logoutUser();
-    } finally {
-      setUser(null);
-    }
-  };
-
-  const refreshUser = async () => {
-    await fetchCurrentUser();
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        login,
-        logout,
-        refreshUser,
-        isAuthenticated: !!user,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      setUser,
+      clearUser,
+      refreshUser,
+      isAuthenticated: !!user,
+      isInitializing,
+    }),
+    [user, isInitializing],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export default AuthContext;
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider.");
+  }
+
+  return context;
+}

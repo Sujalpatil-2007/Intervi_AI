@@ -101,12 +101,7 @@ const getScoreTrend = async ({ userId }) => {
 };
 
 const getSkillPerformance = async ({ userId }) => {
-  const evaluations = await InterviewEvaluation.find().populate({
-    path: "interview",
-    match: {
-      user: userId,
-    },
-  });
+  const evaluations = await InterviewEvaluation.find({ user: userId });
 
   const skillMap = {};
 

@@ -1,21 +1,24 @@
-import api from "./axios";
+import axiosClient from "./axios";
 
-export const uploadResume = async (formData) => {
-  const response = await api.post("/resume/upload", formData, {
+export async function uploadResume(formData, onUploadProgress) {
+  const response = await axiosClient.post("/resume/upload", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    onUploadProgress,
   });
 
   return response.data;
-};
+}
 
-export const getMyResumes = async () => {
-  const response = await api.get("/resume/my");
-  return response.data;
-};
+export async function getMyResume() {
+  const response = await axiosClient.get("/resume/me");
 
-export const deleteResume = async (resumeId) => {
-  const response = await api.delete(`/resume/${resumeId}`);
   return response.data;
-};
+}
+
+export async function deleteResume() {
+  const response = await axiosClient.delete("/resume/delete");
+
+  return response.data;
+}

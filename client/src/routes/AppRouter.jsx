@@ -31,6 +31,7 @@ import AnalyticsPage from "../pages/admin/AnalyticsPage";
 import AuditLogsPage from "../pages/admin/AuditLogsPage";
 
 import NotFoundPage from "../pages/public/NotFoundPage";
+import MyResumePage from "../pages/resume/MyResumePage";
 
 function AppRouter() {
   return (
@@ -51,6 +52,8 @@ function AppRouter() {
             <Route path="dashboard" element={<DashboardPage />} />
 
             <Route path="resume/upload" element={<UploadResumePage />} />
+
+            <Route path="/resume" element={<MyResumePage />} />
 
             <Route path="leaderboard" element={<LeaderboardPage />} />
 

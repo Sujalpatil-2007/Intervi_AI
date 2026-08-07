@@ -9,3 +9,4 @@ export function useDashboardSummary() {
     queryFn: getDashboardSummary,
   });
 }
+satisfies;

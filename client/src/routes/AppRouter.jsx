@@ -47,18 +47,33 @@ function AppRouter() {
 
         {/* User */}
 
-        <Route element={<ProtectedRoute />}>
-          <Route element={<DashboardLayout />}>
-            <Route path="dashboard" element={<DashboardPage />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="dashboard" element={<DashboardPage />} />
 
-            <Route path="resume/upload" element={<UploadResumePage />} />
+          <Route path="resume/upload" element={<UploadResumePage />} />
 
-            <Route path="/resume" element={<MyResumePage />} />
+          <Route path="/resume" element={<MyResumePage />} />
 
-            <Route path="leaderboard" element={<LeaderboardPage />} />
+          <Route
+            path="interview/generate"
+            element={<GenerateInterviewPage />}
+          />
 
-            <Route path="profile" element={<ProfilePage />} />
-          </Route>
+          <Route path="interview/:id" element={<InterviewDetailsPage />} />
+
+          <Route
+            path="interview/:id/session"
+            element={<InterviewSessionPage />}
+          />
+
+          <Route
+            path="interview/:id/result"
+            element={<InterviewResultPage />}
+          />
+
+          <Route path="leaderboard" element={<LeaderboardPage />} />
+
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
 
         {/* Admin */}

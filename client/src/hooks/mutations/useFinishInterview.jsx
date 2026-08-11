@@ -10,35 +10,26 @@ export function useFinishInterview() {
   return useMutation({
     mutationFn: finishInterview,
 
-    onSuccess: (data, interviewId) => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEWS,
-      });
-
+    onSuccess: (response, interviewId) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
       });
 
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.DASHBOARD_SUMMARY,
+        queryKey: QUERY_KEYS.INTERVIEWS,
       });
 
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.DASHBOARD_RECENT,
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.SCORE_TREND,
-      });
-
-      toast.success(data?.message || "Interview completed successfully.");
+      toast.success(
+        response?.message ||
+          "Interview completed successfully.",
+      );
     },
 
     onError: (error) => {
-      const message =
-        error?.response?.data?.message || "Failed to finish interview.";
-
-      toast.error(message);
+      toast.error(
+        error?.response?.data?.message ||
+          "Unable to finish the interview.",
+      );
     },
   });
-}
+};

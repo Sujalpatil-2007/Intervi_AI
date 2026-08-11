@@ -1,31 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { startInterview } from "../../api/interview.api";
+import { submitAnswer } from "../../api/interview.api";
 import { QUERY_KEYS } from "../../utils/queryKeys";
 
-export function useStartInterview() {
+export function useSubmitAnswer() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: startInterview,
+    mutationFn: ({ interviewId, questionId, answer, timeTaken }) =>
+      submitAnswer(interviewId, {
+        questionId,
+        answer,
+        timeTaken,
+      }),
 
-    onSuccess: (response, interviewId) => {
-      queryClient.setQueryData(
-        QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
-        response,
-      );
-
+    onSuccess: (response, variables) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEWS,
+        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(variables.interviewId),
       });
-
-      toast.success(response?.message || "Interview started successfully.");
     },
 
     onError: (error) => {
       toast.error(
-        error?.response?.data?.message || "Unable to start the interview.",
+        error?.response?.data?.message || "Failed to save your answer.",
       );
     },
   });

@@ -10,13 +10,14 @@ export function useEvaluateInterview() {
   return useMutation({
     mutationFn: evaluateInterview,
 
-    onSuccess: (data, interviewId) => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
-      });
+    onSuccess: (response, interviewId) => {
+      queryClient.setQueryData(
+        QUERY_KEYS.INTERVIEW_EVALUATION(interviewId),
+        response,
+      );
 
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEW_EVALUATION(interviewId),
+        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
       });
 
       queryClient.invalidateQueries({
@@ -43,14 +44,13 @@ export function useEvaluateInterview() {
         queryKey: QUERY_KEYS.LEADERBOARD,
       });
 
-      toast.success(data?.message || "Interview evaluated successfully.");
+      toast.success(response?.message || "Interview evaluated successfully.");
     },
 
     onError: (error) => {
-      const message =
-        error?.response?.data?.message || "Failed to evaluate interview.";
-
-      toast.error(message);
+      toast.error(
+        error?.response?.data?.message || "Unable to evaluate the interview.",
+      );
     },
   });
 }

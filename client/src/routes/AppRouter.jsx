@@ -66,11 +66,6 @@ function AppRouter() {
           />
 
           <Route
-            path="interview/:id/session"
-            element={<InterviewSessionPage />}
-          />
-
-          <Route
             path="interview/:id/result"
             element={<InterviewResultPage />}
           />

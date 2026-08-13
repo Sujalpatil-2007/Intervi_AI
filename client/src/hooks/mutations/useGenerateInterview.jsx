@@ -10,19 +10,34 @@ export function useGenerateInterview() {
   return useMutation({
     mutationFn: generateInterview,
 
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.INTERVIEWS,
       });
 
-      toast.success(data?.message || "Interview generated successfully.");
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.DASHBOARD_SUMMARY,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.DASHBOARD_RECENT,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.SCORE_TREND,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.LEADERBOARD,
+      });
+
+      toast.success(response?.message || "Interview generated successfully.");
     },
 
     onError: (error) => {
-      const message =
-        error?.response?.data?.message || "Failed to generate interview.";
-
-      toast.error(message);
+      toast.error(
+        error?.response?.data?.message || "Failed to generate interview.",
+      );
     },
   });
 }

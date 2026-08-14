@@ -10,26 +10,23 @@ export function useStartInterview() {
   return useMutation({
     mutationFn: startInterview,
 
-    onSuccess: (data, interviewId) => {
+    onSuccess: (response, interviewId) => {
+      queryClient.setQueryData(
+        QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
+        response,
+      );
+
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.INTERVIEWS,
       });
 
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
-      });
-
-      toast.success(
-        data?.message || "Interview started successfully.",
-      );
+      toast.success(response?.message || "Interview started successfully.");
     },
 
     onError: (error) => {
-      const message =
-        error?.response?.data?.message ||
-        "Failed to start interview.";
-
-      toast.error(message);
+      toast.error(
+        error?.response?.data?.message || "Unable to start the interview.",
+      );
     },
   });
-};
+}

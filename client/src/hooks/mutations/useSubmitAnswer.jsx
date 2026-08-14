@@ -4,21 +4,18 @@ import toast from "react-hot-toast";
 import { submitAnswer } from "../../api/interview.api";
 import { QUERY_KEYS } from "../../utils/queryKeys";
 
-export function useSubmitAnswer() {
+export function useSubmitAnswer(interviewId) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ interviewId, questionId, answer, timeTaken }) =>
-      submitAnswer(interviewId, {
-        questionId,
-        answer,
-        timeTaken,
-      }),
+    mutationFn: (data) => submitAnswer(interviewId, data),
 
-    onSuccess: (response, variables) => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(variables.interviewId),
+        queryKey: QUERY_KEYS.INTERVIEW_DETAILS(interviewId),
       });
+
+      toast.success(response?.message || "Answer saved successfully.");
     },
 
     onError: (error) => {

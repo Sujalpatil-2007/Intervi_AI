@@ -11,8 +11,10 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useInterview } from "../../hooks/queries/useInterview";
+import { useStartInterview } from "../../hooks/mutations/useStartInterview";
 import { useSubmitAnswer } from "../../hooks/mutations/useSubmitAnswer";
 import { useFinishInterview } from "../../hooks/mutations/useFinishInterview";
+import { useEvaluateInterview } from "../../hooks/mutations/useEvaluateInterview";
 
 import InterviewProgress from "../../components/interview/InterviewProgress";
 import QuestionCard from "../../components/interview/QuestionCard";
@@ -24,22 +26,115 @@ function InterviewSessionPage() {
 
   const { data, isLoading, isError, refetch } = useInterview(id);
 
+  const startInterviewMutation = useStartInterview();
   const submitAnswerMutation = useSubmitAnswer(id);
   const finishInterviewMutation = useFinishInterview(id);
+  const evaluateInterviewMutation = useEvaluateInterview();
+
+  const storageKey = `interview-session-${id}`;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
 
   const questionStartedAtRef = useRef(Date.now());
+  const hasStartedPendingInterviewRef = useRef(false);
 
   const interview = data?.data?.interview;
+
   const questions = useMemo(() => data?.data?.questions || [], [data]);
 
-  const currentQuestion = questions[currentIndex];
+  /*
+   * Restore local session progress after browser refresh.
+   */
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
 
+    try {
+      const savedSession = localStorage.getItem(storageKey);
+
+      if (!savedSession) {
+        return;
+      }
+
+      const parsedSession = JSON.parse(savedSession);
+
+      if (
+        typeof parsedSession.currentIndex === "number" &&
+        parsedSession.currentIndex >= 0
+      ) {
+        setCurrentIndex(parsedSession.currentIndex);
+      }
+
+      if (parsedSession.answers && typeof parsedSession.answers === "object") {
+        setAnswers(parsedSession.answers);
+      }
+    } catch {
+      localStorage.removeItem(storageKey);
+    }
+  }, [id, storageKey]);
+
+  /*
+   * Persist local progress so a browser refresh does not
+   * immediately reset the current question and typed answers.
+   */
+  useEffect(() => {
+    if (!id || (!Object.keys(answers).length && currentIndex === 0)) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          currentIndex,
+          answers,
+        }),
+      );
+    } catch {
+      // Ignore localStorage errors.
+    }
+  }, [answers, currentIndex, id, storageKey]);
+
+  /*
+   * Reset question timer whenever the current question changes.
+   */
   useEffect(() => {
     questionStartedAtRef.current = Date.now();
   }, [currentIndex]);
+
+  /*
+   * If the user directly opens the session while the interview
+   * is pending, start the interview automatically.
+   */
+  useEffect(() => {
+    if (
+      !interview ||
+      interview.status !== "pending" ||
+      hasStartedPendingInterviewRef.current ||
+      startInterviewMutation.isPending
+    ) {
+      return;
+    }
+
+    hasStartedPendingInterviewRef.current = true;
+
+    startInterviewMutation.mutate(id);
+  }, [interview, id, startInterviewMutation]);
+
+  /*
+   * Keep the restored question index within the available range.
+   */
+  useEffect(() => {
+    if (!questions.length) {
+      return;
+    }
+
+    setCurrentIndex((previous) => Math.min(previous, questions.length - 1));
+  }, [questions.length]);
+
+  const currentQuestion = questions[currentIndex];
 
   const answeredQuestions = useMemo(() => {
     return questions.filter(
@@ -55,6 +150,10 @@ function InterviewSessionPage() {
 
   const isSubmitting = submitAnswerMutation.isPending;
   const isFinishing = finishInterviewMutation.isPending;
+  const isEvaluating = evaluateInterviewMutation.isPending;
+  const isStarting = startInterviewMutation.isPending;
+
+  const isBusy = isSubmitting || isFinishing || isEvaluating || isStarting;
 
   if (isLoading) {
     return (
@@ -94,7 +193,42 @@ function InterviewSessionPage() {
   }
 
   if (!interview) {
-    return null;
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <AlertTriangle size={32} className="mx-auto text-amber-500" />
+
+          <h2 className="mt-4 text-xl font-bold text-slate-900">
+            Interview Not Found
+          </h2>
+
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            This interview could not be found.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  /*
+   * Pending interview is being started automatically.
+   */
+  if (interview.status === "pending") {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <Loader2 size={38} className="mx-auto animate-spin text-blue-600" />
+
+          <h2 className="mt-4 text-xl font-bold text-slate-900">
+            Starting Interview
+          </h2>
+
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            Preparing your interview session...
+          </p>
+        </div>
+      </div>
+    );
   }
 
   if (interview.status === "completed") {
@@ -117,6 +251,30 @@ function InterviewSessionPage() {
               onClick={() => navigate(`/interview/${id}/result`)}
             >
               View Result
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (interview.status === "cancelled") {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <AlertTriangle size={42} className="mx-auto text-red-500" />
+
+          <h2 className="mt-4 text-xl font-bold text-slate-900">
+            Interview Cancelled
+          </h2>
+
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            This interview is no longer available.
+          </p>
+
+          <div className="mt-6">
+            <Button type="button" onClick={() => navigate("/dashboard")}>
+              Back to Dashboard
             </Button>
           </div>
         </div>
@@ -149,23 +307,29 @@ function InterviewSessionPage() {
     }));
   };
 
+  const getCurrentTimeTaken = () => {
+    return Math.max(
+      0,
+      Math.round((Date.now() - questionStartedAtRef.current) / 1000),
+    );
+  };
+
   const handleSubmitCurrentAnswer = async () => {
+    if (!currentQuestion || isBusy) {
+      return;
+    }
+
     const answer = currentAnswer.trim();
 
     if (!answer) {
       return;
     }
 
-    const timeTaken = Math.max(
-      0,
-      Math.round((Date.now() - questionStartedAtRef.current) / 1000),
-    );
-
     try {
       await submitAnswerMutation.mutateAsync({
         questionId: currentQuestion._id,
         answer,
-        timeTaken,
+        timeTaken: getCurrentTimeTaken(),
       });
 
       if (currentIndex < questions.length - 1) {
@@ -177,7 +341,7 @@ function InterviewSessionPage() {
   };
 
   const handlePrevious = () => {
-    if (currentIndex === 0 || isSubmitting || isFinishing) {
+    if (currentIndex === 0 || isBusy) {
       return;
     }
 
@@ -185,37 +349,60 @@ function InterviewSessionPage() {
   };
 
   const handleFinish = async () => {
+    if (!currentQuestion || isBusy) {
+      return;
+    }
+
     const answer = currentAnswer.trim();
 
     /*
-     * Save the current answer first when the candidate has
-     * entered one. This prevents the final answer from being
-     * skipped when Finish is clicked directly.
+     * Save the final answer before finishing.
      */
     if (answer) {
-      const timeTaken = Math.max(
-        0,
-        Math.round((Date.now() - questionStartedAtRef.current) / 1000),
-      );
-
       try {
         await submitAnswerMutation.mutateAsync({
           questionId: currentQuestion._id,
           answer,
-          timeTaken,
+          timeTaken: getCurrentTimeTaken(),
         });
       } catch {
         return;
       }
     }
 
+    /*
+     * Finish the interview.
+     */
     try {
       await finishInterviewMutation.mutateAsync();
-
-      navigate(`/interview/${id}/result`);
     } catch {
-      // Error toast is handled by the mutation.
+      return;
     }
+
+    /*
+     * Evaluate only after the interview has been
+     * successfully completed.
+     *
+     * Existing useEvaluateInterview expects the
+     * interview ID through mutateAsync(id).
+     */
+    try {
+      await evaluateInterviewMutation.mutateAsync(id);
+    } catch {
+      return;
+    }
+
+    /*
+     * Clear local session state after successful
+     * completion and evaluation.
+     */
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+      // Ignore localStorage cleanup errors.
+    }
+
+    navigate(`/interview/${id}/result`);
   };
 
   const isLastQuestion = currentIndex === questions.length - 1;
@@ -231,7 +418,7 @@ function InterviewSessionPage() {
           <button
             type="button"
             onClick={() => navigate(`/interview/${id}`)}
-            disabled={isSubmitting || isFinishing}
+            disabled={isBusy}
             className="inline-flex w-fit items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ArrowLeft size={16} />
@@ -259,7 +446,7 @@ function InterviewSessionPage() {
             question={currentQuestion}
             answer={currentAnswer}
             onAnswerChange={updateAnswer}
-            disabled={isSubmitting || isFinishing}
+            disabled={isBusy}
           />
         </div>
 
@@ -269,7 +456,7 @@ function InterviewSessionPage() {
           <button
             type="button"
             onClick={handlePrevious}
-            disabled={currentIndex === 0 || isSubmitting || isFinishing}
+            disabled={currentIndex === 0 || isBusy}
             className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ArrowLeft size={17} />
@@ -281,7 +468,7 @@ function InterviewSessionPage() {
               type="button"
               onClick={handleSubmitCurrentAnswer}
               loading={isSubmitting}
-              disabled={!hasCurrentAnswer}
+              disabled={!hasCurrentAnswer || isBusy}
               className="sm:w-auto"
             >
               Save & Next
@@ -291,11 +478,13 @@ function InterviewSessionPage() {
             <Button
               type="button"
               onClick={handleFinish}
-              loading={isSubmitting || isFinishing}
-              disabled={!hasCurrentAnswer}
+              loading={isSubmitting || isFinishing || isEvaluating}
+              disabled={!hasCurrentAnswer || isBusy}
               className="sm:w-auto"
             >
-              {isFinishing ? (
+              {isEvaluating ? (
+                "Evaluating..."
+              ) : isFinishing ? (
                 "Finishing..."
               ) : (
                 <>

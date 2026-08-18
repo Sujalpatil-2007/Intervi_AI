@@ -907,7 +907,7 @@ const deleteInterview = async (interviewId) => {
 const exportUsers = async () => {
   const users = await User.find()
     .select(
-      "fullName email role isVerified isBlocked targetRole experienceLevel createdAt"
+      "fullName email role isVerified isBlocked targetRole experienceLevel createdAt",
     )
     .lean();
 
@@ -931,7 +931,7 @@ const exportResumes = async () => {
   const resumes = await Resume.find()
     .populate("user", "fullName email")
     .select(
-      "user title originalFileName status parsedSkills suggestedRoles createdAt"
+      "user title originalFileName status parsedSkills suggestedRoles createdAt",
     )
     .lean();
 
@@ -969,7 +969,7 @@ const exportInterviews = async () => {
       startedAt
       completedAt
       createdAt
-    `
+    `,
     )
     .lean();
 
@@ -981,9 +981,7 @@ const exportInterviews = async () => {
     "User Email": interview.user?.email || "-",
 
     "Resume Title":
-      interview.resume?.title ||
-      interview.resume?.originalFileName ||
-      "-",
+      interview.resume?.title || interview.resume?.originalFileName || "-",
 
     "Target Role": interview.targetRole,
 
@@ -997,9 +995,7 @@ const exportInterviews = async () => {
 
     Score: interview.score,
 
-    "Started At": interview.startedAt
-      ? interview.startedAt.toISOString()
-      : "-",
+    "Started At": interview.startedAt ? interview.startedAt.toISOString() : "-",
 
     "Completed At": interview.completedAt
       ? interview.completedAt.toISOString()

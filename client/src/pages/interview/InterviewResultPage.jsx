@@ -29,7 +29,7 @@ function InterviewResultPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[500px] items-center justify-center">
+      <div className="flex min-h-125 items-center justify-center">
         <Loader />
       </div>
     );
@@ -37,7 +37,7 @@ function InterviewResultPage() {
 
   if (isError) {
     return (
-      <div className="flex min-h-[500px] items-center justify-center px-4">
+      <div className="flex min-h-125 items-center justify-center px-4">
         <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
           <h2 className="text-xl font-bold text-slate-900">
             Unable to load your result
@@ -62,7 +62,7 @@ function InterviewResultPage() {
 
   if (!interview || !evaluation) {
     return (
-      <div className="flex min-h-[500px] items-center justify-center px-4">
+      <div className="flex min-h-125 items-center justify-center px-4">
         <div className="text-center">
           <h2 className="text-xl font-bold text-slate-900">
             Evaluation not available

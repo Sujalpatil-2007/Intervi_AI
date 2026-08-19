@@ -1,9 +1,9 @@
 import { FileText, ClipboardCheck, Trophy, FileBadge } from "lucide-react";
 
-import { useDashboardSummary } from "../../hooks/queries/useDashboardSummary";
+import {useDashboardSummary} from "../../../hooks/queries/useDashboardSummary";
 
-import Loader from "../ui/Loader";
-import EmptyState from "../ui/EmptyState";
+import Loader from "../../ui/Loader";
+import EmptyState from "../../ui/EmptyState";
 import StatCard from "./StatCard";
 
 function SummaryCards() {

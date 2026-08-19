@@ -15,26 +15,27 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 
 import UploadResumePage from "../pages/resume/UploadResumePage";
 import MyResumePage from "../pages/resume/MyResumePage";
-import ResumeDetailsPage from "../pages/resume/ResumeDetailsPage";
+// import ResumeDetailsPage from "../pages/resume/ResumeDetailsPage";
 
 import GenerateInterviewPage from "../pages/interview/GenerateInterviewPage";
 import InterviewSessionPage from "../pages/interview/InterviewSessionPage";
 import InterviewResultPage from "../pages/interview/InterviewResultPage";
-import LeaderboardPage from "../pages/interview/LeaderboardPage";
+import InterviewDetailsPage from "../pages/interview/InterviewDetailsPage"
+// import LeaderboardPage from "../pages/interview/LeaderboardPage";
 
-import ProfilePage from "../pages/profile/ProfilePage";
+// import ProfilePage from "../pages/profile/ProfilePage";
 
-import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
-import UsersPage from "../pages/admin/UsersPage";
-import UserDetailsPage from "../pages/admin/UserDetailsPage";
-import ResumesPage from "../pages/admin/ResumesPage";
-import AdminResumeDetailsPage from "../pages/admin/ResumeDetailsPage";
-import InterviewsPage from "../pages/admin/InterviewsPage";
-import InterviewDetailsPage from "../pages/admin/InterviewDetailsPage";
-import AnalyticsPage from "../pages/admin/AnalyticsPage";
-import AuditLogsPage from "../pages/admin/AuditLogsPage";
+// import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+// import UsersPage from "../pages/admin/UsersPage";
+// import UserDetailsPage from "../pages/admin/UserDetailsPage";
+// import ResumesPage from "../pages/admin/ResumesPage";
+// import AdminResumeDetailsPage from "../pages/admin/ResumeDetailsPage";
+// import InterviewsPage from "../pages/admin/InterviewsPage";
+// import InterviewDetailsPage from "../pages/admin/InterviewDetailsPage";
+// import AnalyticsPage from "../pages/admin/AnalyticsPage";
+// import AuditLogsPage from "../pages/admin/AuditLogsPage";
 
-import NotFoundPage from "../pages/public/NotFoundPage";
+// import NotFoundPage from "../pages/public/NotFoundPage";
 
 function AppRouter() {
   return (
@@ -59,7 +60,7 @@ function AppRouter() {
 
             <Route path="resume" element={<MyResumePage />} />
 
-            <Route path="resume/:id" element={<ResumeDetailsPage />} />
+            {/* <Route path="resume/:id" element={<ResumeDetailsPage />} /> */}
 
             {/* Interview */}
             <Route
@@ -67,7 +68,7 @@ function AppRouter() {
               element={<GenerateInterviewPage />}
             />
 
-            <Route path="interview/:id" element={<InterviewDetailsPage />} />
+            {/* <Route path="interview/:id" element={<InterviewDetailsPage />} /> */}
 
             <Route
               path="interview/:id/session"
@@ -80,9 +81,9 @@ function AppRouter() {
             />
 
             {/* Other */}
-            <Route path="leaderboard" element={<LeaderboardPage />} />
+            {/* <Route path="leaderboard" element={<LeaderboardPage />} /> */}
 
-            <Route path="profile" element={<ProfilePage />} />
+            {/* <Route path="profile" element={<ProfilePage />} /> */}
           </Route>
         </Route>
 
@@ -90,35 +91,35 @@ function AppRouter() {
 
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
-            <Route path="admin" element={<AdminDashboardPage />} />
+            {/* <Route path="admin" element={<AdminDashboardPage />} /> */}
 
-            <Route path="admin/users" element={<UsersPage />} />
+            {/* <Route path="admin/users" element={<UsersPage />} /> */}
 
-            <Route path="admin/users/:id" element={<UserDetailsPage />} />
+            {/* <Route path="admin/users/:id" element={<UserDetailsPage />} /> */}
 
-            <Route path="admin/resumes" element={<ResumesPage />} />
+            {/* <Route path="admin/resumes" element={<ResumesPage />} /> */}
 
             <Route
               path="admin/resumes/:id"
-              element={<AdminResumeDetailsPage />}
+              // element={<AdminResumeDetailsPage />}
             />
 
-            <Route path="admin/interviews" element={<InterviewsPage />} />
+            {/* <Route path="admin/interviews" element={<InterviewsPage />} /> */}
 
             <Route
               path="admin/interviews/:id"
               element={<InterviewDetailsPage />}
             />
 
-            <Route path="admin/analytics" element={<AnalyticsPage />} />
+            {/* <Route path="admin/analytics" element={<AnalyticsPage />} /> */}
 
-            <Route path="admin/logs" element={<AuditLogsPage />} />
+            {/* <Route path="admin/logs" element={<AuditLogsPage />} /> */}
           </Route>
         </Route>
 
         {/* ==================== 404 ==================== */}
 
-        <Route path="*" element={<NotFoundPage />} />
+        {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
     </BrowserRouter>
   );

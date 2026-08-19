@@ -7,6 +7,6 @@ export function useDashboardSummary() {
   return useQuery({
     queryKey: QUERY_KEYS.DASHBOARD_SUMMARY,
     queryFn: getDashboardSummary,
+    staleTime: 5 * 60 * 1000,
   });
 }
-satisfies;

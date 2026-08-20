@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-function StatCard({ title, value, icon: Icon, color = "bg-blue-500" }) {
+function StatCard({ title, value, Icon, color = "bg-blue-500" }) {
   return (
     <motion.div
       whileHover={{ y: -4 }}

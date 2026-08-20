@@ -29,21 +29,21 @@ function SummaryCards() {
       <StatCard
         title="Total Interviews"
         value={summary.totalInterviews}
-        icon={ClipboardCheck}
+        Icon={ClipboardCheck}
         color="bg-blue-600"
       />
 
       <StatCard
         title="Completed"
         value={summary.completedInterviews}
-        icon={Trophy}
+        Icon={Trophy}
         color="bg-green-600"
       />
 
       <StatCard
         title="Average Score"
         value={`${summary.averageScore}%`}
-        icon={FileBadge}
+        Icon={FileBadge}
         color="bg-purple-600"
       />
 

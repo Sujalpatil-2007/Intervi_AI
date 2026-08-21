@@ -15,7 +15,7 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 
 import UploadResumePage from "../pages/resume/UploadResumePage";
 import MyResumePage from "../pages/resume/MyResumePage";
-// import ResumeDetailsPage from "../pages/resume/ResumeDetailsPage";
+import ResumeDetailsPage from "../pages/resume/ResumeDetailsPage";
 
 import GenerateInterviewPage from "../pages/interview/GenerateInterviewPage";
 import InterviewSessionPage from "../pages/interview/InterviewSessionPage";
@@ -60,7 +60,7 @@ function AppRouter() {
 
             <Route path="resume" element={<MyResumePage />} />
 
-            {/* <Route path="resume/:id" element={<ResumeDetailsPage />} /> */}
+            <Route path="resume/:id" element={<ResumeDetailsPage />} />
 
             {/* Interview */}
             <Route

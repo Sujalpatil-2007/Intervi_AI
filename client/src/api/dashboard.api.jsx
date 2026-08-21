@@ -21,6 +21,6 @@ export const getSkillPerformance = async () => {
 };
 
 export const getLeaderboard = async () => {
-  const response = await api.get("/dashboard/leaderboard");
+  const response = await api.get("/leaderboard");
   return response.data;
 };

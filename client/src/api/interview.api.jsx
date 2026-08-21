@@ -1,7 +1,7 @@
 import api from "./axios";
 
 export const generateInterview = async (data) => {
-  const response = await api.post("/interview/generate", data);
+  const response = await api.post("/interviews/generate", data);
 
   return response.data;
 };
@@ -24,7 +24,7 @@ export const getInterviews = async ({ page = 1, limit = 10, status } = {}) => {
 };
 
 export const getInterviewById = async (id) => {
-  const response = await api.get(`/interview/${id}`);
+  const response = await api.get(`/interviews/${id}`);
 
   return response.data;
 };

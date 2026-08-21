@@ -68,7 +68,7 @@ function AppRouter() {
               element={<GenerateInterviewPage />}
             />
 
-            {/* <Route path="interview/:id" element={<InterviewDetailsPage />} /> */}
+            <Route path="interview/:id" element={<InterviewDetailsPage />} />
 
             <Route
               path="interview/:id/session"

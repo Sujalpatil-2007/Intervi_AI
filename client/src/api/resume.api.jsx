@@ -4,13 +4,9 @@ export async function uploadResume(formData, onUploadProgress) {
   console.log("API FormData:", formData);
   console.log("API resume file:", formData.get("resume"));
 
-  const response = await axiosClient.post(
-    "/resume/upload",
-    formData,
-    {
-      onUploadProgress,
-    }
-  );
+  const response = await axiosClient.post("/resume/upload", formData, {
+    onUploadProgress,
+  });
 
   return response.data;
 }

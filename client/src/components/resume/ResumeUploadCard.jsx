@@ -21,12 +21,12 @@ function ResumeUploadCard() {
   function handleFileChange(selectedFile, error) {
     setFile(selectedFile);
     setFileError(error || "");
+    setProgress(0);
   }
 
-  async function onSubmit() {
+  function onSubmit() {
     if (!file) {
       setFileError("Please select a resume.");
-
       return;
     }
 
@@ -34,34 +34,36 @@ function ResumeUploadCard() {
 
     formData.append("resume", file);
 
+    console.log("Uploading:", file);
+    console.log("FormData file:", formData.get("resume"));
+
     uploadResumeMutation.mutate(
       {
         formData,
-
         onUploadProgress: (event) => {
-          const percentage = Math.round((event.loaded * 100) / event.total);
+          if (!event.total) return;
+
+          const percentage = Math.round(
+            (event.loaded * 100) / event.total
+          );
 
           setProgress(percentage);
         },
       },
       {
         onSuccess: () => {
+          setProgress(100);
           navigate("/resume");
         },
-      },
+        onError: () => {
+          setProgress(0);
+        },
+      }
     );
   }
 
   return (
-    <div className="rounded-xl bg-white p-8 shadow-sm border border-slate-200">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold">Upload Resume</h2>
-
-        <p className="mt-2 text-slate-500">
-          Upload your latest resume to generate AI-powered interviews.
-        </p>
-      </div>
-
+    <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <ResumeDropzone
           value={file}
@@ -78,7 +80,9 @@ function ResumeUploadCard() {
           disabled={uploadResumeMutation.isPending}
           className="w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {uploadResumeMutation.isPending ? "Uploading..." : "Upload Resume"}
+          {uploadResumeMutation.isPending
+            ? "Uploading..."
+            : "Upload Resume"}
         </button>
       </form>
     </div>

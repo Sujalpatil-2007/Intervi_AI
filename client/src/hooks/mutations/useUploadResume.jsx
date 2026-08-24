@@ -21,18 +21,13 @@ export function useUploadResume() {
         queryKey: QUERY_KEYS.RESUMES,
       });
 
-      toast.success(
-        response?.message || "Resume uploaded successfully."
-      );
+      toast.success(response?.message || "Resume uploaded successfully.");
     },
 
     onError: (error) => {
       console.error("UPLOAD ERROR:", error);
 
-      toast.error(
-        error?.response?.data?.message ||
-          "Failed to upload resume."
-      );
+      toast.error(error?.response?.data?.message || "Failed to upload resume.");
     },
   });
 }

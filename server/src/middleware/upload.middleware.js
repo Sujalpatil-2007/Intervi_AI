@@ -1,10 +1,17 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
-// Store files temporarily on disk
+const uploadDir = path.join(process.cwd(), "uploads");
+
+// Create uploads folder automatically
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, uploadDir);
   },
 
   filename: (req, file, cb) => {
@@ -18,7 +25,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Allow only PDFs
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "application/pdf") {
     cb(null, true);
@@ -31,7 +37,7 @@ const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5 MB
+    fileSize: 5 * 1024 * 1024,
   },
 });
 

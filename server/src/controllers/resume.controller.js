@@ -1,14 +1,22 @@
 const fs = require("fs");
 const Resume = require("../models/resume.model");
+
 const {
   uploadToCloudinary,
   deleteFromCloudinary,
 } = require("../service/cloudinary.service");
+
 const { extractTextFromPDF } = require("../service/pdf.service");
 const { analyzeResume } = require("../service/gemini.service");
 
 async function uploadResumeController(req, res) {
+  
   try {
+    console.log("========== RESUME UPLOAD DEBUG ==========");
+    console.log("req.file:", req.file);
+    console.log("req.body:", req.body);
+    console.log("==========================================");
+    
     if (!req.file) {
       return res.status(400).json({
         success: false,
@@ -16,8 +24,10 @@ async function uploadResumeController(req, res) {
       });
     }
 
-    // Extract text from the uploaded PDF
+    // Extract text from PDF
     const extractedText = await extractTextFromPDF(req.file.path);
+
+    // Analyze resume with AI
     const aiResponse = await analyzeResume(extractedText);
 
     const cleanedResponse = aiResponse
@@ -27,13 +37,37 @@ async function uploadResumeController(req, res) {
 
     const parsed = JSON.parse(cleanedResponse);
 
-    // Upload PDF to Cloudinary
+    // Upload new PDF to Cloudinary
     const cloudinaryResponse = await uploadToCloudinary(req.file.path);
 
     // Delete local file
-    fs.unlinkSync(req.file.path);
+    if (fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
 
-    // Save resume in MongoDB
+    // Find existing resume
+    const existingResume = await Resume.findOne({
+      user: req.user._id,
+    });
+
+    // Delete old Cloudinary file
+    if (existingResume?.publicId) {
+      try {
+        await deleteFromCloudinary(existingResume.publicId);
+      } catch (cloudinaryError) {
+        console.error(
+          "Failed to delete old Cloudinary resume:",
+          cloudinaryError,
+        );
+      }
+    }
+
+    // Delete old MongoDB resume
+    if (existingResume) {
+      await Resume.findByIdAndDelete(existingResume._id);
+    }
+
+    // Create new resume
     const resume = await Resume.create({
       user: req.user._id,
       title: req.body.title || "My Resume",
@@ -53,7 +87,6 @@ async function uploadResumeController(req, res) {
       parsedEducation: parsed.education,
       suggestedRoles: parsed.targetRoles,
 
-      // ⭐ Add this line
       aiAnalysis: parsed,
     });
 
@@ -80,7 +113,7 @@ async function getMyResumeController(req, res) {
   try {
     const resume = await Resume.findOne({
       user: req.user._id,
-    });
+    }).sort({ createdAt: -1 });
 
     if (!resume) {
       return res.status(404).json({
@@ -116,7 +149,9 @@ async function deleteResumeController(req, res) {
       });
     }
 
-    await deleteFromCloudinary(resume.publicId);
+    if (resume.publicId) {
+      await deleteFromCloudinary(resume.publicId);
+    }
 
     await Resume.findByIdAndDelete(resume._id);
 

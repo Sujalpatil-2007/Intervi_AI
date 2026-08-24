@@ -10,13 +10,12 @@ const { extractTextFromPDF } = require("../service/pdf.service");
 const { analyzeResume } = require("../service/gemini.service");
 
 async function uploadResumeController(req, res) {
-  
   try {
     console.log("========== RESUME UPLOAD DEBUG ==========");
     console.log("req.file:", req.file);
     console.log("req.body:", req.body);
     console.log("==========================================");
-    
+
     if (!req.file) {
       return res.status(400).json({
         success: false,

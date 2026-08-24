@@ -8,19 +8,31 @@ export function useUploadResume() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ formData, onUploadProgress }) =>
-      uploadResume(formData, onUploadProgress),
+    mutationFn: ({ formData, onUploadProgress }) => {
+      return uploadResume(formData, onUploadProgress);
+    },
 
-    onSuccess: () => {
-      toast.success("Resume uploaded successfully.");
-
+    onSuccess: (response) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.MY_RESUME,
       });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.RESUMES,
+      });
+
+      toast.success(
+        response?.message || "Resume uploaded successfully."
+      );
     },
 
     onError: (error) => {
-      toast.error(error?.response?.data?.message || "Failed to upload resume.");
+      console.error("UPLOAD ERROR:", error);
+
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to upload resume."
+      );
     },
   });
 }

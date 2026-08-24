@@ -43,9 +43,7 @@ function ResumeUploadCard() {
         onUploadProgress: (event) => {
           if (!event.total) return;
 
-          const percentage = Math.round(
-            (event.loaded * 100) / event.total
-          );
+          const percentage = Math.round((event.loaded * 100) / event.total);
 
           setProgress(percentage);
         },
@@ -58,7 +56,7 @@ function ResumeUploadCard() {
         onError: () => {
           setProgress(0);
         },
-      }
+      },
     );
   }
 
@@ -80,9 +78,7 @@ function ResumeUploadCard() {
           disabled={uploadResumeMutation.isPending}
           className="w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {uploadResumeMutation.isPending
-            ? "Uploading..."
-            : "Upload Resume"}
+          {uploadResumeMutation.isPending ? "Uploading..." : "Upload Resume"}
         </button>
       </form>
     </div>

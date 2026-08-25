@@ -16,7 +16,7 @@ export const getInterviews = async ({ page = 1, limit = 10, status } = {}) => {
     params.status = status;
   }
 
-  const response = await api.get("/interview", {
+  const response = await api.get("/interviews", {
     params,
   });
 
@@ -30,31 +30,31 @@ export const getInterviewById = async (id) => {
 };
 
 export const startInterview = async (id) => {
-  const response = await api.post(`/interview/${id}/start`);
+  const response = await api.post(`/interviews/${id}/start`);
 
   return response.data;
 };
 
 export const submitAnswer = async (id, data) => {
-  const response = await api.post(`/interview/${id}/answer`, data);
+  const response = await api.post(`/interviews/${id}/answer`, data);
 
   return response.data;
 };
 
 export const finishInterview = async (id) => {
-  const response = await api.post(`/interview/${id}/finish`);
+  const response = await api.post(`/interviews/${id}/finish`);
 
   return response.data;
 };
 
 export const evaluateInterview = async (id) => {
-  const response = await api.post(`/interview/${id}/evaluate`);
+  const response = await api.post(`/interviews/${id}/evaluate`);
 
   return response.data;
 };
 
 export const getInterviewEvaluation = async (id) => {
-  const response = await api.get(`/interview/${id}/evaluation`);
+  const response = await api.get(`/interviews/${id}/evaluation`);
 
   return response.data;
 };

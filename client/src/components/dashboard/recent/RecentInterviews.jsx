@@ -55,7 +55,7 @@ function RecentInterviews() {
         </div>
 
         <Link
-          to="/interview"
+          to="/interviews"
           className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:underline"
         >
           View All

@@ -33,8 +33,8 @@ const navigation = [
     icon: MessagesSquare,
   },
   {
-    name: "Interview History",
-    path: "/interview",
+    name: "Interviews",
+    path: "/interviews",
     icon: History,
   },
   {

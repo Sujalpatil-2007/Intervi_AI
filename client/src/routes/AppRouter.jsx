@@ -20,7 +20,8 @@ import ResumeDetailsPage from "../pages/resume/ResumeDetailsPage";
 import GenerateInterviewPage from "../pages/interview/GenerateInterviewPage";
 import InterviewSessionPage from "../pages/interview/InterviewSessionPage";
 import InterviewResultPage from "../pages/interview/InterviewResultPage";
-import InterviewDetailsPage from "../pages/interview/InterviewDetailsPage"
+import InterviewDetailsPage from "../pages/interview/InterviewDetailsPage";
+import InterviewHistoryPage from "../pages/interview/InterviewHistoryPage"
 // import LeaderboardPage from "../pages/interview/LeaderboardPage";
 
 // import ProfilePage from "../pages/profile/ProfilePage";
@@ -67,6 +68,7 @@ function AppRouter() {
               path="interview/generate"
               element={<GenerateInterviewPage />}
             />
+            <Route path="/interviews" element={<InterviewHistoryPage />} />
 
             <Route path="interview/:id" element={<InterviewDetailsPage />} />
 

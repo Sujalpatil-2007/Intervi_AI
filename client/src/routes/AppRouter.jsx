@@ -21,7 +21,7 @@ import GenerateInterviewPage from "../pages/interview/GenerateInterviewPage";
 import InterviewSessionPage from "../pages/interview/InterviewSessionPage";
 import InterviewResultPage from "../pages/interview/InterviewResultPage";
 import InterviewDetailsPage from "../pages/interview/InterviewDetailsPage";
-import InterviewHistoryPage from "../pages/interview/InterviewHistoryPage"
+import InterviewHistoryPage from "../pages/interview/InterviewHistoryPage";
 // import LeaderboardPage from "../pages/interview/LeaderboardPage";
 
 // import ProfilePage from "../pages/profile/ProfilePage";

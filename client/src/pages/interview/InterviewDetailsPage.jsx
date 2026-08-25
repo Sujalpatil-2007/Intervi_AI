@@ -8,7 +8,9 @@ import InterviewDetailsCard from "../../components/interview/InterviewDetailsCar
 import Button from "../../components/ui/Button";
 
 function InterviewDetailsPage() {
+  console.log("InterviewDetailsPage RENDERED");
   const { id } = useParams();
+  console.log("Interview ID:", id);
   const navigate = useNavigate();
 
   const { data, isLoading, isError, refetch } = useInterview(id);
@@ -51,7 +53,11 @@ function InterviewDetailsPage() {
     );
   }
 
-  const interview = data?.data;
+const interview = data?.data?.interview;
+
+console.log("FULL INTERVIEW API RESPONSE:", data);
+console.log("INTERVIEW:", interview);
+console.log("STATUS:", interview?.status);
 
   if (!interview) {
     return (

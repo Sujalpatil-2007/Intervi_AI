@@ -53,11 +53,11 @@ function InterviewDetailsPage() {
     );
   }
 
-const interview = data?.data?.interview;
+  const interview = data?.data?.interview;
 
-console.log("FULL INTERVIEW API RESPONSE:", data);
-console.log("INTERVIEW:", interview);
-console.log("STATUS:", interview?.status);
+  console.log("FULL INTERVIEW API RESPONSE:", data);
+  console.log("INTERVIEW:", interview);
+  console.log("STATUS:", interview?.status);
 
   if (!interview) {
     return (

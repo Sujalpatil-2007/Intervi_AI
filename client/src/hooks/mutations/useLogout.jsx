@@ -18,9 +18,7 @@ export function useLogout() {
     },
 
     onError: (error) => {
-      toast.error(
-        error?.response?.data?.message || "Unable to logout.",
-      );
+      toast.error(error?.response?.data?.message || "Unable to logout.");
     },
   });
 }

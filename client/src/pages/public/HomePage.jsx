@@ -170,7 +170,7 @@ function HomePage() {
           </p>
 
           <Link
-            to="/register"
+            to="/dashboard"
             className="mt-7 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-500"
           >
             Start Practicing

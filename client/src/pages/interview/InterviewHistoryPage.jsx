@@ -19,13 +19,7 @@ function InterviewHistoryPage() {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
 
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useInterviews({
+  const { data, isLoading, isError, error, refetch } = useInterviews({
     page,
     limit: 10,
     status: status || undefined,
@@ -110,10 +104,7 @@ function InterviewHistoryPage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
-          <AlertTriangle
-            size={32}
-            className="mx-auto text-red-500"
-          />
+          <AlertTriangle size={32} className="mx-auto text-red-500" />
 
           <h2 className="mt-4 text-xl font-bold text-slate-900">
             Unable to load interview history
@@ -178,9 +169,7 @@ function InterviewHistoryPage() {
         <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-semibold text-slate-900">
-                Your Interviews
-              </h2>
+              <h2 className="font-semibold text-slate-900">Your Interviews</h2>
 
               <p className="text-sm text-slate-500">
                 Filter interviews by status.
@@ -205,10 +194,7 @@ function InterviewHistoryPage() {
 
         {!interviews.length ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-            <FileText
-              size={40}
-              className="mx-auto text-slate-300"
-            />
+            <FileText size={40} className="mx-auto text-slate-300" />
 
             <h2 className="mt-4 text-lg font-semibold text-slate-900">
               No interviews found

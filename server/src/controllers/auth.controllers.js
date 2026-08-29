@@ -185,9 +185,60 @@ async function getCurrentUserController(req, res) {
     user: req.user,
   });
 }
+
+/**
+ * - user profile edit controller
+ * - PUT /api/auth/profile
+ */
+async function updateProfileController(req, res) {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    const { name } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Name is required.",
+      });
+    }
+
+    user.name = name.trim();
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update profile.",
+    });
+  }
+}
+
 module.exports = {
   userRegisterController,
   userLoginController,
   userLogoutController,
   getCurrentUserController,
+  updateProfileController,
 };

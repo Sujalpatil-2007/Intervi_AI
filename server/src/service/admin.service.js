@@ -859,7 +859,7 @@ const getInterviewById = async (interviewId) => {
   };
 };
 
-const deleteInterview = async (interviewId) => {
+const deleteInterview = async (interviewId, currentAdmin) => {
   if (!mongoose.Types.ObjectId.isValid(interviewId)) {
     const error = new Error("Invalid interview ID.");
     error.statusCode = 400;

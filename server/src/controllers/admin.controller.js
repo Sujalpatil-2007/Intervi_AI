@@ -146,7 +146,7 @@ const getResumeByIdController = async (req, res, next) => {
 
 const deleteResumeController = async (req, res, next) => {
   try {
-    const data = await deleteResume(req.params.id);
+    const data = await deleteResume(req.params.id, req.user);
 
     return res.status(200).json({
       success: true,

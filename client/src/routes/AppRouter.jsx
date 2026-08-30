@@ -24,8 +24,8 @@ import InterviewDetailsPage from "../pages/interview/InterviewDetailsPage";
 import InterviewHistoryPage from "../pages/interview/InterviewHistoryPage";
 import ProfilePage from "../pages/auth/ProfilePage";
 import LeaderboardPage from "../pages/leaderboard/LeaderboardPage";
+import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 
-// import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 // import UsersPage from "../pages/admin/UsersPage";
 // import UserDetailsPage from "../pages/admin/UserDetailsPage";
 // import ResumesPage from "../pages/admin/ResumesPage";
@@ -89,6 +89,13 @@ function AppRouter() {
         </Route>
 
         {/* ==================== ADMIN ==================== */}
+
+<Route element={<AdminRoute />}>
+  <Route
+    path="/admin"
+    element={<AdminDashboardPage />}
+  />
+</Route>
 
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>

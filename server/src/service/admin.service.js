@@ -889,21 +889,19 @@ const deleteInterview = async (interviewId) => {
 
   await interview.deleteOne();
 
-  await createAdminLog({
-    admin: currentAdmin._id,
-    action: "DELETE_INTERVIEW",
-    targetType: "Interview",
-    targetId: interview._id,
-    description: `Deleted interview for ${interview.targetRole}`,
-  });
+  const totalInterviews = await Interview.countDocuments(filter);
 
-  return {
-    _id: interview._id,
-    targetRole: interview.targetRole,
-    difficulty: interview.difficulty,
-    status: interview.status,
-    score: interview.score,
-  };
+return {
+  interviews,
+  pagination: {
+    page,
+    limit,
+    totalInterviews,
+    totalPages: Math.ceil(totalInterviews / limit),
+    hasNextPage: page * limit < totalInterviews,
+    hasPreviousPage: page > 1,
+  },
+};
 };
 
 const exportUsers = async () => {

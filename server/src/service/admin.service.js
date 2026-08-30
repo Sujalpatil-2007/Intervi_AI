@@ -380,21 +380,23 @@ const updateUserRole = async (userId, body, currentAdmin) => {
     throw error;
   }
 
-  user.role = role;
+  const oldRole = user.role;
 
-  await user.save();
+user.role = role;
 
-  await createAdminLog({
-    admin: currentAdmin._id,
-    action: "UPDATE_USER_ROLE",
-    targetType: "User",
-    targetId: user._id,
-    description: `Changed role from ${oldRole} to ${role}`,
-    metadata: {
-      oldRole,
-      newRole: role,
-    },
-  });
+await user.save();
+
+await createAdminLog({
+  admin: currentAdmin._id,
+  action: "UPDATE_USER_ROLE",
+  targetType: "User",
+  targetId: user._id,
+  description: `Changed role from ${oldRole} to ${role}`,
+  metadata: {
+    oldRole,
+    newRole: role,
+  },
+});
 
   return {
     _id: user._id,
@@ -668,7 +670,7 @@ const getResumeById = async (resumeId) => {
   return resume;
 };
 
-const deleteResume = async (resumeId) => {
+const deleteResume = async (resumeId, currentAdmin) => {
   if (!mongoose.Types.ObjectId.isValid(resumeId)) {
     const error = new Error("Invalid resume ID.");
     error.statusCode = 400;

@@ -382,21 +382,21 @@ const updateUserRole = async (userId, body, currentAdmin) => {
 
   const oldRole = user.role;
 
-user.role = role;
+  user.role = role;
 
-await user.save();
+  await user.save();
 
-await createAdminLog({
-  admin: currentAdmin._id,
-  action: "UPDATE_USER_ROLE",
-  targetType: "User",
-  targetId: user._id,
-  description: `Changed role from ${oldRole} to ${role}`,
-  metadata: {
-    oldRole,
-    newRole: role,
-  },
-});
+  await createAdminLog({
+    admin: currentAdmin._id,
+    action: "UPDATE_USER_ROLE",
+    targetType: "User",
+    targetId: user._id,
+    description: `Changed role from ${oldRole} to ${role}`,
+    metadata: {
+      oldRole,
+      newRole: role,
+    },
+  });
 
   return {
     _id: user._id,

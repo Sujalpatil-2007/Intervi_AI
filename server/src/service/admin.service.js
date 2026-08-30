@@ -891,17 +891,17 @@ const deleteInterview = async (interviewId) => {
 
   const totalInterviews = await Interview.countDocuments(filter);
 
-return {
-  interviews,
-  pagination: {
-    page,
-    limit,
-    totalInterviews,
-    totalPages: Math.ceil(totalInterviews / limit),
-    hasNextPage: page * limit < totalInterviews,
-    hasPreviousPage: page > 1,
-  },
-};
+  return {
+    interviews,
+    pagination: {
+      page,
+      limit,
+      totalInterviews,
+      totalPages: Math.ceil(totalInterviews / limit),
+      hasNextPage: page * limit < totalInterviews,
+      hasPreviousPage: page > 1,
+    },
+  };
 };
 
 const exportUsers = async () => {

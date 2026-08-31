@@ -28,13 +28,9 @@ function AdminLayout() {
           </button>
 
           <div className="ml-3">
-            <p className="text-sm font-bold text-slate-900">
-              InterviAI
-            </p>
+            <p className="text-sm font-bold text-slate-900">InterviAI</p>
 
-            <p className="text-xs text-slate-500">
-              Admin Panel
-            </p>
+            <p className="text-xs text-slate-500">Admin Panel</p>
           </div>
         </header>
 

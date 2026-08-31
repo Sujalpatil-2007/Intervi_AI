@@ -1,13 +1,14 @@
+
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../context/AuthContext";
 
 function AdminRoute() {
-  const { user, loading } = useAuth();
+  const { user, isInitializing } = useAuth();
 
-  if (loading) {
+  if (isInitializing) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        Loading...
+        <div className="text-slate-500">Loading...</div>
       </div>
     );
   }

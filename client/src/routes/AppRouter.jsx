@@ -25,6 +25,8 @@ import InterviewHistoryPage from "../pages/interview/InterviewHistoryPage";
 import ProfilePage from "../pages/auth/ProfilePage";
 import LeaderboardPage from "../pages/leaderboard/LeaderboardPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
+import NotFoundPage from "../pages/public/NotFoundPage";
 
 // import UsersPage from "../pages/admin/UsersPage";
 // import UserDetailsPage from "../pages/admin/UserDetailsPage";
@@ -90,18 +92,11 @@ function AppRouter() {
 
         {/* ==================== ADMIN ==================== */}
 
-<Route element={<AdminRoute />}>
-  <Route
-    path="/admin"
-    element={<AdminDashboardPage />}
-  />
-</Route>
 
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
-            {/* <Route path="admin" element={<AdminDashboardPage />} /> */}
-
-            {/* <Route path="admin/users" element={<UsersPage />} /> */}
+            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
 
             {/* <Route path="admin/users/:id" element={<UserDetailsPage />} /> */}
 
@@ -127,7 +122,7 @@ function AppRouter() {
 
         {/* ==================== 404 ==================== */}
 
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

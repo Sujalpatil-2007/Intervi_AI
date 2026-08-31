@@ -67,9 +67,7 @@ function AdminSidebar({ isOpen, onClose }) {
             <div className="flex items-center gap-2">
               <Shield size={22} className="text-blue-500" />
 
-              <h1 className="text-xl font-bold text-white">
-                InterviAI
-              </h1>
+              <h1 className="text-xl font-bold text-white">InterviAI</h1>
             </div>
 
             <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">

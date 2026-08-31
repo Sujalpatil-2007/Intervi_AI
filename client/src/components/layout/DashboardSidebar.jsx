@@ -76,13 +76,9 @@ function DashboardSidebar({ isOpen, onClose }) {
         {/* Logo */}
         <div className="flex items-center justify-between border-b border-slate-800 px-6 py-5">
           <div>
-            <h1 className="text-2xl font-bold text-blue-500">
-              InterviAI
-            </h1>
+            <h1 className="text-2xl font-bold text-blue-500">InterviAI</h1>
 
-            <p className="text-sm text-slate-400">
-              AI Mock Interview
-            </p>
+            <p className="text-sm text-slate-400">AI Mock Interview</p>
           </div>
 
           <button
@@ -151,9 +147,7 @@ function DashboardSidebar({ isOpen, onClose }) {
 
         {/* Footer */}
         <div className="border-t border-slate-800 p-5">
-          <p className="text-center text-sm text-slate-500">
-            © 2026 InterviAI
-          </p>
+          <p className="text-center text-sm text-slate-500">© 2026 InterviAI</p>
         </div>
       </aside>
     </>

@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   LayoutDashboard,
   FileText,
+  Shield,
   Upload,
   MessagesSquare,
   History,
@@ -50,6 +52,8 @@ const navigation = [
 ];
 
 function DashboardSidebar({ isOpen, onClose }) {
+  const { user } = useAuth();
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -72,12 +76,20 @@ function DashboardSidebar({ isOpen, onClose }) {
         {/* Logo */}
         <div className="flex items-center justify-between border-b border-slate-800 px-6 py-5">
           <div>
-            <h1 className="text-2xl font-bold text-blue-500">InterviAI</h1>
+            <h1 className="text-2xl font-bold text-blue-500">
+              InterviAI
+            </h1>
 
-            <p className="text-sm text-slate-400">AI Mock Interview</p>
+            <p className="text-sm text-slate-400">
+              AI Mock Interview
+            </p>
           </div>
 
-          <button onClick={onClose} className="lg:hidden">
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 transition hover:text-white lg:hidden"
+          >
             <X size={24} />
           </button>
         </div>
@@ -94,11 +106,11 @@ function DashboardSidebar({ isOpen, onClose }) {
                 onClick={onClose}
                 className={({ isActive }) =>
                   clsx(
-                    "flex items-center gap-3 rounded-lg px-4 py-3 transition-all",
+                    "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
                     {
                       "bg-blue-600 text-white": isActive,
-
-                      "text-slate-300 hover:bg-slate-800": !isActive,
+                      "text-slate-300 hover:bg-slate-800 hover:text-white":
+                        !isActive,
                     },
                   )
                 }
@@ -109,11 +121,39 @@ function DashboardSidebar({ isOpen, onClose }) {
               </NavLink>
             );
           })}
+
+          {/* Admin Dashboard - Admin Only */}
+          {user?.role === "admin" && (
+            <>
+              <div className="my-4 border-t border-slate-800" />
+
+              <NavLink
+                to="/admin"
+                onClick={onClose}
+                className={({ isActive }) =>
+                  clsx(
+                    "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
+                    {
+                      "bg-blue-600 text-white": isActive,
+                      "text-slate-300 hover:bg-slate-800 hover:text-white":
+                        !isActive,
+                    },
+                  )
+                }
+              >
+                <Shield size={20} />
+
+                <span>Admin Dashboard</span>
+              </NavLink>
+            </>
+          )}
         </nav>
 
         {/* Footer */}
         <div className="border-t border-slate-800 p-5">
-          <p className="text-center text-sm text-slate-500">© 2026 InterviAI</p>
+          <p className="text-center text-sm text-slate-500">
+            © 2026 InterviAI
+          </p>
         </div>
       </aside>
     </>

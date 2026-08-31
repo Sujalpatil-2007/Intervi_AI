@@ -92,7 +92,6 @@ function AppRouter() {
 
         {/* ==================== ADMIN ==================== */}
 
-
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboardPage />} />

@@ -13,21 +13,13 @@ import { useAdminDashboard } from "../../hooks/queries/useAdminDashboard";
 import AdminStatCard from "../../components/admin/AdminStatCard";
 
 function AdminDashboardPage() {
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-  } = useAdminDashboard();
+  const { data, isLoading, isError, refetch } = useAdminDashboard();
 
   if (isLoading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
         <div className="flex items-center gap-3 text-slate-500">
-          <Loader2
-            size={22}
-            className="animate-spin"
-          />
+          <Loader2 size={22} className="animate-spin" />
 
           <span>Loading admin dashboard...</span>
         </div>
@@ -64,19 +56,15 @@ function AdminDashboardPage() {
 
   const overview = dashboard?.overview || {};
 
-  const recentActivity =
-    dashboard?.recentActivity || {};
+  const recentActivity = dashboard?.recentActivity || {};
 
-  const recentUsers =
-    recentActivity.users || [];
+  const recentUsers = recentActivity.users || [];
 
-  const recentInterviews =
-    recentActivity.interviews || [];
+  const recentInterviews = recentActivity.interviews || [];
 
   return (
     <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
-
         {/* Header */}
 
         <div>
@@ -100,7 +88,6 @@ function AdminDashboardPage() {
         {/* Stats */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
           <AdminStatCard
             title="Total Users"
             value={overview.totalUsers ?? 0}
@@ -128,36 +115,27 @@ function AdminDashboardPage() {
             description={`${overview.totalEvaluations ?? 0} evaluations`}
             icon={Trophy}
           />
-
         </div>
 
         {/* Activity */}
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
           {/* Recent Users */}
 
           <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold text-slate-900">
-                  Recent Users
-                </h2>
+                <h2 className="font-bold text-slate-900">Recent Users</h2>
 
                 <p className="mt-1 text-xs text-slate-500">
                   Latest registered users
                 </p>
               </div>
 
-              <Users
-                size={20}
-                className="text-slate-400"
-              />
+              <Users size={20} className="text-slate-400" />
             </div>
 
             <div className="divide-y divide-slate-100">
-
               {recentUsers.length === 0 ? (
                 <div className="px-6 py-8 text-center text-sm text-slate-500">
                   No users found.
@@ -184,33 +162,25 @@ function AdminDashboardPage() {
                   </div>
                 ))
               )}
-
             </div>
           </div>
 
           {/* Recent Interviews */}
 
           <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold text-slate-900">
-                  Recent Interviews
-                </h2>
+                <h2 className="font-bold text-slate-900">Recent Interviews</h2>
 
                 <p className="mt-1 text-xs text-slate-500">
                   Latest interview activity
                 </p>
               </div>
 
-              <Activity
-                size={20}
-                className="text-slate-400"
-              />
+              <Activity size={20} className="text-slate-400" />
             </div>
 
             <div className="divide-y divide-slate-100">
-
               {recentInterviews.length === 0 ? (
                 <div className="px-6 py-8 text-center text-sm text-slate-500">
                   No interviews found.
@@ -243,10 +213,7 @@ function AdminDashboardPage() {
                               : "bg-amber-50 text-amber-700"
                         }`}
                       >
-                        {interview.status?.replace(
-                          "_",
-                          " ",
-                        ) || "unknown"}
+                        {interview.status?.replace("_", " ") || "unknown"}
                       </span>
 
                       {interview.status === "completed" && (
@@ -258,12 +225,9 @@ function AdminDashboardPage() {
                   </div>
                 ))
               )}
-
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );

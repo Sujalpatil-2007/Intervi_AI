@@ -722,14 +722,28 @@ const getInterviews = async (query) => {
   page = Number(page);
   limit = Number(limit);
 
-  if (Number.isNaN(page) || page < 1) page = 1;
-  if (Number.isNaN(limit) || limit < 1) limit = 10;
-  if (limit > 100) limit = 100;
+  if (Number.isNaN(page) || page < 1) {
+    page = 1;
+  }
+
+  if (Number.isNaN(limit) || limit < 1) {
+    limit = 10;
+  }
+
+  if (limit > 100) {
+    limit = 100;
+  }
 
   const filter = {};
 
+  // Status filter
   if (status) {
-    const allowedStatus = ["pending", "in_progress", "completed"];
+    const allowedStatus = [
+      "pending",
+      "in_progress",
+      "completed",
+      "cancelled",
+    ];
 
     if (!allowedStatus.includes(status)) {
       const error = new Error("Invalid interview status.");
@@ -740,6 +754,7 @@ const getInterviews = async (query) => {
     filter.status = status;
   }
 
+  // Difficulty filter
   if (difficulty) {
     const allowedDifficulty = ["Easy", "Medium", "Hard"];
 
@@ -752,7 +767,13 @@ const getInterviews = async (query) => {
     filter.difficulty = difficulty;
   }
 
-  const allowedSort = ["createdAt", "-createdAt", "score", "-score"];
+  // Sort validation
+  const allowedSort = [
+    "createdAt",
+    "-createdAt",
+    "score",
+    "-score",
+  ];
 
   if (!allowedSort.includes(sort)) {
     sort = "-createdAt";
@@ -764,18 +785,18 @@ const getInterviews = async (query) => {
     .populate({
       path: "user",
       select: "fullName email",
-      match: search
+      match: search.trim()
         ? {
             $or: [
               {
                 fullName: {
-                  $regex: search,
+                  $regex: search.trim(),
                   $options: "i",
                 },
               },
               {
                 email: {
-                  $regex: search,
+                  $regex: search.trim(),
                   $options: "i",
                 },
               },
@@ -785,39 +806,26 @@ const getInterviews = async (query) => {
     })
     .populate({
       path: "resume",
-      select: "title",
+      select: "title originalFileName",
     })
     .sort(sort)
     .skip(skip)
     .limit(limit)
     .lean();
 
+  // Remove interviews where user didn't match search
   interviews = interviews.filter((item) => item.user);
 
   const totalInterviews = await Interview.countDocuments(filter);
 
-  await createAdminLog({
-    admin: currentAdmin._id,
-    action: "DELETE_INTERVIEW",
-    targetType: "Interview",
-    targetId: interview._id,
-    description: `Deleted interview for ${interview.targetRole}`,
-  });
-
   return {
     interviews,
-
     pagination: {
       page,
-
       limit,
-
       totalInterviews,
-
       totalPages: Math.ceil(totalInterviews / limit),
-
       hasNextPage: page * limit < totalInterviews,
-
       hasPreviousPage: page > 1,
     },
   };

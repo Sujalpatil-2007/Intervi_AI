@@ -109,7 +109,7 @@ function AppRouter() {
               // element={<AdminResumeDetailsPage />}
             />
 
-            <Route path="admin/interviews" element={<AdminInterviewsPage/>} />
+            <Route path="admin/interviews" element={<AdminInterviewsPage />} />
 
             <Route
               path="admin/interviews/:id"
@@ -118,7 +118,7 @@ function AppRouter() {
 
             {/* <Route path="admin/analytics" element={<AnalyticsPage />} /> */}
 
-            <Route path="admin/logs" element={<AdminLogsPage/>} />
+            <Route path="admin/logs" element={<AdminLogsPage />} />
           </Route>
         </Route>
 

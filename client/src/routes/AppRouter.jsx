@@ -27,6 +27,8 @@ import LeaderboardPage from "../pages/leaderboard/LeaderboardPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 import AdminUsersPage from "../pages/admin/AdminUsersPage";
 import NotFoundPage from "../pages/public/NotFoundPage";
+import AdminResumesPage from "../pages/admin/AdminResumesPage";
+import AdminInterviewsPage from "../pages/admin/AdminInterviewPage";
 
 // import UsersPage from "../pages/admin/UsersPage";
 // import UserDetailsPage from "../pages/admin/UserDetailsPage";
@@ -99,14 +101,14 @@ function AppRouter() {
 
             {/* <Route path="admin/users/:id" element={<UserDetailsPage />} /> */}
 
-            {/* <Route path="admin/resumes" element={<ResumesPage />} /> */}
+            <Route path="admin/resumes" element={<AdminResumesPage />} />
 
             <Route
               path="admin/resumes/:id"
               // element={<AdminResumeDetailsPage />}
             />
 
-            {/* <Route path="admin/interviews" element={<InterviewsPage />} /> */}
+            <Route path="admin/interviews" element={<AdminInterviewsPage/>} />
 
             <Route
               path="admin/interviews/:id"

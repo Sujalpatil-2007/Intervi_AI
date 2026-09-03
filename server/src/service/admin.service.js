@@ -738,12 +738,7 @@ const getInterviews = async (query) => {
 
   // Status filter
   if (status) {
-    const allowedStatus = [
-      "pending",
-      "in_progress",
-      "completed",
-      "cancelled",
-    ];
+    const allowedStatus = ["pending", "in_progress", "completed", "cancelled"];
 
     if (!allowedStatus.includes(status)) {
       const error = new Error("Invalid interview status.");
@@ -768,12 +763,7 @@ const getInterviews = async (query) => {
   }
 
   // Sort validation
-  const allowedSort = [
-    "createdAt",
-    "-createdAt",
-    "score",
-    "-score",
-  ];
+  const allowedSort = ["createdAt", "-createdAt", "score", "-score"];
 
   if (!allowedSort.includes(sort)) {
     sort = "-createdAt";

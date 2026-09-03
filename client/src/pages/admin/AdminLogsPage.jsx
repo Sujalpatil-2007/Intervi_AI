@@ -73,8 +73,7 @@ function AdminLogsPage() {
       console.error("Admin logs error:", err);
 
       setError(
-        err?.response?.data?.message ||
-          "Unable to load admin activity logs.",
+        err?.response?.data?.message || "Unable to load admin activity logs.",
       );
     } finally {
       setIsLoading(false);
@@ -129,10 +128,7 @@ function AdminLogsPage() {
     } catch (err) {
       console.error("Export logs error:", err);
 
-      setError(
-        err?.response?.data?.message ||
-          "Unable to export admin logs.",
-      );
+      setError(err?.response?.data?.message || "Unable to export admin logs.");
     } finally {
       setIsExporting(false);
     }
@@ -152,17 +148,11 @@ function AdminLogsPage() {
       return "bg-slate-100 text-slate-600";
     }
 
-    if (
-      actionName.includes("DELETE") ||
-      actionName.includes("BLOCK")
-    ) {
+    if (actionName.includes("DELETE") || actionName.includes("BLOCK")) {
       return "bg-red-50 text-red-600";
     }
 
-    if (
-      actionName.includes("UPDATE") ||
-      actionName.includes("ROLE")
-    ) {
+    if (actionName.includes("UPDATE") || actionName.includes("ROLE")) {
       return "bg-amber-50 text-amber-600";
     }
 
@@ -201,16 +191,11 @@ function AdminLogsPage() {
     });
   };
 
-  const hasFilters =
-    search ||
-    action ||
-    targetType ||
-    sort !== "-createdAt";
+  const hasFilters = search || action || targetType || sort !== "-createdAt";
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
-
         {/* Header */}
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -274,19 +259,13 @@ function AdminLogsPage() {
           <div className="mb-4 flex items-center gap-2">
             <Filter size={18} className="text-slate-500" />
 
-            <h2 className="font-semibold text-slate-900">
-              Filters
-            </h2>
+            <h2 className="font-semibold text-slate-900">Filters</h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-
             {/* Search */}
 
-            <form
-              onSubmit={handleSearch}
-              className="relative lg:col-span-2"
-            >
+            <form onSubmit={handleSearch} className="relative lg:col-span-2">
               <Search
                 size={18}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
@@ -295,9 +274,7 @@ function AdminLogsPage() {
               <input
                 type="text"
                 value={searchInput}
-                onChange={(event) =>
-                  setSearchInput(event.target.value)
-                }
+                onChange={(event) => setSearchInput(event.target.value)}
                 placeholder="Search activity description..."
                 className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-20 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
@@ -314,39 +291,23 @@ function AdminLogsPage() {
 
             <select
               value={action}
-              onChange={(event) =>
-                setAction(event.target.value)
-              }
+              onChange={(event) => setAction(event.target.value)}
               className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Actions</option>
-              <option value="UPDATE_USER_ROLE">
-                Update User Role
-              </option>
-              <option value="BLOCK_USER">
-                Block User
-              </option>
-              <option value="UNBLOCK_USER">
-                Unblock User
-              </option>
-              <option value="DELETE_USER">
-                Delete User
-              </option>
-              <option value="DELETE_RESUME">
-                Delete Resume
-              </option>
-              <option value="DELETE_INTERVIEW">
-                Delete Interview
-              </option>
+              <option value="UPDATE_USER_ROLE">Update User Role</option>
+              <option value="BLOCK_USER">Block User</option>
+              <option value="UNBLOCK_USER">Unblock User</option>
+              <option value="DELETE_USER">Delete User</option>
+              <option value="DELETE_RESUME">Delete Resume</option>
+              <option value="DELETE_INTERVIEW">Delete Interview</option>
             </select>
 
             {/* Target */}
 
             <select
               value={targetType}
-              onChange={(event) =>
-                setTargetType(event.target.value)
-              }
+              onChange={(event) => setTargetType(event.target.value)}
               className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Targets</option>
@@ -359,18 +320,12 @@ function AdminLogsPage() {
 
             <select
               value={sort}
-              onChange={(event) =>
-                setSort(event.target.value)
-              }
+              onChange={(event) => setSort(event.target.value)}
               className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
-              <option value="-createdAt">
-                Newest First
-              </option>
+              <option value="-createdAt">Newest First</option>
 
-              <option value="createdAt">
-                Oldest First
-              </option>
+              <option value="createdAt">Oldest First</option>
             </select>
 
             {hasFilters && (
@@ -389,7 +344,6 @@ function AdminLogsPage() {
         {/* Logs */}
 
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
           {/* Desktop Table */}
 
           <div className="hidden overflow-x-auto lg:block">
@@ -421,29 +375,17 @@ function AdminLogsPage() {
               <tbody className="divide-y divide-slate-100">
                 {isLoading ? (
                   <tr>
-                    <td
-                      colSpan="5"
-                      className="px-6 py-16 text-center"
-                    >
+                    <td colSpan="5" className="px-6 py-16 text-center">
                       <div className="flex items-center justify-center gap-3 text-slate-500">
-                        <Loader2
-                          size={21}
-                          className="animate-spin"
-                        />
+                        <Loader2 size={21} className="animate-spin" />
                         Loading activity...
                       </div>
                     </td>
                   </tr>
                 ) : logs.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan="5"
-                      className="px-6 py-16 text-center"
-                    >
-                      <Activity
-                        size={35}
-                        className="mx-auto text-slate-300"
-                      />
+                    <td colSpan="5" className="px-6 py-16 text-center">
+                      <Activity size={35} className="mx-auto text-slate-300" />
 
                       <h3 className="mt-3 font-semibold text-slate-900">
                         No activity found
@@ -456,18 +398,13 @@ function AdminLogsPage() {
                   </tr>
                 ) : (
                   logs.map((log) => (
-                    <tr
-                      key={log._id}
-                      className="transition hover:bg-slate-50"
-                    >
+                    <tr key={log._id} className="transition hover:bg-slate-50">
                       {/* Admin */}
 
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-600">
-                            {log.admin?.fullName
-                              ?.charAt(0)
-                              ?.toUpperCase() || (
+                            {log.admin?.fullName?.charAt(0)?.toUpperCase() || (
                               <Shield size={16} />
                             )}
                           </div>
@@ -541,18 +478,12 @@ function AdminLogsPage() {
           <div className="lg:hidden">
             {isLoading ? (
               <div className="flex items-center justify-center gap-3 px-6 py-16 text-slate-500">
-                <Loader2
-                  size={21}
-                  className="animate-spin"
-                />
+                <Loader2 size={21} className="animate-spin" />
                 Loading activity...
               </div>
             ) : logs.length === 0 ? (
               <div className="px-6 py-16 text-center">
-                <Activity
-                  size={35}
-                  className="mx-auto text-slate-300"
-                />
+                <Activity size={35} className="mx-auto text-slate-300" />
 
                 <h3 className="mt-3 font-semibold text-slate-900">
                   No activity found
@@ -565,16 +496,11 @@ function AdminLogsPage() {
             ) : (
               <div className="divide-y divide-slate-100">
                 {logs.map((log) => (
-                  <div
-                    key={log._id}
-                    className="p-5"
-                  >
+                  <div key={log._id} className="p-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-600">
-                          {log.admin?.fullName
-                            ?.charAt(0)
-                            ?.toUpperCase() || (
+                          {log.admin?.fullName?.charAt(0)?.toUpperCase() || (
                             <Shield size={17} />
                           )}
                         </div>
@@ -611,9 +537,7 @@ function AdminLogsPage() {
                         {log.targetType || "-"}
                       </span>
 
-                      <span>
-                        {formatDate(log.createdAt)}
-                      </span>
+                      <span>{formatDate(log.createdAt)}</span>
                     </div>
                   </div>
                 ))}
@@ -645,11 +569,7 @@ function AdminLogsPage() {
                 <button
                   type="button"
                   disabled={!pagination.hasPreviousPage}
-                  onClick={() =>
-                    handlePageChange(
-                      pagination.page - 1,
-                    )
-                  }
+                  onClick={() => handlePageChange(pagination.page - 1)}
                   className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <ChevronLeft size={16} />
@@ -659,11 +579,7 @@ function AdminLogsPage() {
                 <button
                   type="button"
                   disabled={!pagination.hasNextPage}
-                  onClick={() =>
-                    handlePageChange(
-                      pagination.page + 1,
-                    )
-                  }
+                  onClick={() => handlePageChange(pagination.page + 1)}
                   className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
@@ -683,10 +599,7 @@ function AdminLogsPage() {
             disabled={isLoading}
             className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:opacity-50"
           >
-            <RefreshCw
-              size={16}
-              className={isLoading ? "animate-spin" : ""}
-            />
+            <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
             Refresh logs
           </button>
         </div>

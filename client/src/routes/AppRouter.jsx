@@ -30,6 +30,7 @@ import NotFoundPage from "../pages/public/NotFoundPage";
 import AdminResumesPage from "../pages/admin/AdminResumesPage";
 import AdminInterviewsPage from "../pages/admin/AdminInterviewPage";
 import AdminLogsPage from "../pages/admin/AdminLogsPage";
+import AdminUserDetailsPage from "../pages/admin/AdminUserDetailsPage";
 
 // import UsersPage from "../pages/admin/UsersPage";
 // import UserDetailsPage from "../pages/admin/UserDetailsPage";
@@ -99,8 +100,7 @@ function AppRouter() {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
-
-            {/* <Route path="admin/users/:id" element={<UserDetailsPage />} /> */}
+            <Route path="admin/users/:id" element={<AdminUserDetailsPage />} />
 
             <Route path="admin/resumes" element={<AdminResumesPage />} />
 

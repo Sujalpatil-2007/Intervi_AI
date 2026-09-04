@@ -13,12 +13,15 @@ import {
   RefreshCw,
   MoreVertical,
   Crown,
+  Eye,
 } from "lucide-react";
 
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function AdminUsersPage() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -685,6 +688,19 @@ function AdminUsersPage() {
                               <Loader2 size={16} className="animate-spin" />
                             ) : (
                               <Trash2 size={16} />
+                            )}
+                          </button>
+
+                          <button
+                            type="button"
+                            title="View user"
+                            onClick={() => navigate(`/admin/users/${user._id}`)}
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200 text-blue-600 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {deleteLoading ? (
+                              <Loader2 size={16} className="animate-spin" />
+                            ) : (
+                              <Eye size={16} />
                             )}
                           </button>
                         </div>

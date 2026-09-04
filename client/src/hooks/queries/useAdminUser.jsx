@@ -8,6 +8,3 @@ export const useAdminUser = (id) => {
     enabled: Boolean(id),
   });
 };
-
-
-

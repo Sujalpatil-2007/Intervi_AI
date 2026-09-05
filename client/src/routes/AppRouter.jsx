@@ -32,9 +32,6 @@ import AdminInterviewsPage from "../pages/admin/AdminInterviewPage";
 import AdminLogsPage from "../pages/admin/AdminLogsPage";
 import AdminUserDetailsPage from "../pages/admin/AdminUserDetailsPage";
 
-// import UsersPage from "../pages/admin/UsersPage";
-// import UserDetailsPage from "../pages/admin/UserDetailsPage";
-// import ResumesPage from "../pages/admin/ResumesPage";
 // import AdminResumeDetailsPage from "../pages/admin/ResumeDetailsPage";
 // import InterviewsPage from "../pages/admin/InterviewsPage";
 // import InterviewDetailsPage from "../pages/admin/InterviewDetailsPage";

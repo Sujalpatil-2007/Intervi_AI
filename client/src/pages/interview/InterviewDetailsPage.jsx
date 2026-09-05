@@ -54,7 +54,7 @@ function InterviewDetailsPage() {
   }
 
   const interview = data?.data?.interview;
-  
+
   if (!interview) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
@@ -191,6 +191,7 @@ function InterviewDetailsPage() {
           )}
         </div>
       </div>
-    </div> );
+    </div>
+  );
 }
 export default InterviewDetailsPage;

@@ -100,19 +100,19 @@ function AppRouter() {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
-            <Route path="admin/users/:id" element={<AdminUserDetailsPage />} />
+            <Route path="/admin/users/:id" element={<AdminUserDetailsPage />} />
 
-            <Route path="admin/resumes" element={<AdminResumesPage />} />
+            <Route path="/admin/resumes" element={<AdminResumesPage />} />
 
             <Route
-              path="admin/resumes/:id"
+              path="/admin/resumes/:id"
               // element={<AdminResumeDetailsPage />}
             />
 
-            <Route path="admin/interviews" element={<AdminInterviewsPage />} />
+            <Route path="/admin/interviews" element={<AdminInterviewsPage />} />
 
             <Route
-              path="admin/interviews/:id"
+              path="/admin/interviews/:id"
               element={<InterviewDetailsPage />}
             />
 

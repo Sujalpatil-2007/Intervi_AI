@@ -34,25 +34,21 @@ export const startInterview = async (id) => {
 
   return response.data;
 };
-
 export const submitAnswer = async (id, data) => {
   const response = await api.post(`/interviews/${id}/answer`, data);
 
   return response.data;
 };
-
 export const finishInterview = async (id) => {
   const response = await api.post(`/interviews/${id}/finish`);
 
   return response.data;
 };
-
 export const evaluateInterview = async (id) => {
   const response = await api.post(`/interviews/${id}/evaluate`);
 
   return response.data;
 };
-
 export const getInterviewEvaluation = async (id) => {
   const response = await api.get(`/interviews/${id}/evaluation`);
 

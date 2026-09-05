@@ -191,8 +191,6 @@ function InterviewDetailsPage() {
           )}
         </div>
       </div>
-    </div>
-  );
+    </div> );
 }
-
 export default InterviewDetailsPage;

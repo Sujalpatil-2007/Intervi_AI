@@ -198,5 +198,4 @@ function FeatureCard({ icon: Icon, title, description }) {
     </motion.div>
   );
 }
-
 export default HomePage;

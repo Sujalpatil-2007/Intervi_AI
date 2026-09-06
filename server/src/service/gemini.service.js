@@ -31,6 +31,7 @@ ${resumeText}
 
   return response.text;
 }
+
 module.exports = {
   analyzeResume,
 };

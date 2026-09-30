@@ -35,3 +35,4 @@ ${resumeText}
 module.exports = {
   analyzeResume,
 };
+

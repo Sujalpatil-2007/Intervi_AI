@@ -196,4 +196,3 @@ function InterviewDetailsPage() {
 }
 
 export default InterviewDetailsPage;
-

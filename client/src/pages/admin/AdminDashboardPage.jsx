@@ -63,7 +63,7 @@ function AdminDashboardPage() {
   const recentInterviews = recentActivity.interviews || [];
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full bg-slate-50 dark:bg-slate-800 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header */}
 
@@ -74,7 +74,7 @@ function AdminDashboardPage() {
             </div>
 
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h1 className="text-2xl font-bold tracking-tight dark:text-white text-slate-900 sm:text-3xl">
                 Admin Dashboard
               </h1>
 

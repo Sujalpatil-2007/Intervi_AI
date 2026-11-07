@@ -7,14 +7,17 @@ import "./styles.css";
 
 import QueryProvider from "./providers/QueryProvider";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryProvider>
-      <AuthProvider>
-        <Toaster position="top-right" reverseOrder={false} />
-        <App />
-      </AuthProvider>
-    </QueryProvider>
+    <ThemeProvider>
+      <QueryProvider>
+        <AuthProvider>
+          <Toaster position="top-right" reverseOrder={false} />
+          <App />
+        </AuthProvider>
+      </QueryProvider>
+    </ThemeProvider>
   </React.StrictMode>,
 );

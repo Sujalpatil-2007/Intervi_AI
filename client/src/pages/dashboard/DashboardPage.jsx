@@ -27,16 +27,16 @@ function DashboardPage() {
           duration: 0.4,
         }}
       >
-        <h1 className="text-3xl font-bold text-slate-900">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
           Welcome back,
-          <span className="text-blue-600">
+          <span className="text-blue-600 dark:text-blue-400">
             {" "}
             {user?.fullName}
           </span>
           👋
         </h1>
 
-        <p className="mt-2 text-slate-500">
+        <p className="mt-2 text-slate-500 dark:text-slate-400">
           Here's an overview of your interview performance.
         </p>
       </motion.div>
@@ -47,14 +47,12 @@ function DashboardPage() {
       {/* Charts */}
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <ScoreTrendChart />
-
         <SkillsChart />
       </section>
 
       {/* Bottom Widgets */}
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <RecentInterviews />
-
         <LeaderboardCard />
       </section>
     </div>

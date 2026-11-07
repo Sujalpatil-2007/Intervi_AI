@@ -5,13 +5,15 @@ function StatCard({ title, value, Icon, color = "bg-blue-500" }) {
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="rounded-xl bg-white p-6 shadow-sm border border-slate-200"
+      className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-colors duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:shadow-none dark:hover:bg-slate-800/80"
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-slate-500">{title}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{title}</p>
 
-          <h2 className="mt-2 text-3xl font-bold text-slate-900">{value}</h2>
+          <h2 className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
+            {value}
+          </h2>
         </div>
 
         <div

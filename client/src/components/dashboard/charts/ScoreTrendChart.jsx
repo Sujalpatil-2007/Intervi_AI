@@ -88,14 +88,16 @@ function ScoreTrendChart() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white dark:bg-slate-800 p-6 shadow-sm">
       <div className="mb-6 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
           <TrendingUp size={20} />
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">Score Trend</h2>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+            Score Trend
+          </h2>
 
           <p className="text-sm text-slate-500">
             Performance across completed interviews

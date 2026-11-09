@@ -12,7 +12,7 @@ function RankIcon({ rank }) {
       return <Trophy size={20} className="text-yellow-500" />;
 
     case 2:
-      return <Medal size={20} className="text-slate-400" />;
+      return <Medal size={20} className="text-slate-400 dark:text-slate-800" />;
 
     case 3:
       return <Award size={20} className="text-amber-700" />;
@@ -56,7 +56,7 @@ function LeaderboardCard() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-950 p-6 shadow-sm">
       <div className="mb-6 flex items-center gap-3">
         <Trophy className="text-yellow-500" />
 
@@ -76,17 +76,19 @@ function LeaderboardCard() {
           return (
             <div
               key={item.userId}
-              className={`flex items-center justify-between rounded-lg border p-4 transition ${
+              className={`flex items-center justify-between rounded-lg dark:border-slate-950  border p-4  transition ${
                 isCurrentUser
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-slate-200"
+                  ? "border-blue-500 dark:border-blue-950 dark:bg-blue-400 bg-blue-50"
+                  : "border-slate-200 dark:bg-slate-700"
               }`}
             >
               <div className="flex items-center gap-4">
                 <RankIcon rank={item.rank} />
 
                 <div>
-                  <h3 className="font-semibold text-slate-900">{item.name}</h3>
+                  <h3 className="font-semibold dark:text-white text-slate-900">
+                    {item.name}
+                  </h3>
 
                   <p className="text-sm text-slate-500">
                     {item.completedInterviews} Interviews

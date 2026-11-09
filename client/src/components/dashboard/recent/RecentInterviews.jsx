@@ -40,7 +40,7 @@ function RecentInterviews() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white dark:border-slate-950 dark:bg-slate-800 p-6 shadow-sm">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <History className="text-blue-600" />
@@ -67,10 +67,10 @@ function RecentInterviews() {
         {interviews.map((interview) => (
           <div
             key={interview._id}
-            className="flex flex-col gap-4 rounded-lg border border-slate-200 p-4 md:flex-row md:items-center md:justify-between"
+            className="flex flex-col gap-4 rounded-lg border dark:border-slate-950 dark:bg-slate-700 border-slate-200 p-4 md:flex-row md:items-center md:justify-between"
           >
             <div>
-              <h3 className="font-semibold text-slate-900">
+              <h3 className="font-semibold text-slate-900 dark:text-white">
                 {interview.targetRole}
               </h3>
 
@@ -96,7 +96,9 @@ function RecentInterviews() {
               </span>
 
               <div className="text-right">
-                <p className="text-xs text-slate-500">Score</p>
+                <p className="text-xs text-slate-500 dark:text-amber-50">
+                  Score
+                </p>
 
                 <p className="text-lg font-bold text-blue-600">
                   {interview.score ?? "--"}

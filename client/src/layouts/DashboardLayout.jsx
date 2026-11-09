@@ -24,7 +24,7 @@ function DashboardLayout() {
       <div className="lg:ml-72">
         <DashboardNavbar onMenuClick={openSidebar} />
 
-        <main className="min-h-[calc(100vh-64px)] p-6">
+        <main className="min-h-[calc(100vh-64px)] dark:bg-slate-900 p-6">
           <Outlet />
         </main>
       </div>

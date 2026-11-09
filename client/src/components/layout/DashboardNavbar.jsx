@@ -33,7 +33,7 @@ function DashboardNavbar({ onMenuClick }) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm transition-colors duration-200 dark:border-slate-700 dark:bg-slate-900 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm transition-colors duration-200 dark:border-slate-700 dark:bg-slate-950 sm:px-6">
       {/* Left */}
       <div className="flex items-center gap-4">
         <button

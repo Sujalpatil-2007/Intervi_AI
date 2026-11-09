@@ -61,7 +61,7 @@ function ResumeUploadCard() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-950 p-8 shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <ResumeDropzone
           value={file}

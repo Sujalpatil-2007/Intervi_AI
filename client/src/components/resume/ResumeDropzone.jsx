@@ -65,7 +65,7 @@ function ResumeDropzone({ value, onChange, error }) {
         onClick={() => inputRef.current.click()}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-white p-10 transition hover:border-blue-500 hover:bg-blue-50"
+        className="cursor-pointer rounded-xl border-2 border-dashed dark:border-slate-500 border-slate-300 bg-white dark:bg-slate-800 dark:hover:bg-slate-700 p-10 transition hover:border-blue-500 hover:bg-blue-50"
       >
         <input
           ref={inputRef}

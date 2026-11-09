@@ -70,7 +70,7 @@ function SkillsChart() {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white dark:border-slate-950 dark:bg-slate-800 da p-6 shadow-sm">
       <div className="mb-6 flex items-center gap-3">
         <Brain className="text-violet-600" />
 

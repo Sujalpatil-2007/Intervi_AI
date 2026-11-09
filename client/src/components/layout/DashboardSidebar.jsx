@@ -66,7 +66,7 @@ function DashboardSidebar({ isOpen, onClose }) {
 
       <aside
         className={clsx(
-          "fixed left-0 top-0 z-50 flex h-screen w-72 flex-col bg-slate-900 text-white transition-transform duration-300 lg:translate-x-0",
+          "fixed left-0 top-0 z-50 flex h-screen w-72 flex-col bg-slate-900 dark:bg-slate-950 text-white transition-transform duration-300 lg:translate-x-0",
           {
             "translate-x-0": isOpen,
             "-translate-x-full": !isOpen,

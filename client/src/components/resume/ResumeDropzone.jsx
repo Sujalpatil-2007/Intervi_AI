@@ -89,7 +89,7 @@ function ResumeDropzone({ value, onChange, error }) {
       </div>
 
       {value && (
-        <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+        <div className="flex items-center gap-3 rounded-lg border border-green-200 dark:bg-green-100 dark:text-black dark:border-green-400 bg-green-50 p-4">
           <FileText className="text-green-600" size={24} />
 
           <div>

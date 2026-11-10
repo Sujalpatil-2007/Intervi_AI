@@ -135,7 +135,6 @@ function InterviewHistoryPage() {
         {/* Header */}
 
         <div className="mb-6">
-          
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
@@ -162,7 +161,9 @@ function InterviewHistoryPage() {
         <div className="mb-5 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-semibold dark:text-white text-slate-900">Your Interviews</h2>
+              <h2 className="font-semibold dark:text-white text-slate-900">
+                Your Interviews
+              </h2>
 
               <p className="text-sm dark:text-slate-50/50 text-slate-500">
                 Filter interviews by status.

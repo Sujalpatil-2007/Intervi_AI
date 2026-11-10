@@ -74,9 +74,9 @@ function MyResumePage() {
   }
 
   return (
-    <div className="space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+    <div className="space-y-6 px-4  sm:px-6 lg:px-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
           My Resume
         </h1>
 

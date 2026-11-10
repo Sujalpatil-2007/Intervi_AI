@@ -59,10 +59,10 @@ function AIAnalysisCard({ analysis }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+      className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-950 bg-white shadow-sm"
       aria-labelledby="ai-analysis-heading"
     >
-      <div className="border-b border-slate-200 bg-linear-to-r from-blue-50 via-white to-purple-50 p-6">
+      <div className="border-b border-slate-200 dark:border-slate-950 dark:bg-slate-800 p-6">
         <div className="flex items-start gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
             <BrainCircuit size={25} />
@@ -72,7 +72,7 @@ function AIAnalysisCard({ analysis }) {
             <div className="flex flex-wrap items-center gap-2">
               <h2
                 id="ai-analysis-heading"
-                className="text-xl font-bold text-slate-900"
+                className="text-xl font-bold dark:text-white text-slate-900"
               >
                 AI Resume Analysis
               </h2>
@@ -83,7 +83,7 @@ function AIAnalysisCard({ analysis }) {
               </span>
             </div>
 
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-600">
               A structured overview of the information extracted and analyzed
               from your resume.
             </p>
@@ -91,25 +91,25 @@ function AIAnalysisCard({ analysis }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 dark:bg-slate-800 p-6 lg:grid-cols-2">
         {skills.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="rounded-xl border border-slate-200 p-5"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-950 border-slate-200 p-5"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-slate-600 text-blue-600">
                 <Wrench size={20} />
               </div>
 
               <div>
-                <h3 className="font-semibold text-slate-900">
+                <h3 className="font-semibold dark:text-white text-slate-900">
                   Technical Skills
                 </h3>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs dark:text-slate-50/50 text-slate-500">
                   {skills.length} skill{skills.length !== 1 ? "s" : ""} detected
                 </p>
               </div>

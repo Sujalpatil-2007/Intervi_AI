@@ -54,7 +54,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       onSubmit={handleSubmit(submitHandler)}
-      className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+      className="space-y-6 rounded-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-950 bg-white p-6 shadow-sm sm:p-8"
     >
       <div>
         <div className="flex items-center gap-3">
@@ -63,11 +63,11 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold dark:text-white text-slate-900">
               Configure Your Interview
             </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
               AI will generate questions based on your uploaded resume.
             </p>
           </div>
@@ -79,7 +79,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
       <div>
         <label
           htmlFor="targetRole"
-          className="mb-2 block text-sm font-semibold text-slate-700"
+          className="mb-2 block text-sm dark:text-slate-50/50 font-semibold text-slate-700"
         >
           Target Role
         </label>
@@ -100,7 +100,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
               message: "Target role must not exceed 100 characters.",
             },
           })}
-          className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
+          className="w-full dark:bg-slate-700 dark:border-slate-800 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
         />
 
         {errors.targetRole && (
@@ -114,7 +114,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
 
       <div>
         <div className="mb-3">
-          <label className="block text-sm font-semibold text-slate-700">
+          <label className="block text-sm dark:text-slate-50/50 font-semibold text-slate-700">
             Difficulty
           </label>
 
@@ -136,10 +136,10 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
                 className="peer sr-only"
               />
 
-              <div className="h-full rounded-xl border border-slate-200 p-4 transition peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-slate-300">
-                <p className="font-semibold text-slate-900">{option.label}</p>
+              <div className="h-full rounded-xl border border-slate-200 dark:border-slate-700 p-4 transition peer-checked:border-blue-500 dark:peer-checked:border-slate-50/50 dark:peer-checked:bg-slate-700 dark:hover:border-slate-50/50 peer-checked:bg-blue-50 hover:border-slate-300">
+                <p className="font-semibold dark:text-white text-slate-900">{option.label}</p>
 
-                <p className="mt-1 text-xs leading-5 text-slate-500">
+                <p className="mt-1 text-xs dark:text-slate-50/50 leading-5 text-slate-500">
                   {option.description}
                 </p>
               </div>
@@ -162,7 +162,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
 
           <label
             htmlFor="duration"
-            className="text-sm font-semibold text-slate-700"
+            className="text-sm font-semibold dark:text-slate-50/50 text-slate-700"
           >
             Interview Duration
           </label>
@@ -174,7 +174,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
           {...register("duration", {
             required: "Duration is required.",
           })}
-          className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
+          className="w-full dark:bg-slate-700 dark:border-slate-800 dark:text-white rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
         >
           {durationOptions.map((duration) => (
             <option key={duration} value={duration}>
@@ -196,7 +196,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
 
           <label
             htmlFor="questionCount"
-            className="text-sm font-semibold text-slate-700"
+            className="text-sm font-semibold dark:text-slate-50/50 text-slate-700"
           >
             Number of Questions
           </label>
@@ -208,7 +208,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
           {...register("questionCount", {
             required: "Question count is required.",
           })}
-          className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
+          className="w-full dark:bg-slate-700 dark:border-slate-800 dark:text-white rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100"
         >
           {questionOptions.map((count) => (
             <option key={count} value={count}>
@@ -226,7 +226,7 @@ function GenerateInterviewForm({ onSubmit, isSubmitting = false }) {
 
       {/* Info */}
 
-      <div className="flex gap-3 rounded-xl bg-blue-50 p-4">
+      <div className="flex gap-3 rounded-xl dark:bg-slate-300 bg-blue-50 p-4">
         <Sparkles size={18} className="mt-0.5 shrink-0 text-blue-600" />
 
         <p className="text-sm leading-6 text-blue-800">

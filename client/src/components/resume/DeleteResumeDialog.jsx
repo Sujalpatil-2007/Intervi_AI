@@ -15,7 +15,7 @@ function DeleteResumeDialog({ open, loading, onClose, onConfirm }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 h-full backdrop-blur-sm"
         onClick={handleBackdropClick}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -44,7 +44,7 @@ function DeleteResumeDialog({ open, loading, onClose, onConfirm }) {
           transition={{
             duration: 0.2,
           }}
-          className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+          className="w-full max-w-md rounded-2xl bg-white dark:bg-slate-600 p-6 shadow-2xl"
         >
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
             <AlertTriangle size={30} className="text-red-600" />
@@ -52,14 +52,14 @@ function DeleteResumeDialog({ open, loading, onClose, onConfirm }) {
 
           <h2
             id="delete-resume-title"
-            className="mt-5 text-center text-2xl font-bold text-slate-900"
+            className="mt-5 text-center text-2xl dark:text-white font-bold text-slate-900"
           >
             Delete Resume?
           </h2>
 
           <p
             id="delete-resume-description"
-            className="mt-3 text-center text-slate-600"
+            className="mt-3 text-center dark:text-slate-50/50 text-slate-600"
           >
             This action will permanently remove your uploaded resume, extracted
             information, and AI analysis.
@@ -78,7 +78,7 @@ function DeleteResumeDialog({ open, loading, onClose, onConfirm }) {
               Delete Resume
             </Button>
 
-            <Button variant="outline" disabled={loading} onClick={onClose}>
+            <Button className="dark:bg-slate-800 dark:border-slate-900 dark:hover:bg-slate-900" variant="outline" disabled={loading} onClick={onClose}>
               Cancel
             </Button>
           </div>

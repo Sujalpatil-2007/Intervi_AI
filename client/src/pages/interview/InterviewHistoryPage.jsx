@@ -130,26 +130,19 @@ function InterviewHistoryPage() {
   }
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
 
         <div className="mb-6">
-          <Link
-            to="/dashboard"
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
-          >
-            <ArrowLeft size={16} />
-            Back to Dashboard
-          </Link>
-
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
                 Interview History
               </h1>
 
-              <p className="mt-2 text-sm text-slate-500 sm:text-base">
+              <p className="mt-2 text-sm dark:text-slate-50/50 text-slate-500 sm:text-base">
                 View all your generated interviews and their results.
               </p>
             </div>
@@ -166,12 +159,12 @@ function InterviewHistoryPage() {
 
         {/* Filters */}
 
-        <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="mb-5 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-semibold text-slate-900">Your Interviews</h2>
+              <h2 className="font-semibold dark:text-white text-slate-900">Your Interviews</h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm dark:text-slate-50/50 text-slate-500">
                 Filter interviews by status.
               </p>
             </div>
@@ -179,7 +172,7 @@ function InterviewHistoryPage() {
             <select
               value={status}
               onChange={handleStatusChange}
-              className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg border dark:bg-slate-700 dark:text-white dark:border-slate-800 border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none transition dark:focus:border-slate-50/50  dark:focus:ring-slate-50/50 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Interviews</option>
               <option value="pending">Pending</option>
@@ -193,14 +186,14 @@ function InterviewHistoryPage() {
         {/* Empty */}
 
         {!interviews.length ? (
-          <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+          <div className="rounded-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-900 bg-white p-10 text-center shadow-sm">
             <FileText size={40} className="mx-auto text-slate-300" />
 
-            <h2 className="mt-4 text-lg font-semibold text-slate-900">
+            <h2 className="mt-4 text-lg font-semibold dark:text-white text-slate-900">
               No interviews found
             </h2>
 
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm dark:text-slate-50/50 text-slate-500">
               {status
                 ? "There are no interviews with this status."
                 : "Generate your first AI interview to see it here."}
@@ -219,10 +212,10 @@ function InterviewHistoryPage() {
           <>
             {/* Desktop Table */}
 
-            <div className="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:block">
+            <div className="hidden overflow-hidden rounded-2xl border dark:bg-slate-800 dark:border-slate-50/50 border-slate-200 bg-white shadow-sm md:block">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="border-b border-slate-200 bg-slate-50">
+                  <thead className="border-b dark:bg-slate-800 dark:border-slate-50/50 border-slate-200 bg-slate-50">
                     <tr>
                       <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Interview

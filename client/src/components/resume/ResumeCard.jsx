@@ -49,7 +49,7 @@ function ResumeCard({ resume }) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="rounded-2xl border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-950 p-6 shadow-sm"
       >
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-start gap-4">
@@ -58,7 +58,7 @@ function ResumeCard({ resume }) {
             </div>
 
             <div className="min-w-0">
-              <h2 className="truncate text-xl font-semibold text-slate-900">
+              <h2 className="truncate text-xl font-semibold dark:text-white text-slate-900">
                 {resume?.title || "My Resume"}
               </h2>
 

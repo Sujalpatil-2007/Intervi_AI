@@ -1,6 +1,6 @@
 function ResumeSkills({ skills = [] }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="mb-5 text-xl font-semibold">Skills</h2>
 
       <div className="flex flex-wrap gap-3">

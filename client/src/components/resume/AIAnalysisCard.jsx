@@ -97,10 +97,10 @@ function AIAnalysisCard({ analysis }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="rounded-xl border dark:bg-slate-700 dark:border-slate-950 border-slate-200 p-5"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-slate-600 text-blue-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 dark:bg-slate-600 dark:text-blue-400 text-blue-600">
                 <Wrench size={20} />
               </div>
 
@@ -119,7 +119,7 @@ function AIAnalysisCard({ analysis }) {
               {skills.map((skill, index) => (
                 <span
                   key={`${skill}-${index}`}
-                  className="rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700"
+                  className="rounded-full bg-slate-100 dark:bg-slate-600 dark:text-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700"
                 >
                   {skill}
                 </span>
@@ -133,17 +133,19 @@ function AIAnalysisCard({ analysis }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="rounded-xl border border-slate-200 p-5"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+              <div className="flex h-10 w-10 items-center dark:bg-slate-600 justify-center rounded-lg bg-emerald-50 text-emerald-600">
                 <BriefcaseBusiness size={20} />
               </div>
 
               <div>
-                <h3 className="font-semibold text-slate-900">Target Roles</h3>
+                <h3 className="font-semibold dark:text-white text-slate-900">
+                  Target Roles
+                </h3>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs dark:text-slate-50/50 text-slate-500">
                   Roles matching your resume
                 </p>
               </div>
@@ -153,11 +155,11 @@ function AIAnalysisCard({ analysis }) {
               {targetRoles.map((role, index) => (
                 <div
                   key={`${role}-${index}`}
-                  className="flex items-center gap-3 rounded-lg bg-slate-50 px-4 py-3"
+                  className="flex items-center dark:bg-slate-600 gap-3 rounded-lg bg-slate-50 px-4 py-3"
                 >
                   <Lightbulb size={17} className="shrink-0 text-emerald-600" />
 
-                  <span className="text-sm font-medium text-slate-700">
+                  <span className="text-sm dark:text-slate-50 font-medium text-slate-700">
                     {role}
                   </span>
                 </div>
@@ -171,17 +173,19 @@ function AIAnalysisCard({ analysis }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="rounded-xl border border-slate-200 p-5"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600">
+              <div className="flex h-10 w-10 items-center dark:bg-slate-600 justify-center rounded-lg bg-orange-50 text-orange-600">
                 <BriefcaseBusiness size={20} />
               </div>
 
               <div>
-                <h3 className="font-semibold text-slate-900">Projects</h3>
+                <h3 className="font-semibold dark:text-white text-slate-900">
+                  Projects
+                </h3>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs dark:text-slate-50/50 text-slate-500">
                   {projects.length} project
                   {projects.length !== 1 ? "s" : ""} detected
                 </p>
@@ -192,9 +196,9 @@ function AIAnalysisCard({ analysis }) {
               {projects.map((project, index) => (
                 <div
                   key={project?._id || `${project?.title}-${index}`}
-                  className="rounded-lg bg-slate-50 p-4"
+                  className="rounded-lg dark:bg-slate-600 p-4"
                 >
-                  <h4 className="font-medium text-slate-900">
+                  <h4 className="font-medium dark:text-slate-50 text-slate-900">
                     {project?.title || `Project ${index + 1}`}
                   </h4>
 
@@ -210,7 +214,7 @@ function AIAnalysisCard({ analysis }) {
                         {project.technologies.map((technology, techIndex) => (
                           <span
                             key={`${technology}-${techIndex}`}
-                            className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200"
+                            className="rounded-md bg-white dark:bg-slate-500 dark:text-slate-50/85 dark:ring-slate-600 px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200"
                           >
                             {technology}
                           </span>
@@ -228,17 +232,19 @@ function AIAnalysisCard({ analysis }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="rounded-xl border border-slate-200 p-5"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+              <div className="flex h-10 w-10 dark:bg-slate-600 dark:text-blue-400 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
                 <GraduationCap size={20} />
               </div>
 
               <div>
-                <h3 className="font-semibold text-slate-900">Education</h3>
+                <h3 className="font-semibold dark:text-white text-slate-900">
+                  Education
+                </h3>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs dark:text-slate-50/50 text-slate-500">
                   Education information detected
                 </p>
               </div>
@@ -248,27 +254,27 @@ function AIAnalysisCard({ analysis }) {
               {education.map((item, index) => (
                 <div
                   key={item?._id || `${item?.institution}-${index}`}
-                  className="rounded-lg bg-slate-50 p-4"
+                  className="rounded-lg dark:bg-slate-600 bg-slate-50 p-4"
                 >
-                  <h4 className="font-medium text-slate-900">
+                  <h4 className="font-medium dark:text-white text-slate-900">
                     {item?.degree || "Education"}
                   </h4>
 
                   {item?.institution && (
-                    <p className="mt-1 text-sm text-slate-600">
+                    <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-600">
                       {item.institution}
                     </p>
                   )}
 
                   <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500">
                     {item?.status && (
-                      <span className="rounded-md bg-white px-2.5 py-1 ring-1 ring-slate-200">
+                      <span className="rounded-md bg-white dark:bg-slate-500 dark:ring-slate-600 dark:text-white px-2.5 py-1 ring-1 ring-slate-200">
                         {item.status}
                       </span>
                     )}
 
                     {item?.expectedGraduation && (
-                      <span className="rounded-md bg-white px-2.5 py-1 ring-1 ring-slate-200">
+                      <span className="rounded-md bg-white dark:bg-slate-500 dark:ring-slate-600 dark:text-white px-2.5 py-1 ring-1 ring-slate-200">
                         Graduation: {item.expectedGraduation}
                       </span>
                     )}

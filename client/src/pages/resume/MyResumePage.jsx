@@ -92,15 +92,15 @@ function MyResumePage() {
       <SuggestedRoles roles={resume.suggestedRoles} />
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <ResumeSkills skills={resume.parsedSkills} />
+        {/* <ResumeSkills skills={resume.parsedSkills} /> */}
 
-        <ResumeProjects projects={resume.parsedProjects} />
+        {/* <ResumeProjects projects={resume.parsedProjects} /> */}
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <ResumeExperience experience={resume.parsedExperience} />
+        {/* <ResumeExperience experience={resume.parsedExperience} /> */}
 
-        <ResumeEducation education={resume.parsedEducation} />
+        {/* <ResumeEducation education={resume.parsedEducation} /> */}
       </div>
     </div>
   );

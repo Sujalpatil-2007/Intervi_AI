@@ -128,46 +128,6 @@ function AIAnalysisCard({ analysis }) {
           </motion.div>
         )}
 
-        {targetRoles.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center dark:bg-slate-600 justify-center rounded-lg bg-emerald-50 text-emerald-600">
-                <BriefcaseBusiness size={20} />
-              </div>
-
-              <div>
-                <h3 className="font-semibold dark:text-white text-slate-900">
-                  Target Roles
-                </h3>
-
-                <p className="text-xs dark:text-slate-50/50 text-slate-500">
-                  Roles matching your resume
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-4 space-y-2">
-              {targetRoles.map((role, index) => (
-                <div
-                  key={`${role}-${index}`}
-                  className="flex items-center dark:bg-slate-600 gap-3 rounded-lg bg-slate-50 px-4 py-3"
-                >
-                  <Lightbulb size={17} className="shrink-0 text-emerald-600" />
-
-                  <span className="text-sm dark:text-slate-50 font-medium text-slate-700">
-                    {role}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
         {projects.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -290,17 +250,19 @@ function AIAnalysisCard({ analysis }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="rounded-xl border border-slate-200 p-5 lg:col-span-2"
+            className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 p-5 lg:col-span-2"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600">
+              <div className="flex h-10 w-10 dark:text-blue-400 dark:bg-slate-600 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600">
                 <BriefcaseBusiness size={20} />
               </div>
 
               <div>
-                <h3 className="font-semibold text-slate-900">Experience</h3>
+                <h3 className="font-semibold dark:text-white text-slate-900">
+                  Experience
+                </h3>
 
-                <p className="text-xs text-slate-500">
+                <p className="text-xs dark:text-slate-50/50 text-slate-500">
                   Professional experience detected
                 </p>
               </div>
@@ -310,9 +272,9 @@ function AIAnalysisCard({ analysis }) {
               {experience.map((item, index) => (
                 <div
                   key={item?._id || `${item?.company}-${index}`}
-                  className="rounded-lg bg-slate-50 p-4"
+                  className="rounded-lg dark:bg-slate-600 bg-slate-50 p-4"
                 >
-                  <h4 className="font-medium text-slate-900">
+                  <h4 className="font-medium dark:text-white text-slate-900">
                     {item?.role ||
                       item?.position ||
                       item?.title ||
@@ -320,13 +282,13 @@ function AIAnalysisCard({ analysis }) {
                   </h4>
 
                   {item?.company && (
-                    <p className="mt-1 text-sm text-slate-600">
+                    <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-600">
                       {item.company}
                     </p>
                   )}
 
                   {item?.description && (
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm dark:text-slate-50/50 leading-6 text-slate-600">
                       {item.description}
                     </p>
                   )}

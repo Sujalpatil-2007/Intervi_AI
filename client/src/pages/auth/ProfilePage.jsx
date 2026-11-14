@@ -45,9 +45,6 @@ function ProfilePage() {
     email: "",
   });
 
-  /*
-   * Sync profile form with authenticated user.
-   */
   useEffect(() => {
     if (!user) {
       return;
@@ -59,34 +56,19 @@ function ProfilePage() {
     });
   }, [user]);
 
-  /*
-   * Normalize interview activity response.
-   */
   const interviews =
     interviewData?.data?.interviews || interviewData?.data || [];
 
-  /*
-   * Completed interviews.
-   */
   const completedInterviews = interviews.filter(
     (interview) => interview.status === "completed",
   );
 
-  /*
-   * Best score.
-   */
   const bestScore = completedInterviews.length
     ? Math.max(...completedInterviews.map((interview) => interview.score || 0))
     : 0;
 
-  /*
-   * Total interviews.
-   */
   const totalInterviews = interviews.length;
 
-  /*
-   * Handle input changes.
-   */
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -96,9 +78,6 @@ function ProfilePage() {
     }));
   };
 
-  /*
-   * Cancel editing.
-   */
   const handleCancel = () => {
     setFormData({
       name: user?.name || "",
@@ -108,9 +87,6 @@ function ProfilePage() {
     setIsEditing(false);
   };
 
-  /*
-   * Save profile.
-   */
   const handleSave = (event) => {
     event.preventDefault();
 
@@ -136,9 +112,6 @@ function ProfilePage() {
     );
   };
 
-  /*
-   * Format member date.
-   */
   const createdDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString(undefined, {
         year: "numeric",
@@ -147,9 +120,6 @@ function ProfilePage() {
       })
     : "Not available";
 
-  /*
-   * Generate initials.
-   */
   const initials =
     user?.name
       ?.split(" ")
@@ -159,9 +129,6 @@ function ProfilePage() {
       .slice(0, 2)
       .toUpperCase() || "U";
 
-  /*
-   * Format interview date.
-   */
   const formatInterviewDate = (date) => {
     if (!date) {
       return "Date unavailable";
@@ -174,9 +141,6 @@ function ProfilePage() {
     });
   };
 
-  /*
-   * Get status UI.
-   */
   const getStatusDetails = (status) => {
     switch (status) {
       case "completed":
@@ -210,9 +174,6 @@ function ProfilePage() {
     }
   };
 
-  /*
-   * Loading profile.
-   */
   if (!user) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
@@ -226,18 +187,18 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         {/* =====================================================
             HEADER
         ====================================================== */}
 
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
             My Profile
           </h1>
 
-          <p className="mt-2 text-sm text-slate-500 sm:text-base">
+          <p className="mt-2 text-sm dark:text-slate-50/50 text-slate-500 sm:text-base">
             Manage your account information and view your InterviAI activity.
           </p>
         </div>
@@ -246,7 +207,7 @@ function ProfilePage() {
             PROFILE HEADER CARD
         ====================================================== */}
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
           {/* Profile banner */}
 
           <div className="bg-linear-to-r from-blue-600 to-indigo-600 px-6 py-8 sm:px-8">
@@ -296,11 +257,11 @@ function ProfilePage() {
 
           <div className="p-6 sm:p-8">
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg dark:text-white font-bold text-slate-900">
                 Personal Information
               </h3>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
                 Your basic account information.
               </p>
             </div>
@@ -406,18 +367,18 @@ function ProfilePage() {
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 {/* Name */}
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded-xl dark:bg-slate-700 dark:border-slate-800 border border-slate-200 bg-slate-50 p-5">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
                       <User size={19} />
                     </div>
 
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                      <p className="text-xs dark:text-white font-medium uppercase tracking-wide text-slate-400">
                         Full Name
                       </p>
 
-                      <p className="mt-1 font-semibold text-slate-900">
+                      <p className="mt-1 dark:text-slate-50/50 font-semibold text-slate-900">
                         {user.name || "Not available"}
                       </p>
                     </div>
@@ -426,18 +387,18 @@ function ProfilePage() {
 
                 {/* Email */}
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded-xl border dark:border-slate-800 dark:bg-slate-700 border-slate-200 bg-slate-50 p-5">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
                       <Mail size={19} />
                     </div>
 
                     <div className="min-w-0">
-                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                      <p className="text-xs font-medium dark:text-white uppercase tracking-wide text-slate-400">
                         Email
                       </p>
 
-                      <p className="mt-1 truncate font-semibold text-slate-900">
+                      <p className="mt-1 truncate font-semibold dark:text-slate-50/50 text-slate-900">
                         {user.email}
                       </p>
                     </div>
@@ -446,18 +407,18 @@ function ProfilePage() {
 
                 {/* Member Since */}
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 bg-slate-50 p-5">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
                       <Calendar size={19} />
                     </div>
 
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                      <p className="text-xs font-medium dark:text-white uppercase tracking-wide text-slate-400">
                         Member Since
                       </p>
 
-                      <p className="mt-1 font-semibold text-slate-900">
+                      <p className="mt-1 font-semibold dark:text-slate-50/50ext-slate-900">
                         {createdDate}
                       </p>
                     </div>
@@ -466,18 +427,18 @@ function ProfilePage() {
 
                 {/* Account */}
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded-xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 bg-slate-50 p-5">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                       <User size={19} />
                     </div>
 
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                      <p className="text-xs font-medium dark:text-white uppercase tracking-wide text-slate-400">
                         Account
                       </p>
 
-                      <p className="mt-1 font-semibold capitalize text-slate-900">
+                      <p className="mt-1 dark:text-slate-50/50 font-semibold capitalize text-slate-900">
                         {user.role || "User"}
                       </p>
                     </div>
@@ -494,11 +455,11 @@ function ProfilePage() {
 
         <div>
           <div className="mb-4">
-            <h3 className="text-lg font-bold text-slate-900">
+            <h3 className="text-lg font-bold dark:text-white text-slate-900">
               Interview Activity
             </h3>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
               Track your progress on InterviAI.
             </p>
           </div>
@@ -506,12 +467,14 @@ function ProfilePage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {/* Total Interviews */}
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Interviews</p>
+                  <p className="text-sm dark:text-white text-slate-500">
+                    Interviews
+                  </p>
 
-                  <p className="mt-2 text-2xl font-bold text-slate-900">
+                  <p className="mt-2 dark:text-slate-50/50 text-2xl font-bold text-slate-900">
                     {isActivityLoading ? "—" : totalInterviews}
                   </p>
                 </div>
@@ -524,10 +487,12 @@ function ProfilePage() {
 
             {/* Resume */}
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl dark:bg-slate-800 dark:border-slate-900 border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Resume</p>
+                  <p className="text-sm dark:text-white text-slate-500">
+                    Resume
+                  </p>
 
                   <Link
                     to="/resume"
@@ -547,12 +512,14 @@ function ProfilePage() {
 
             {/* Best Score */}
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="rounded-2xl border dark:border-slate-900 dark:bg-slate-800 border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">Best Score</p>
+                  <p className="text-sm dark:text-white text-slate-500">
+                    Best Score
+                  </p>
 
-                  <p className="mt-2 text-2xl font-bold text-slate-900">
+                  <p className="mt-2 text-2xl dark:text-slate-50/50 font-bold text-slate-900">
                     {isActivityLoading ? "—" : bestScore}
                   </p>
                 </div>
@@ -569,15 +536,15 @@ function ProfilePage() {
             ACTIVITY LIST
         ====================================================== */}
 
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
           <div className="border-b border-slate-200 px-6 py-5">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-lg dark:text-white font-bold text-slate-900">
                   Recent Interviews
                 </h3>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
                   Your latest interview activity.
                 </p>
               </div>
@@ -667,14 +634,14 @@ function ProfilePage() {
                 return (
                   <div
                     key={interview._id}
-                    className="px-6 py-5 transition hover:bg-slate-50"
+                    className="px-6 py-5 transition dark:hover:bg-blue-400/25 hover:bg-slate-50"
                   >
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                       {/* Interview information */}
 
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
-                          <h4 className="font-semibold text-slate-900">
+                          <h4 className="font-semibold dark:text-white text-slate-900">
                             {interview.targetRole || "Mock Interview"}
                           </h4>
 
@@ -687,7 +654,7 @@ function ProfilePage() {
                           </span>
                         </div>
 
-                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
+                        <div className="mt-2 flex dark:text-slate-50/50 flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
                           <span>
                             {interview.difficulty || "Difficulty unavailable"}
                           </span>
@@ -705,9 +672,11 @@ function ProfilePage() {
                       <div className="flex items-center justify-between gap-4 sm:justify-end">
                         {interview.status === "completed" && (
                           <div className="text-right">
-                            <p className="text-xs text-slate-400">Score</p>
+                            <p className="text-xs dark:text-white text-slate-400">
+                              Score
+                            </p>
 
-                            <p className="text-lg font-bold text-slate-900">
+                            <p className="text-lg  dark:text-slate-50/50 font-bold text-slate-900">
                               {interview.score ?? 0}
                             </p>
                           </div>
@@ -751,12 +720,14 @@ function ProfilePage() {
             ACCOUNT ACTIONS
         ====================================================== */}
 
-        <div className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-red-200 dark:bg-slate-800 dark:border-red-500 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="font-bold text-slate-900">Account Actions</h3>
+              <h3 className="font-bold dark:text-white text-slate-900">
+                Account Actions
+              </h3>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
                 Sign out from your InterviAI account.
               </p>
             </div>
@@ -765,7 +736,7 @@ function ProfilePage() {
               type="button"
               onClick={() => logoutMutation.mutate()}
               disabled={logoutMutation.isPending}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition dark:hover:bg-red-500/25 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {logoutMutation.isPending ? (
                 <>

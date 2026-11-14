@@ -14,45 +14,18 @@ import { useLeaderboard } from "../../hooks/queries/useLeaderboard";
 function LeaderboardPage() {
   const { data, isLoading, isError, error, refetch } = useLeaderboard();
 
-  /*
-   * Support common API response structures:
-   *
-   * {
-   *   success: true,
-   *   data: [...]
-   * }
-   *
-   * OR
-   *
-   * {
-   *   success: true,
-   *   data: {
-   *     leaderboard: [...]
-   *   }
-   * }
-   */
   const leaderboard = useMemo(() => {
     const result = data?.data?.leaderboard || data?.data || [];
 
     return Array.isArray(result) ? result : [];
   }, [data]);
 
-  /*
-   * Try to identify the current user's entry.
-   *
-   * Your backend may return `isCurrentUser`.
-   * If not, we also check common field names.
-   */
   const currentUser = leaderboard.find(
     (item) => item.isCurrentUser === true || item.currentUser === true,
   );
 
   const topThree = leaderboard.slice(0, 3);
   const remainingUsers = leaderboard.slice(3);
-
-  /*
-   * Loading
-   */
 
   if (isLoading) {
     return (
@@ -65,10 +38,6 @@ function LeaderboardPage() {
       </div>
     );
   }
-
-  /*
-   * Error
-   */
 
   if (isError) {
     return (
@@ -98,10 +67,6 @@ function LeaderboardPage() {
     );
   }
 
-  /*
-   * Empty state
-   */
-
   if (!leaderboard.length) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
@@ -121,7 +86,7 @@ function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full bg-slate-50 dark:bg-slate-900 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* ================= HEADER ================= */}
 
@@ -133,11 +98,11 @@ function LeaderboardPage() {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                <h1 className="text-2xl font-bold dark:text-white tracking-tight text-slate-900 sm:text-3xl">
                   Leaderboard
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm dark:text-shadow-slate-50/50 text-slate-500">
                   See how you rank against other InterviAI users.
                 </p>
               </div>
@@ -148,7 +113,7 @@ function LeaderboardPage() {
             type="button"
             onClick={() => refetch()}
             disabled={isLoading}
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex dark:bg-slate-700 dark:border-slate-800 dark:text-white dark:hover:bg-blue-400/50 w-fit items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
             Refresh
@@ -158,17 +123,17 @@ function LeaderboardPage() {
         {/* ================= TOP 3 ================= */}
 
         {topThree.length >= 1 && (
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+          <div className="mb-8 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm sm:p-8">
             <div className="mb-8 text-center">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-600">
                 <Crown size={25} />
               </div>
 
-              <h2 className="mt-3 text-lg font-bold text-slate-900">
+              <h2 className="mt-3 text-lg dark:text-white font-bold text-slate-900">
                 Top Performers
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
                 The highest-scoring interview candidates.
               </p>
             </div>
@@ -191,8 +156,8 @@ function LeaderboardPage() {
                     key={item._id || item.user?._id || `${rank}-${name}`}
                     className={`relative rounded-2xl border p-6 text-center ${
                       isFirst
-                        ? "border-amber-200 bg-amber-50 md:order-2 md:-translate-y-3"
-                        : "border-slate-200 bg-slate-50"
+                        ? "border-amber-200 bg-amber-50 dark:bg-amber-100 md:order-2 md:-translate-y-3"
+                        : "border-slate-200 dark:bg-slate-400/50 dark:border-slate-700 bg-slate-50"
                     }`}
                   >
                     {isFirst && (
@@ -226,7 +191,7 @@ function LeaderboardPage() {
                       {score}%
                     </p>
 
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs dark:text-slate-800 text-slate-500">
                       Interview Score
                     </p>
                   </div>
@@ -280,11 +245,13 @@ function LeaderboardPage() {
 
         {/* ================= LEADERBOARD TABLE ================= */}
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-200 px-5 py-5 sm:px-6">
-            <h2 className="text-lg font-bold text-slate-900">Rankings</h2>
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-900 bg-white shadow-sm">
+          <div className="border-b border-slate-200 dark:border-slate-50/50 px-5 py-5 sm:px-6">
+            <h2 className="text-lg font-bold dark:text-white text-slate-900">
+              Rankings
+            </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm dark:text-shadow-slate-50/50 text-slate-500">
               Complete leaderboard standings.
             </p>
           </div>
@@ -294,14 +261,14 @@ function LeaderboardPage() {
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  <th className="px-6 py-4">Rank</th>
+                <tr className="border-b border-slate-200 dark:bg-slate-700 dark:border-slate-50/50 bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4">Rank</th>
 
-                  <th className="px-6 py-4">Candidate</th>
+                  <th className="px-6 dark:text-white py-4">Candidate</th>
 
-                  <th className="px-6 py-4">Interviews</th>
+                  <th className="px-6 dark:text-white py-4">Interviews</th>
 
-                  <th className="px-6 py-4">Score</th>
+                  <th className="px-6 dark:text-white py-4">Score</th>
                 </tr>
               </thead>
 
@@ -328,8 +295,10 @@ function LeaderboardPage() {
                   return (
                     <tr
                       key={item._id || item.user?._id || `${rank}-${name}`}
-                      className={`border-b border-slate-100 last:border-0 ${
-                        isCurrent ? "bg-blue-50" : "hover:bg-slate-50"
+                      className={`border-b border-slate-100 dark:border-slate-50/50 last:border-0 ${
+                        isCurrent
+                          ? "bg-blue-50"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-900/50"
                       }`}
                     >
                       <td className="px-6 py-5">
@@ -338,7 +307,7 @@ function LeaderboardPage() {
                             <Medal size={19} className="text-amber-500" />
                           ) : null}
 
-                          <span className="font-bold text-slate-700">
+                          <span className="font-bold dark:text-slate-50/50 text-slate-700">
                             #{rank}
                           </span>
                         </div>
@@ -356,7 +325,7 @@ function LeaderboardPage() {
                           </div>
 
                           <div>
-                            <p className="font-semibold text-slate-900">
+                            <p className="font-semibold dark:text-slate-50/50 text-slate-900">
                               {name}
 
                               {isCurrent && (
@@ -369,12 +338,12 @@ function LeaderboardPage() {
                         </div>
                       </td>
 
-                      <td className="px-6 py-5 text-sm text-slate-600">
+                      <td className="px-6 py-5 dark:text-slate-50/50 text-sm text-slate-600">
                         {interviews}
                       </td>
 
                       <td className="px-6 py-5">
-                        <span className="font-bold text-blue-600">
+                        <span className="font-bold dark:text-blue-400 text-blue-600">
                           {score}%
                         </span>
                       </td>

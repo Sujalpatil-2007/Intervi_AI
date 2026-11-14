@@ -1,6 +1,6 @@
 function AdminStatCard({ title, value, description, icon: Icon }) {
   return (
-    <div className="rounded-2xl border dark:bg-slate-800 border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-medium dark:text-white text-slate-500">{title}</p>

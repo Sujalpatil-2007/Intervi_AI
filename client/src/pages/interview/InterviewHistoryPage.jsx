@@ -218,27 +218,27 @@ function InterviewHistoryPage() {
                 <table className="w-full">
                   <thead className="border-b dark:bg-slate-800 dark:border-slate-50/50 border-slate-200 bg-slate-50">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Interview
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 py-4 dark:text-white  text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Difficulty
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 py-4 dark:text-white text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Questions
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 py-4 dark:text-white text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Score
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 py-4 dark:text-white text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Status
                       </th>
 
-                      <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 py-4 dark:text-white text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Action
                       </th>
                     </tr>
@@ -248,33 +248,33 @@ function InterviewHistoryPage() {
                     {interviews.map((interview) => (
                       <tr
                         key={interview._id}
-                        className="transition hover:bg-slate-50"
+                        className="transition dark:hover:bg-blue-500/25 hover:bg-slate-50"
                       >
                         <td className="px-6 py-5">
-                          <div className="font-semibold text-slate-900">
+                          <div className="font-semibold dark:text-white text-slate-900">
                             {interview.targetRole || "Interview"}
                           </div>
 
-                          <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                          <div className="mt-1 dark:text-slate-50/50 flex items-center gap-2 text-xs text-slate-500">
                             <Calendar size={13} />
                             {formatDate(interview.createdAt)}
                           </div>
                         </td>
 
                         <td className="px-6 py-5">
-                          <span className="text-sm capitalize text-slate-700">
+                          <span className="text-sm dark:text-slate-50 capitalize text-slate-700">
                             {interview.difficulty || "—"}
                           </span>
                         </td>
 
                         <td className="px-6 py-5">
-                          <span className="text-sm text-slate-700">
+                          <span className="text-sm dark:text-slate-50 text-slate-700">
                             {interview.totalQuestions || 0}
                           </span>
                         </td>
 
                         <td className="px-6 py-5">
-                          <span className="font-semibold text-slate-900">
+                          <span className="font-semibold dark:text-slate-50 text-slate-900">
                             {interview.status === "completed"
                               ? `${Number(interview.score || 0).toFixed(1)}/10`
                               : "—"}
@@ -294,7 +294,7 @@ function InterviewHistoryPage() {
                         <td className="px-6 py-5 text-right">
                           <Link
                             to={`/interview/${interview._id}`}
-                            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                            className="inline-flex items-center gap-2 rounded-lg border dark:text-white border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition dark:hover:bg-blue-400/50 hover:bg-slate-50"
                           >
                             <Eye size={16} />
                             View
@@ -417,4 +417,3 @@ function InterviewHistoryPage() {
 }
 
 export default InterviewHistoryPage;
-

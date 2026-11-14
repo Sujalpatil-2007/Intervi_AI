@@ -167,12 +167,12 @@ function AdminDashboardPage() {
 
           {/* Recent Interviews */}
 
-          <div className="rounded-2xl border dark:bg-slate-800 border-slate-200 bg-white shadow-sm">
+          <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold text-slate-900">Recent Interviews</h2>
+                <h2 className="font-bold dark:text-white text-slate-900">Recent Interviews</h2>
 
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-500">
                   Latest interview activity
                 </p>
               </div>
@@ -192,11 +192,11 @@ function AdminDashboardPage() {
                     className="flex items-center justify-between gap-4 px-6 py-4"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-900">
+                      <p className="truncate text-sm dark:text-white font-semibold text-slate-900">
                         {interview.targetRole || "Interview"}
                       </p>
 
-                      <p className="truncate text-xs text-slate-500">
+                      <p className="truncate text-xs dark:text-slate-50/50 text-slate-500">
                         {interview.user?.fullName ||
                           interview.user?.email ||
                           "Unknown user"}
@@ -217,7 +217,7 @@ function AdminDashboardPage() {
                       </span>
 
                       {interview.status === "completed" && (
-                        <p className="mt-1 text-xs font-semibold text-slate-600">
+                        <p className="mt-1 text-xs  dark:text-slate-50/50 font-semibold text-slate-600">
                           Score: {interview.score ?? 0}
                         </p>
                       )}

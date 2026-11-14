@@ -63,7 +63,7 @@ function AdminDashboardPage() {
   const recentInterviews = recentActivity.interviews || [];
 
   return (
-    <div className="min-h-full bg-slate-50 dark:bg-slate-800 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full bg-slate-50 dark:bg-slate-900 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header */}
 
@@ -85,6 +85,7 @@ function AdminDashboardPage() {
           </div>
         </div>
 
+        
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <AdminStatCard
@@ -121,12 +122,12 @@ function AdminDashboardPage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Recent Users */}
 
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold text-slate-900">Recent Users</h2>
+                <h2 className="font-bold dark:text-white text-slate-900">Recent Users</h2>
 
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-500">
                   Latest registered users
                 </p>
               </div>
@@ -146,11 +147,11 @@ function AdminDashboardPage() {
                     className="flex items-center justify-between gap-4 px-6 py-4"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-900">
+                      <p className="truncate dark:text-white text-sm font-semibold text-slate-900">
                         {user.fullName || "User"}
                       </p>
 
-                      <p className="truncate text-xs text-slate-500">
+                      <p className="truncate dark:text-slate-50/50 text-xs text-slate-500">
                         {user.email}
                       </p>
                     </div>
@@ -166,7 +167,7 @@ function AdminDashboardPage() {
 
           {/* Recent Interviews */}
 
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="rounded-2xl border dark:bg-slate-800 border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
                 <h2 className="font-bold text-slate-900">Recent Interviews</h2>

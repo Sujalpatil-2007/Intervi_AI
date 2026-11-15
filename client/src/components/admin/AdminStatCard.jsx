@@ -3,9 +3,13 @@ function AdminStatCard({ title, value, description, icon: Icon }) {
     <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium dark:text-white text-slate-500">{title}</p>
+          <p className="text-sm font-medium dark:text-white text-slate-500">
+            {title}
+          </p>
 
-          <p className="mt-2 text-3xl font-bold dark:text-slate-50/50 text-slate-900">{value}</p>
+          <p className="mt-2 text-3xl font-bold dark:text-slate-50/50 text-slate-900">
+            {value}
+          </p>
 
           {description && (
             <p className="mt-2 text-xs text-slate-400">{description}</p>

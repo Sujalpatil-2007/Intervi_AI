@@ -8,7 +8,7 @@ function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen dark:bg-slate-900 bg-slate-50">
       {/* Admin Sidebar */}
       <AdminSidebar
         isOpen={sidebarOpen}

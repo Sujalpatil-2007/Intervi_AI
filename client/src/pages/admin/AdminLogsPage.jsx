@@ -259,7 +259,9 @@ function AdminLogsPage() {
           <div className="mb-4 flex items-center gap-2">
             <Filter size={18} className="text-slate-500" />
 
-            <h2 className="font-semibold dark:text-white text-slate-900">Filters</h2>
+            <h2 className="font-semibold dark:text-white text-slate-900">
+              Filters
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -332,7 +334,7 @@ function AdminLogsPage() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+                className="inline-flex items-center dark:bg-slate-700 dark:text-white dark:border-slate-800 dark:hover:bg-slate-500/25 justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
               >
                 <X size={16} />
                 Clear Filters
@@ -348,35 +350,35 @@ function AdminLogsPage() {
 
           <div className="hidden overflow-x-auto lg:block">
             <table className="w-full text-left">
-              <thead className="border-b border-slate-200 bg-slate-50">
+              <thead className="border-b dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-slate-50">
                 <tr>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Admin
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Action
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Target
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Description
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                     Date
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y dark:bg-slate-800 divide-slate-100">
                 {isLoading ? (
                   <tr>
                     <td colSpan="5" className="px-6 py-16 text-center">
-                      <div className="flex items-center justify-center gap-3 text-slate-500">
+                      <div className="flex items-center justify-center dark:text-white gap-3 text-slate-500">
                         <Loader2 size={21} className="animate-spin" />
                         Loading activity...
                       </div>
@@ -387,18 +389,21 @@ function AdminLogsPage() {
                     <td colSpan="5" className="px-6 py-16 text-center">
                       <Activity size={35} className="mx-auto text-slate-300" />
 
-                      <h3 className="mt-3 font-semibold text-slate-900">
+                      <h3 className="mt-3 dark:text-white font-semibold text-slate-900">
                         No activity found
                       </h3>
 
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
                         No admin activity matches your filters.
                       </p>
                     </td>
                   </tr>
                 ) : (
                   logs.map((log) => (
-                    <tr key={log._id} className="transition hover:bg-slate-50">
+                    <tr
+                      key={log._id}
+                      className="transition dark:hover:bg-slate-900/25 hover:bg-slate-50"
+                    >
                       {/* Admin */}
 
                       <td className="px-6 py-4">
@@ -410,11 +415,11 @@ function AdminLogsPage() {
                           </div>
 
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-slate-900">
+                            <p className="truncate dark:text-white  text-sm font-semibold text-slate-900">
                               {log.admin?.fullName || "Unknown Admin"}
                             </p>
 
-                            <p className="truncate text-xs text-slate-500">
+                            <p className="truncate dark:text-slate-50/50 text-xs text-slate-500">
                               {log.admin?.email || "-"}
                             </p>
                           </div>
@@ -436,17 +441,17 @@ function AdminLogsPage() {
                       {/* Target */}
 
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-2 text-sm text-slate-700">
+                        <div className="flex items-center dark:text-white gap-2 text-sm text-slate-700">
                           <span className="text-slate-400">
                             {getTargetIcon(log.targetType)}
                           </span>
 
                           <div>
-                            <p className="font-medium">
+                            <p className="font-medium dark:text-sky-50/50">
                               {log.targetType || "-"}
                             </p>
 
-                            <p className="max-w-32 truncate text-xs text-slate-400">
+                            <p className="max-w-32 dark:text-sky-50/50 truncate text-xs text-slate-400">
                               {log.targetId || "-"}
                             </p>
                           </div>
@@ -456,14 +461,14 @@ function AdminLogsPage() {
                       {/* Description */}
 
                       <td className="max-w-md px-6 py-4">
-                        <p className="text-sm leading-6 text-slate-600">
+                        <p className="text-sm leading-6 dark:text-white text-slate-600">
                           {log.description || "-"}
                         </p>
                       </td>
 
                       {/* Date */}
 
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                      <td className="whitespace-nowrap px-6 py-4 dark:text-sky-50/50 text-sm text-slate-500">
                         {formatDate(log.createdAt)}
                       </td>
                     </tr>
@@ -548,18 +553,18 @@ function AdminLogsPage() {
           {/* Pagination */}
 
           {!isLoading && logs.length > 0 && (
-            <div className="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-slate-500">
+            <div className="flex flex-col gap-3 border-t dark:bg-slate-800 dark:border-slate-900 border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm dark:text-white text-slate-500">
                 Showing page{" "}
-                <span className="font-semibold text-slate-700">
+                <span className="font-semibold dark:text-slate-50/50 text-slate-700">
                   {pagination.page}
                 </span>{" "}
                 of{" "}
-                <span className="font-semibold text-slate-700">
+                <span className="font-semibold dark:text-slate-50/50 text-slate-700">
                   {pagination.totalPages}
                 </span>{" "}
                 ·{" "}
-                <span className="font-semibold text-slate-700">
+                <span className="font-semibold dark:text-slate-50/50 text-slate-700">
                   {pagination.totalLogs}
                 </span>{" "}
                 total logs
@@ -570,7 +575,7 @@ function AdminLogsPage() {
                   type="button"
                   disabled={!pagination.hasPreviousPage}
                   onClick={() => handlePageChange(pagination.page - 1)}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex items-center dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <ChevronLeft size={16} />
                   Previous
@@ -580,7 +585,7 @@ function AdminLogsPage() {
                   type="button"
                   disabled={!pagination.hasNextPage}
                   onClick={() => handlePageChange(pagination.page + 1)}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex items-center dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 gap-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
                   <ChevronRight size={16} />

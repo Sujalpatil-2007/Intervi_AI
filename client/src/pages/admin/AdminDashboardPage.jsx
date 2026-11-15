@@ -85,8 +85,6 @@ function AdminDashboardPage() {
           </div>
         </div>
 
-        
-
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <AdminStatCard
             title="Total Users"
@@ -125,7 +123,9 @@ function AdminDashboardPage() {
           <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold dark:text-white text-slate-900">Recent Users</h2>
+                <h2 className="font-bold dark:text-white text-slate-900">
+                  Recent Users
+                </h2>
 
                 <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-500">
                   Latest registered users
@@ -170,7 +170,9 @@ function AdminDashboardPage() {
           <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
               <div>
-                <h2 className="font-bold dark:text-white text-slate-900">Recent Interviews</h2>
+                <h2 className="font-bold dark:text-white text-slate-900">
+                  Recent Interviews
+                </h2>
 
                 <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-500">
                   Latest interview activity

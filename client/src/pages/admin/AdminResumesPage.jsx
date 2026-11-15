@@ -369,10 +369,10 @@ function AdminResumesPage() {
 
         {/* Content */}
 
-        <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="mt-6 overflow-hidden rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white shadow-sm">
           {isLoading ? (
             <div className="flex min-h-75 items-center justify-center">
-              <div className="flex items-center gap-3 text-slate-500">
+              <div className="flex items-center dark:text-white gap-3 text-slate-500">
                 <Loader2 size={22} className="animate-spin" />
                 Loading resumes...
               </div>

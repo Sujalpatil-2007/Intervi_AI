@@ -194,7 +194,7 @@ function AdminLogsPage() {
   const hasFilters = search || action || targetType || sort !== "-createdAt";
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Header */}
 
@@ -206,11 +206,11 @@ function AdminLogsPage() {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
                   Admin Activity Logs
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
                   Monitor administrative actions performed across InterviAI.
                 </p>
               </div>
@@ -221,7 +221,7 @@ function AdminLogsPage() {
             type="button"
             onClick={handleExport}
             disabled={isExporting}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center dark:text-white dark:bg-slate-800 dark:border-slate-900 dark:hover:bg-slate-400/25 justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isExporting ? (
               <>
@@ -255,11 +255,11 @@ function AdminLogsPage() {
 
         {/* Filters */}
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-2">
             <Filter size={18} className="text-slate-500" />
 
-            <h2 className="font-semibold text-slate-900">Filters</h2>
+            <h2 className="font-semibold dark:text-white text-slate-900">Filters</h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -276,7 +276,7 @@ function AdminLogsPage() {
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
                 placeholder="Search activity description..."
-                className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-20 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-20 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
 
               <button
@@ -292,7 +292,7 @@ function AdminLogsPage() {
             <select
               value={action}
               onChange={(event) => setAction(event.target.value)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Actions</option>
               <option value="UPDATE_USER_ROLE">Update User Role</option>
@@ -308,7 +308,7 @@ function AdminLogsPage() {
             <select
               value={targetType}
               onChange={(event) => setTargetType(event.target.value)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Targets</option>
               <option value="User">User</option>
@@ -321,7 +321,7 @@ function AdminLogsPage() {
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="-createdAt">Newest First</option>
 

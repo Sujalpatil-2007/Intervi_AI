@@ -203,17 +203,17 @@ function AdminResumesPage() {
   const hasActiveFilters = search.trim() || skill.trim() || targetRole.trim();
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
               Resume Management
             </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
               View and manage resumes uploaded by InterviAI users.
             </p>
           </div>
@@ -223,7 +223,7 @@ function AdminResumesPage() {
               type="button"
               onClick={() => fetchResumes(pagination.page, true)}
               disabled={isRefreshing}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex dark:text-white dark:bg-slate-800 dark:border-slate-900 dark:hover:bg-slate-400/25 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <RefreshCw
                 size={16}
@@ -245,16 +245,18 @@ function AdminResumesPage() {
 
         {/* Stats */}
 
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mt-6 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
               <FileText size={21} />
             </div>
 
             <div>
-              <p className="text-sm text-slate-500">Total Resumes</p>
+              <p className="text-sm dark:text-white text-slate-500">
+                Total Resumes
+              </p>
 
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-2xl dark:text-slate-50/50 font-bold text-slate-900">
                 {pagination.totalResumes}
               </p>
             </div>
@@ -265,13 +267,13 @@ function AdminResumesPage() {
 
         <form
           onSubmit={handleSearch}
-          className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          className="mt-6 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm"
         >
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
             {/* Search */}
 
             <div className="lg:col-span-2">
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block dark:text-white text-sm font-medium text-slate-700">
                 Search User
               </label>
 
@@ -286,7 +288,7 @@ function AdminResumesPage() {
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
                   placeholder="Search by name or email..."
-                  className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="w-full rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
             </div>
@@ -294,7 +296,7 @@ function AdminResumesPage() {
             {/* Skill */}
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block dark:text-white text-sm font-medium text-slate-700">
                 Skill
               </label>
 
@@ -303,14 +305,14 @@ function AdminResumesPage() {
                 value={skill}
                 onChange={(event) => setSkill(event.target.value)}
                 placeholder="e.g. React"
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
 
             {/* Target Role */}
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
+              <label className="mb-2 block dark:text-white text-sm font-medium text-slate-700">
                 Target Role
               </label>
 
@@ -319,7 +321,7 @@ function AdminResumesPage() {
                 value={targetRole}
                 onChange={(event) => setTargetRole(event.target.value)}
                 placeholder="e.g. Frontend Developer"
-                className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
           </div>
@@ -327,7 +329,7 @@ function AdminResumesPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+              className="inline-flex dark:bg-slate-700 dark:hover:bg-slate-500/25 items-center gap-2 rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
               <Search size={16} />
               Search
@@ -337,7 +339,7 @@ function AdminResumesPage() {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex dark:bg-slate-700 dark:text-white dark:border-slate-800 dark:hover:bg-slate-500/25 items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 <X size={16} />
                 Clear
@@ -376,16 +378,16 @@ function AdminResumesPage() {
               </div>
             </div>
           ) : resumes.length === 0 ? (
-            <div className="flex min-h-75 flex-col items-center justify-center px-6 text-center">
+            <div className="flex min-h-75 dark:bg-slate-800 dark:border-slate-900 flex-col items-center justify-center px-6 text-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
                 <FileText size={25} />
               </div>
 
-              <h3 className="mt-4 font-semibold text-slate-900">
+              <h3 className="mt-4 dark:text-white font-semibold text-slate-900">
                 No resumes found
               </h3>
 
-              <p className="mt-1 max-w-sm text-sm text-slate-500">
+              <p className="mt-1 dark:text-slate-50/50 max-w-sm text-sm text-slate-500">
                 No resumes match your current search or filters.
               </p>
             </div>
@@ -395,35 +397,35 @@ function AdminResumesPage() {
 
               <div className="hidden overflow-x-auto md:block">
                 <table className="w-full min-w-225">
-                  <thead className="border-b border-slate-200 bg-slate-50">
+                  <thead className="border-b dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-slate-50">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Resume
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         User
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Skills
                       </th>
 
-                      <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Created
                       </th>
 
-                      <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-6 dark:text-white py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Actions
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y dark:bg-slate-800 divide-slate-100">
                     {resumes.map((resume) => (
                       <tr
                         key={resume._id}
-                        className="transition hover:bg-slate-50"
+                        className="transition dark:hover:bg-slate-900/25 hover:bg-slate-50"
                       >
                         {/* Resume */}
 
@@ -434,13 +436,13 @@ function AdminResumesPage() {
                             </div>
 
                             <div className="min-w-0">
-                              <p className="max-w-55 truncate text-sm font-semibold text-slate-900">
+                              <p className="max-w-55 dark:text-white truncate text-sm font-semibold text-slate-900">
                                 {resume.title ||
                                   resume.originalFileName ||
                                   "Untitled Resume"}
                               </p>
 
-                              <p className="mt-1 max-w-55 truncate text-xs text-slate-400">
+                              <p className="mt-1 dark:text-slate-50/50 max-w-55 truncate text-xs text-slate-400">
                                 {resume.originalFileName || "—"}
                               </p>
                             </div>
@@ -451,12 +453,12 @@ function AdminResumesPage() {
 
                         <td className="px-6 py-4">
                           <div>
-                            <p className="flex items-center gap-2 text-sm font-medium text-slate-900">
+                            <p className="flex items-center dark:text-white gap-2 text-sm font-medium text-slate-900">
                               <User size={14} className="text-slate-400" />
                               {resume.user?.fullName || "Unknown User"}
                             </p>
 
-                            <p className="mt-1 flex items-center gap-2 text-xs text-slate-400">
+                            <p className="mt-1 flex items-center gap-2 text-xs dark:text-slate-50/50 text-slate-400">
                               <Mail size={13} />
                               {resume.user?.email || "—"}
                             </p>
@@ -486,7 +488,7 @@ function AdminResumesPage() {
 
                         {/* Date */}
 
-                        <td className="px-6 py-4 text-sm text-slate-500">
+                        <td className="px-6 py-4 text-sm dark:text-slate-50/50 text-slate-500">
                           {formatDate(resume.createdAt)}
                         </td>
 
@@ -608,8 +610,8 @@ function AdminResumesPage() {
 
               {/* Pagination */}
 
-              <div className="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-slate-500">
+              <div className="flex flex-col gap-3 border-t dark:bg-slate-800 border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm dark:text-white text-slate-500">
                   Page {pagination.page} of {pagination.totalPages || 1}
                 </p>
 
@@ -618,7 +620,7 @@ function AdminResumesPage() {
                     type="button"
                     disabled={!pagination.hasPreviousPage}
                     onClick={() => fetchResumes(pagination.page - 1)}
-                    className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronLeft size={16} />
                     Previous
@@ -628,7 +630,7 @@ function AdminResumesPage() {
                     type="button"
                     disabled={!pagination.hasNextPage}
                     onClick={() => fetchResumes(pagination.page + 1)}
-                    className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     Next
                     <ChevronRight size={16} />

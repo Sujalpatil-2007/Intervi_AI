@@ -214,7 +214,7 @@ function AdminInterviewsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
 
@@ -226,11 +226,11 @@ function AdminInterviewsPage() {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900">
                   Interviews
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
                   Manage and monitor all platform interviews.
                 </p>
               </div>
@@ -241,7 +241,7 @@ function AdminInterviewsPage() {
             type="button"
             onClick={() => fetchInterviews(pagination.page)}
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex dark:text-white dark:bg-slate-800 dark:border-slate-900 dark:hover:bg-slate-400/25 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
             Refresh
@@ -250,7 +250,7 @@ function AdminInterviewsPage() {
 
         {/* Filters */}
 
-        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="mb-6 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-4 shadow-sm">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
             {/* Search */}
 
@@ -265,14 +265,14 @@ function AdminInterviewsPage() {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search user name or email..."
-                className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-10 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-10 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
 
               {search && (
                 <button
                   type="button"
                   onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:hover:text-slate-50 hover:text-slate-700"
                 >
                   <X size={17} />
                 </button>
@@ -290,7 +290,7 @@ function AdminInterviewsPage() {
               <select
                 value={status}
                 onChange={(event) => setStatus(event.target.value)}
-                className="w-full appearance-none rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 appearance-none rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               >
                 <option value="">All Status</option>
                 <option value="pending">Pending</option>
@@ -304,7 +304,7 @@ function AdminInterviewsPage() {
             <select
               value={difficulty}
               onChange={(event) => setDifficulty(event.target.value)}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Difficulties</option>
               <option value="Easy">Easy</option>
@@ -317,7 +317,7 @@ function AdminInterviewsPage() {
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value)}
-              className="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg border dark:text-white dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 dark:bg-slate-700 dark:border-slate-800 border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="-createdAt">Newest First</option>
               <option value="createdAt">Oldest First</option>
@@ -356,12 +356,12 @@ function AdminInterviewsPage() {
 
         {/* Main Card */}
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-900 bg-white shadow-sm">
           {/* Loading */}
 
           {isLoading ? (
             <div className="flex min-h-100 items-center justify-center">
-              <div className="flex items-center gap-3 text-slate-500">
+              <div className="flex items-center gap-3 dark:text-white text-slate-500">
                 <Loader2 size={22} className="animate-spin" />
                 <span>Loading interviews...</span>
               </div>
@@ -374,7 +374,7 @@ function AdminInterviewsPage() {
                 <ClipboardCheck size={30} />
               </div>
 
-              <h2 className="mt-5 text-lg font-bold text-slate-900">
+              <h2 className="mt-5 text-lg dark:text-white font-bold text-slate-900">
                 No interviews found
               </h2>
 
@@ -399,33 +399,33 @@ function AdminInterviewsPage() {
 
               <div className="hidden overflow-x-auto lg:block">
                 <table className="w-full text-left">
-                  <thead className="border-b border-slate-200 bg-slate-50">
+                  <thead className="border-b dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-slate-50">
                     <tr>
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Candidate
                       </th>
 
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Target Role
                       </th>
 
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Difficulty
                       </th>
 
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Status
                       </th>
 
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Score
                       </th>
 
-                      <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Created
                       </th>
 
-                      <th className="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <th className="px-5 dark:text-white py-4 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Actions
                       </th>
                     </tr>
@@ -435,26 +435,26 @@ function AdminInterviewsPage() {
                     {interviews.map((interview) => (
                       <tr
                         key={interview._id}
-                        className="transition hover:bg-slate-50"
+                        className="transition dark:hover:bg-slate-900/25 hover:bg-slate-50"
                       >
                         <td className="px-5 py-4">
                           <div>
-                            <p className="font-semibold text-slate-900">
+                            <p className="font-semibold dark:text-white text-slate-900">
                               {interview.user?.fullName || "Unknown User"}
                             </p>
 
-                            <p className="mt-1 text-xs text-slate-500">
+                            <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-500">
                               {interview.user?.email || "-"}
                             </p>
                           </div>
                         </td>
 
                         <td className="px-5 py-4">
-                          <p className="font-medium text-slate-800">
+                          <p className="font-medium dark:text-white text-slate-800">
                             {interview.targetRole || "-"}
                           </p>
 
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="mt-1 text-xs dark:text-slate-50/50 text-slate-400">
                             {interview.totalQuestions || 0} questions
                           </p>
                         </td>
@@ -468,12 +468,12 @@ function AdminInterviewsPage() {
                         </td>
 
                         <td className="px-5 py-4">
-                          <span className="font-bold text-slate-900">
+                          <span className="font-bold dark:text-white text-slate-900">
                             {formatScore(interview.score)}
                           </span>
                         </td>
 
-                        <td className="px-5 py-4 text-sm text-slate-500">
+                        <td className="px-5 py-4 text-sm dark:text-slate-50/50 text-slate-500">
                           {formatDate(interview.createdAt)}
                         </td>
 

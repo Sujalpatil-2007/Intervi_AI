@@ -44,12 +44,6 @@ function AdminUsersPage() {
 
   const [actionLoading, setActionLoading] = useState(null);
 
-  /*
-   * ----------------------------------------------------
-   * FETCH USERS
-   * ----------------------------------------------------
-   */
-
   const fetchUsers = async ({
     showLoader = true,
     currentPage = page,
@@ -111,12 +105,6 @@ function AdminUsersPage() {
     }
   };
 
-  /*
-   * ----------------------------------------------------
-   * INITIAL LOAD + SEARCH / FILTER
-   * ----------------------------------------------------
-   */
-
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchUsers({
@@ -129,12 +117,6 @@ function AdminUsersPage() {
     return () => clearTimeout(timer);
   }, [page, search, role]);
 
-  /*
-   * ----------------------------------------------------
-   * REFRESH
-   * ----------------------------------------------------
-   */
-
   const handleRefresh = () => {
     fetchUsers({
       showLoader: false,
@@ -143,12 +125,6 @@ function AdminUsersPage() {
       currentRole: role,
     });
   };
-
-  /*
-   * ----------------------------------------------------
-   * BLOCK / UNBLOCK
-   * ----------------------------------------------------
-   */
 
   const handleBlockToggle = async (user) => {
     const action = user.isBlocked ? "unblock" : "block";
@@ -188,12 +164,6 @@ function AdminUsersPage() {
       setActionLoading(null);
     }
   };
-
-  /*
-   * ----------------------------------------------------
-   * CHANGE ROLE
-   * ----------------------------------------------------
-   */
 
   const handleRoleChange = async (user) => {
     const newRole = user.role === "admin" ? "user" : "admin";
@@ -235,12 +205,6 @@ function AdminUsersPage() {
     }
   };
 
-  /*
-   * ----------------------------------------------------
-   * DELETE USER
-   * ----------------------------------------------------
-   */
-
   const handleDelete = async (user) => {
     const confirmed = window.confirm(
       `Are you sure you want to permanently delete ${
@@ -258,10 +222,6 @@ function AdminUsersPage() {
 
       await api.delete(`/admin/users/${user._id}`);
 
-      /*
-       * If the last user on a page was deleted,
-       * move back to the previous page.
-       */
       if (users.length === 1 && page > 1) {
         setPage((previous) => previous - 1);
       } else {
@@ -284,12 +244,6 @@ function AdminUsersPage() {
     }
   };
 
-  /*
-   * ----------------------------------------------------
-   * PAGE CONTROLS
-   * ----------------------------------------------------
-   */
-
   const handlePreviousPage = () => {
     if (pagination.hasPreviousPage) {
       setPage((previous) => previous - 1);
@@ -301,12 +255,6 @@ function AdminUsersPage() {
       setPage((previous) => previous + 1);
     }
   };
-
-  /*
-   * ----------------------------------------------------
-   * HELPERS
-   * ----------------------------------------------------
-   */
 
   const getInitials = (name, email) => {
     if (name) {
@@ -334,12 +282,6 @@ function AdminUsersPage() {
     });
   };
 
-  /*
-   * ----------------------------------------------------
-   * LOADING SCREEN
-   * ----------------------------------------------------
-   */
-
   if (isLoading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
@@ -351,14 +293,8 @@ function AdminUsersPage() {
     );
   }
 
-  /*
-   * ----------------------------------------------------
-   * PAGE
-   * ----------------------------------------------------
-   */
-
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-6">
         {/* ------------------------------------------------ */}
         {/* HEADER */}
@@ -372,11 +308,11 @@ function AdminUsersPage() {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                <h1 className="text-2xl dark:text-white font-bold tracking-tight text-slate-900 sm:text-3xl">
                   Users
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
                   Manage InterviAI users, roles and account access.
                 </p>
               </div>
@@ -387,7 +323,7 @@ function AdminUsersPage() {
             type="button"
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border dark:bg-slate-700 dark:border-slate-900 dark:text-white border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition dark:hover:bg-slate-400/50 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <RefreshCw
               size={17}
@@ -420,12 +356,14 @@ function AdminUsersPage() {
         {/* ------------------------------------------------ */}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-900 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-500">Total Users</p>
+                <p className="text-sm dark:text-white text-slate-500">
+                  Total Users
+                </p>
 
-                <p className="mt-2 text-2xl font-bold text-slate-900">
+                <p className="mt-2 text-2xl dark:text-slate-50/50 font-bold text-slate-900">
                   {pagination.totalUsers}
                 </p>
               </div>
@@ -436,14 +374,16 @@ function AdminUsersPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-500">Current Page</p>
+                <p className="text-sm dark:text-white text-slate-500">
+                  Current Page
+                </p>
 
-                <p className="mt-2 text-2xl font-bold text-slate-900">
+                <p className="mt-2 text-2xl dark:text-slate-50/50 font-bold text-slate-900">
                   {pagination.page}
-                  <span className="text-base font-medium text-slate-400">
+                  <span className="text-base dark:text-slate-50/50 font-medium text-slate-400">
                     {" "}
                     / {pagination.totalPages}
                   </span>
@@ -456,12 +396,14 @@ function AdminUsersPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-500">Showing</p>
+                <p className="text-sm dark:text-white text-slate-500">
+                  Showing
+                </p>
 
-                <p className="mt-2 text-2xl font-bold text-slate-900">
+                <p className="mt-2 text-2xl dark:text-slate-50/50 font-bold text-slate-900">
                   {users.length}
                 </p>
               </div>
@@ -477,7 +419,7 @@ function AdminUsersPage() {
         {/* FILTERS */}
         {/* ------------------------------------------------ */}
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-4 md:flex-row">
             {/* Search */}
 
@@ -495,7 +437,7 @@ function AdminUsersPage() {
                   setPage(1);
                 }}
                 placeholder="Search by name or email..."
-                className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="w-full dark:bg-slate-700 dark:border-slate-800 dark:text-white rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 dark:focus:ring-slate-500 dark:focus:ring-2 dark:focus:border-slate-400 focus:ring-blue-100"
               />
             </div>
 
@@ -507,7 +449,7 @@ function AdminUsersPage() {
                 setRole(event.target.value);
                 setPage(1);
               }}
-              className="rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="rounded-lg border dark:bg-slate-700 dark:text-slate-50/50 border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Roles</option>
               <option value="user">Users</option>
@@ -520,30 +462,30 @@ function AdminUsersPage() {
         {/* USERS TABLE */}
         {/* ------------------------------------------------ */}
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 bg-white shadow-sm">
           {/* Desktop */}
 
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50 text-left">
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <tr className="border-b dark:bg-slate-700 border-slate-200 bg-slate-50 text-left">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     User
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Role
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Status
                   </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Joined
                   </th>
 
-                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="px-6 dark:text-white py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Actions
                   </th>
                 </tr>
@@ -560,7 +502,10 @@ function AdminUsersPage() {
                   const deleteLoading = actionLoading === `delete-${user._id}`;
 
                   return (
-                    <tr key={user._id} className="transition hover:bg-slate-50">
+                    <tr
+                      key={user._id}
+                      className="transition dark:hover:bg-slate-800/25 hover:bg-slate-50"
+                    >
                       {/* User */}
 
                       <td className="px-6 py-4">
@@ -570,11 +515,11 @@ function AdminUsersPage() {
                           </div>
 
                           <div className="min-w-0">
-                            <p className="truncate font-semibold text-slate-900">
+                            <p className="truncate dark:text-white font-semibold text-slate-900">
                               {user.fullName || "Unnamed User"}
                             </p>
 
-                            <p className="truncate text-sm text-slate-500">
+                            <p className="truncate dark:text-slate-50/50 text-sm text-slate-500">
                               {user.email}
                             </p>
                           </div>
@@ -615,7 +560,7 @@ function AdminUsersPage() {
 
                       {/* Joined */}
 
-                      <td className="px-6 py-4 text-sm text-slate-500">
+                      <td className="px-6 py-4 text-sm dark:text-slate-50/50 text-slate-500">
                         {formatDate(user.createdAt)}
                       </td>
 
@@ -870,14 +815,14 @@ function AdminUsersPage() {
         {/* ------------------------------------------------ */}
 
         {pagination.totalPages > 0 && (
-          <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-slate-500">
+          <div className="flex flex-col gap-4 rounded-2xl border dark:bg-slate-700 dark:border-slate-800 border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm dark:text-white text-slate-500">
               Page{" "}
-              <span className="font-semibold text-slate-700">
+              <span className="font-semibold dark:text-slate-50/50 text-slate-700">
                 {pagination.page}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-slate-700">
+              <span className="font-semibold dark:text-slate-50/50 text-slate-700">
                 {pagination.totalPages}
               </span>
             </p>
@@ -887,7 +832,7 @@ function AdminUsersPage() {
                 type="button"
                 onClick={handlePreviousPage}
                 disabled={!pagination.hasPreviousPage}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex items-center gap-2 dark:bg-slate-600 dark:border-slate-700 dark:text-white rounded-lg border dark:hover:bg-slate-300/25 border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <ChevronLeft size={16} />
                 Previous
@@ -897,7 +842,7 @@ function AdminUsersPage() {
                 type="button"
                 onClick={handleNextPage}
                 disabled={!pagination.hasNextPage}
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex items-center gap-2 rounded-lg dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Next
                 <ChevronRight size={16} />

@@ -597,7 +597,7 @@ function AdminLogsPage() {
             type="button"
             onClick={() => fetchLogs(pagination.page)}
             disabled={isLoading}
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:opacity-50"
+            className="inline-flex  items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:opacity-50"
           >
             <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
             Refresh logs

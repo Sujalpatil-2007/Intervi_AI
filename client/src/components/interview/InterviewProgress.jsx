@@ -10,19 +10,19 @@ function InterviewProgress({
     totalQuestions > 0 ? (currentNumber / totalQuestions) * 100 : 0;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-slate-900">
+          <p className="text-sm font-semibold dark:text-white text-slate-900">
             Question {currentNumber} of {totalQuestions}
           </p>
 
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 dark:text-slate-50/50 text-xs text-slate-500">
             {answeredQuestions} of {totalQuestions} answered
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+        <div className="flex items-center dark:text-slate-50/50 gap-2 text-sm font-medium text-slate-600">
           <CheckCircle2 size={17} />
           {Math.round(progress)}%
         </div>

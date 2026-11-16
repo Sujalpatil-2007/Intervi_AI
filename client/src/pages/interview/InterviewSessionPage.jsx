@@ -169,21 +169,21 @@ function InterviewSessionPage() {
   if (isError) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
+        <div className="w-full max-w-md rounded-2xl border dark:bg-slate-800 dark:border-red-800 border-red-200 bg-white p-8 text-center shadow-sm">
           <AlertTriangle size={30} className="mx-auto text-red-500" />
 
-          <h2 className="mt-4 text-xl font-bold text-slate-900">
+          <h2 className="mt-4 text-xl dark:text-white font-bold text-slate-900">
             Unable to load interview
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 text-sm leading-6 dark:text-slate-50/50 text-slate-500">
             We couldn't load your interview session.
           </p>
 
           <button
             type="button"
             onClick={() => refetch()}
-            className="mt-6 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="mt-6 rounded-lg border dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
           >
             Try Again
           </button>
@@ -195,14 +195,14 @@ function InterviewSessionPage() {
   if (!interview) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 dark:bg-slate-800 bg-white p-8 text-center shadow-sm">
           <AlertTriangle size={32} className="mx-auto text-amber-500" />
 
-          <h2 className="mt-4 text-xl font-bold text-slate-900">
+          <h2 className="mt-4 text-xl font-bold dark:text-white text-slate-900">
             Interview Not Found
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 text-sm leading-6 dark:text-slate-50/50 text-slate-500">
             This interview could not be found.
           </p>
         </div>
@@ -234,14 +234,14 @@ function InterviewSessionPage() {
   if (interview.status === "completed") {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <div className="w-full max-w-md rounded-2xl dark:bg-slate-800 dark:border-slate-900 border border-slate-200 bg-white p-8 text-center shadow-sm">
           <CheckCircle2 size={42} className="mx-auto text-emerald-500" />
 
-          <h2 className="mt-4 text-xl font-bold text-slate-900">
+          <h2 className="mt-4 text-xl dark:text-white font-bold text-slate-900">
             Interview Already Completed
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 text-sm leading-6 dark:text-slate-50/50 text-slate-500">
             This interview has already been submitted.
           </p>
 
@@ -410,7 +410,7 @@ function InterviewSessionPage() {
   const hasCurrentAnswer = currentAnswer.trim().length > 0;
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
 
@@ -419,13 +419,13 @@ function InterviewSessionPage() {
             type="button"
             onClick={() => navigate(`/interview/${id}`)}
             disabled={isBusy}
-            className="inline-flex w-fit items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex w-fit dark:text-white items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ArrowLeft size={16} />
             Exit Interview
           </button>
 
-          <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+          <div className="flex dark:text-slate-50/50 items-center gap-2 text-sm font-medium text-slate-600">
             <Clock3 size={17} />
             {interview.duration} minutes
           </div>
@@ -457,7 +457,7 @@ function InterviewSessionPage() {
             type="button"
             onClick={handlePrevious}
             disabled={currentIndex === 0 || isBusy}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ArrowLeft size={17} />
             Previous
@@ -499,7 +499,7 @@ function InterviewSessionPage() {
         {/* Answer status */}
 
         <div className="mt-5 flex justify-center">
-          <p className="inline-flex items-center gap-2 text-xs text-slate-400">
+          <p className="inline-flex items-center dark:text-slate-50/50 gap-2 text-xs text-slate-400">
             <CheckCircle2 size={14} />
             Your answers are saved as you progress.
           </p>

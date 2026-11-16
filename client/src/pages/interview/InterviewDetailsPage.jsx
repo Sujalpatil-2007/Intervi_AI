@@ -31,19 +31,19 @@ function InterviewDetailsPage() {
   if (isError) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-red-200 bg-white p-8 text-center shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900">
+        <div className="w-full max-w-md rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-red-200 bg-white p-8 text-center shadow-sm">
+          <h2 className="text-xl font-bold dark:text-white text-slate-900">
             Unable to load interview
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 text-sm leading-6 dark:text-slate-50/50 text-slate-500">
             We couldn't retrieve this interview. Please try again.
           </p>
 
           <button
             type="button"
             onClick={() => refetch()}
-            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+            className="mt-6 inline-flex dark:bg-slate-600 dark:border-slate-700 dark:text-white dark:hover:bg-slate-300/25 items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
           >
             <RefreshCw size={16} />
             Try Again
@@ -95,28 +95,21 @@ function InterviewDetailsPage() {
   const isCancelled = interview.status === "cancelled";
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-        <Link
-          to="/dashboard"
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
-        >
-          <ArrowLeft size={16} />
-          Back to Dashboard
-        </Link>
 
         <div className="mt-6">
           <InterviewDetailsCard interview={interview} />
         </div>
 
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mt-6 rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-6 shadow-sm">
           {isPending && (
             <>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg dark:text-white font-bold text-slate-900">
                 Ready when you are
               </h2>
 
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+              <p className="mt-2 dark:text-slate-50/50 text-sm leading-6 text-slate-500">
                 Once you start, the interview session will begin and you'll
                 answer the generated questions.
               </p>
@@ -136,11 +129,11 @@ function InterviewDetailsPage() {
 
           {isInProgress && (
             <>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg dark:text-white font-bold text-slate-900">
                 Interview in progress
               </h2>
 
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+              <p className="mt-2 text-sm dark:text-slate-50/50 leading-6 text-slate-500">
                 You already started this interview. Continue your session to
                 submit your answers.
               </p>
@@ -159,11 +152,11 @@ function InterviewDetailsPage() {
 
           {isCompleted && (
             <>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg dark:text-white font-bold text-slate-900">
                 Interview Completed
               </h2>
 
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+              <p className="mt-2 text-sm dark:text-slate-50/50 leading-6 text-slate-500">
                 This interview has already been completed.
               </p>
 
@@ -180,11 +173,11 @@ function InterviewDetailsPage() {
 
           {isCancelled && (
             <>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg dark:text-white font-bold text-slate-900">
                 Interview Cancelled
               </h2>
 
-              <p className="mt-2 text-sm leading-6 text-slate-500">
+              <p className="mt-2 text-sm dark:text-slate-50/50 leading-6 text-slate-500">
                 This interview is no longer available.
               </p>
             </>

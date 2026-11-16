@@ -10,7 +10,7 @@ function FeedbackCard({ feedback }) {
     <motion.section
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+      className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-6 shadow-sm"
     >
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
@@ -18,9 +18,13 @@ function FeedbackCard({ feedback }) {
         </div>
 
         <div>
-          <h2 className="text-lg font-bold text-slate-900">Overall Feedback</h2>
+          <h2 className="text-lg font-bold dark:text-white text-slate-900">
+            Overall Feedback
+          </h2>
 
-          <p className="mt-3 text-sm leading-7 text-slate-600">{feedback}</p>
+          <p className="mt-3 text-sm dark:text-slate-50 leading-7 text-slate-600">
+            {feedback}
+          </p>
         </div>
       </div>
     </motion.section>

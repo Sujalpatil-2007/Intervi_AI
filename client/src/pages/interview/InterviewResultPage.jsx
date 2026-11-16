@@ -38,12 +38,12 @@ function InterviewResultPage() {
   if (isError) {
     return (
       <div className="flex min-h-125 items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900">
+        <div className="w-full max-w-md rounded-2xl border dark:bg-slate-800 border-slate-200 bg-white p-8 text-center shadow-sm">
+          <h2 className="text-xl font-bold dark:text-white text-slate-900">
             Unable to load your result
           </h2>
 
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 text-sm leading-6 dark:text-slate-50/50 text-slate-500">
             {error?.response?.data?.message ||
               "Something went wrong while loading the evaluation."}
           </p>
@@ -51,7 +51,7 @@ function InterviewResultPage() {
           <button
             type="button"
             onClick={() => refetch()}
-            className="mt-5 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+            className="mt-5 rounded-xl  bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
             Try Again
           </button>
@@ -87,23 +87,23 @@ function InterviewResultPage() {
   const score = evaluation.overallScore ?? interview.score;
 
   return (
-    <div className="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-full dark:bg-slate-900 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link
               to={`/interview/${id}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
+              className="inline-flex dark:text-white items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
             >
               <ArrowLeft size={16} />
               Interview Details
             </Link>
 
-            <h1 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
+            <h1 className="mt-2 dark:text-white text-2xl font-bold text-slate-900 sm:text-3xl">
               Interview Results
             </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 dark:text-slate-50/50 text-sm text-slate-500">
               {interview.targetRole} · {interview.difficulty}
             </p>
           </div>
@@ -111,7 +111,7 @@ function InterviewResultPage() {
           <div className="flex flex-col gap-2 sm:flex-row">
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="inline-flex items-center dark:bg-slate-700 dark:border-slate-800 dark:text-white dark:hover:bg-slate-300/25 justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               <LayoutDashboard size={16} />
               Dashboard

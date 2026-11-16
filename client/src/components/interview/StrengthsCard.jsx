@@ -7,7 +7,7 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
       <motion.section
         initial={{ opacity: 0, x: -15 }}
         animate={{ opacity: 1, x: 0 }}
-        className="rounded-2xl border border-emerald-200 bg-white p-6 shadow-sm"
+        className="rounded-2xl border border-emerald-200 dark:bg-slate-800 dark:border-green-400 bg-white p-6 shadow-sm"
       >
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
@@ -15,9 +15,11 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900">Strengths</h2>
+            <h2 className="font-bold dark:text-white text-slate-900">
+              Strengths
+            </h2>
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs dark:text-slate-50/50 text-slate-500">
               Areas where you performed well
             </p>
           </div>
@@ -28,7 +30,7 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
             {strengths.map((strength, index) => (
               <li
                 key={`${strength}-${index}`}
-                className="flex gap-3 text-sm leading-6 text-slate-600"
+                className="flex gap-3 text-sm dark:text-sky-50 leading-6 text-slate-600"
               >
                 <CheckCircle2
                   size={17}
@@ -40,7 +42,7 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
             ))}
           </ul>
         ) : (
-          <p className="mt-5 text-sm text-slate-500">
+          <p className="mt-5 text-sm dark:text-white text-slate-500">
             No specific strengths were provided.
           </p>
         )}
@@ -49,7 +51,7 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
       <motion.section
         initial={{ opacity: 0, x: 15 }}
         animate={{ opacity: 1, x: 0 }}
-        className="rounded-2xl border border-amber-200 bg-white p-6 shadow-sm"
+        className="rounded-2xl border border-amber-200 dark:bg-slate-800 dark:border-amber-300 bg-white p-6 shadow-sm"
       >
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
@@ -57,9 +59,11 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
           </div>
 
           <div>
-            <h2 className="font-bold text-slate-900">Areas to Improve</h2>
+            <h2 className="font-bold dark:text-white text-slate-900">
+              Areas to Improve
+            </h2>
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs decoration-slate-50/50 text-slate-500">
               Focus areas for your next interview
             </p>
           </div>
@@ -70,7 +74,7 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
             {weaknesses.map((weakness, index) => (
               <li
                 key={`${weakness}-${index}`}
-                className="flex gap-3 text-sm leading-6 text-slate-600"
+                className="flex gap-3 text-sm dark:text-slate-50 leading-6 text-slate-600"
               >
                 <AlertCircle
                   size={17}

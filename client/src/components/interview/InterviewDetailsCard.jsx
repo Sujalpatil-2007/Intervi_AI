@@ -16,7 +16,7 @@ function InterviewDetailsCard({ interview }) {
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+      className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-6 shadow-sm sm:p-8"
     >
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -24,11 +24,11 @@ function InterviewDetailsCard({ interview }) {
             <BrainCircuit size={24} />
           </div>
 
-          <h1 className="mt-5 text-2xl font-bold text-slate-900">
+          <h1 className="mt-5 dark:text-white text-2xl font-bold text-slate-900">
             {targetRole}
           </h1>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm dark:text-slate-50/50 text-slate-500">
             Your AI-generated mock interview is ready.
           </p>
         </div>
@@ -39,33 +39,33 @@ function InterviewDetailsCard({ interview }) {
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl bg-slate-50 p-4">
-          <div className="flex items-center gap-2 text-slate-500">
+        <div className="rounded-xl dark:bg-slate-700 dark:border-slate-800 bg-slate-50 p-4">
+          <div className="flex items-center gap-2 dark:text-white text-slate-500">
             <Target size={17} />
             <span className="text-sm">Difficulty</span>
           </div>
 
-          <p className="mt-2 font-semibold text-slate-900">{difficulty}</p>
+          <p className="mt-2 font-semibold dark:text-slate-50/50 text-slate-900">{difficulty}</p>
         </div>
 
-        <div className="rounded-xl bg-slate-50 p-4">
-          <div className="flex items-center gap-2 text-slate-500">
+        <div className="rounded-xl dark:bg-slate-700 dark:border-slate-800 bg-slate-50 p-4">
+          <div className="flex items-center dark:text-white gap-2 text-slate-500">
             <Clock3 size={17} />
             <span className="text-sm">Duration</span>
           </div>
 
-          <p className="mt-2 font-semibold text-slate-900">
+          <p className="mt-2 font-semibold dark:text-slate-50/50 text-slate-900">
             {duration} minutes
           </p>
         </div>
 
-        <div className="rounded-xl bg-slate-50 p-4">
-          <div className="flex items-center gap-2 text-slate-500">
+        <div className="rounded-xl dark:bg-slate-700 dark:border-slate-800 bg-slate-50 p-4">
+          <div className="flex items-center gap-2 dark:text-white text-slate-500">
             <ListChecks size={17} />
             <span className="text-sm">Questions</span>
           </div>
 
-          <p className="mt-2 font-semibold text-slate-900">{totalQuestions}</p>
+          <p className="mt-2 font-semibold dark:text-slate-50/50 text-slate-900">{totalQuestions}</p>
         </div>
       </div>
     </motion.div>

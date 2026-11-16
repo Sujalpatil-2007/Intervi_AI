@@ -9,13 +9,13 @@ function QuestionEvaluationList({ questionEvaluations = [] }) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-2xl border dark:bg-slate-800 dark:border-slate-900 border-slate-200 bg-white p-6 shadow-sm">
       <div>
-        <h2 className="text-lg font-bold text-slate-900">
+        <h2 className="text-lg font-bold dark:text-white text-slate-900">
           Question-by-Question Review
         </h2>
 
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm dark:text-slate-50/50 text-slate-500">
           Review your performance on every question.
         </p>
       </div>
@@ -28,12 +28,12 @@ function QuestionEvaluationList({ questionEvaluations = [] }) {
           return (
             <div
               key={`${item.question}-${index}`}
-              className="overflow-hidden rounded-xl border border-slate-200"
+              className="overflow-hidden rounded-xl dark:bg-slate-700 dark:border-slate-900 border border-slate-200"
             >
               <button
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="flex w-full items-center gap-4 p-4 text-left transition hover:bg-slate-50"
+                className="flex w-full items-center gap-4 p-4 text-left transition dark:hover:bg-slate-900/25 hover:bg-slate-50"
                 aria-expanded={isOpen}
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-sm font-bold text-slate-700">
@@ -41,11 +41,11 @@ function QuestionEvaluationList({ questionEvaluations = [] }) {
                 </span>
 
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-slate-900 sm:whitespace-normal">
+                  <span className="block dark:text-white truncate text-sm font-semibold text-slate-900 sm:whitespace-normal">
                     {item.question}
                   </span>
 
-                  <span className="mt-1 block text-xs text-slate-500">
+                  <span className="mt-1 dark:text-slate-50/50 block text-xs text-slate-500">
                     {item.category}
                   </span>
                 </span>
@@ -71,13 +71,13 @@ function QuestionEvaluationList({ questionEvaluations = [] }) {
               </button>
 
               {isOpen && (
-                <div className="border-t border-slate-200 bg-slate-50 p-5">
+                <div className="border-t dark:bg-slate-700 border-slate-200 bg-slate-50 p-5">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <p className="text-xs dark:text-white font-semibold uppercase tracking-wide text-slate-500">
                       Feedback
                     </p>
 
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 dark:text-slate-50 text-sm leading-6 text-slate-600">
                       {item.feedback || "No feedback provided."}
                     </p>
                   </div>
@@ -89,12 +89,12 @@ function QuestionEvaluationList({ questionEvaluations = [] }) {
                         className="text-blue-600"
                       />
 
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <p className="text-xs dark:text-white font-semibold uppercase tracking-wide text-slate-500">
                         Improvement
                       </p>
                     </div>
 
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm dark:text-slate-50 leading-6 text-slate-600">
                       {item.improvement ||
                         "No specific improvement was provided."}
                     </p>

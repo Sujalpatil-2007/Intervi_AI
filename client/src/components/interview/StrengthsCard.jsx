@@ -96,3 +96,4 @@ function StrengthsCard({ strengths = [], weaknesses = [] }) {
 }
 
 export default StrengthsCard;
+

@@ -163,7 +163,7 @@ function AIAnalysisCard({ analysis }) {
                   </h4>
 
                   {project?.description && (
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                    <p className="mt-1 text-sm dark:text-slate-50/50 leading-6 text-slate-600">
                       {project.description}
                     </p>
                   )}

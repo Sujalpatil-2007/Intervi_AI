@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BrainCircuit,
   Check,
-  FileText,
   Moon,
   Sun,
   Target,

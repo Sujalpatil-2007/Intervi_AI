@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -40,6 +41,20 @@ import AdminUserDetailsPage from "../pages/admin/AdminUserDetailsPage";
 
 // import NotFoundPage from "../pages/public/NotFoundPage";
 
+function PublicHomeRoute() {
+  const { isAuthenticated, isInitializing } = useAuth();
+
+  if (isInitializing) {
+    return null;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <HomePage />;
+}
+
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -47,7 +62,8 @@ function AppRouter() {
         {/* ==================== PUBLIC ==================== */}
 
         <Route element={<MainLayout />}>
-          <Route index element={<HomePage />} />
+          {/* <Route index element={<HomePage />} /> */}
+          <Route index element={<PublicHomeRoute />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>

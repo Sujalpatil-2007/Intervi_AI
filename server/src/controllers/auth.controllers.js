@@ -183,9 +183,21 @@ async function userLogoutController(req, res) {
  */
 
 async function getCurrentUserController(req, res) {
+  const user = req.user;
+
   return res.status(200).json({
     success: true,
-    user: req.user,
+    user: {
+      _id: user._id,
+      name: user.fullName,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+      targetRole: user.targetRole,
+      experienceLevel: user.experienceLevel,
+      skills: user.skills,
+      createdAt: user.createdAt,
+    },
   });
 }
 
@@ -193,17 +205,9 @@ async function getCurrentUserController(req, res) {
  * - user profile edit controller
  * - PUT /api/auth/profile
  */
+
 async function updateProfileController(req, res) {
   try {
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found.",
-      });
-    }
-
     const { name } = req.body;
 
     if (!name || !name.trim()) {
@@ -213,7 +217,17 @@ async function updateProfileController(req, res) {
       });
     }
 
-    user.name = name.trim();
+    const user = await userModel.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Update the existing database field
+    user.fullName = name.trim();
 
     await user.save();
 
@@ -222,7 +236,7 @@ async function updateProfileController(req, res) {
       message: "Profile updated successfully.",
       user: {
         _id: user._id,
-        name: user.name,
+        name: user.fullName,
         email: user.email,
         role: user.role,
         createdAt: user.createdAt,
